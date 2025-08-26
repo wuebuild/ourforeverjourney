@@ -6,6 +6,7 @@ export default async function InvitationPage ({
     const data = {
         template: "example",
     }
+    console.log(params)
     const Template = templates[data.template as Template] || templates.example;
 
     return <Template data={data}/>
