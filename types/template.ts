@@ -6,6 +6,7 @@ export interface WeddingTemplateData {
   time: string | undefined;
   quote: string | undefined;
   hero: string | undefined;
+  cover: string | undefined;
   heroImage: string | undefined;
   song: string | undefined;
   events: events[] | [];

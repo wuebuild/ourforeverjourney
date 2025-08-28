@@ -1,9 +1,9 @@
 import CardTemplate from "@/components/ui/molecules/Card";
 
 const templates = [
-  { title: "Classic", description: "Timeless design with elegant flourishes.", link: "/register" },
-  { title: "Minimal", description: "Simple and modern for a clean look.", link: "/register" },
-  { title: "Floral", description: "Romantic flowers and soft details.", link: "/register" },
+  { title: "Classic", description: "Timeless design with elegant flourishes.", link: `/to/dummy-classic` },
+  { title: "Minimal", description: "Simple and modern for a clean look.", link: `/to/dummy-minimal` },
+  { title: "Floral", description: "Romantic flowers and soft details.", link: `/to/floral-minimal` },
 ];
 
 export default function TemplatesSection() {
