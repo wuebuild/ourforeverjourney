@@ -3,6 +3,7 @@ module.exports = {
         "./app/**/*.{ts,tsx}",
         "./components/**/*.{ts,tsx}",
         "./components/ui/**/*.{ts,tsx}",
+        "./components/templates/**/*.{ts,tsx}",
     ],
     theme: {
         extend: {
