@@ -1,15 +1,22 @@
 import WIButton from "@/components/ui/atoms/WIButton";
+import WILabel from "../atoms/WILabel";
 
 const plans = [
   {
-    name: "Free",
-    price: "$0",
+    name: "Regular",
+    price: "IDR 50,000",
     features: ["1 Invitation", "Basic Templates", "Share via Link"],
     cta: "Get Started",
   },
   {
     name: "Premium",
-    price: "$29",
+    price: "IDR 100,000",
+    features: ["Unlimited Invitations", "All Templates", "Custom Domain", "Analytics"],
+    cta: "Go Premium",
+  },
+  {
+    name: "Luxury",
+    price: "IDR 200,000",
     features: ["Unlimited Invitations", "All Templates", "Custom Domain", "Analytics"],
     cta: "Go Premium",
   },
@@ -18,14 +25,20 @@ const plans = [
 export default function PricingSection() {
   return (
     <section id="pricing" className="py-20 bg-white px-6">
-      <h2 className="text-3xl font-bold text-center text-gray-900">
-        Simple Pricing
-      </h2>
-      <p className="mt-2 text-center text-gray-600">
-        Start free, upgrade anytime to unlock more features.
-      </p>
+      <div className="text-center">
+        <div>
+          <WILabel font="heading" className="text-3xl font-bold text-center text-gray-900">
+            Simple Pricing
+          </WILabel>
+        </div>
+        <div>
+          <WILabel className="mt-2 text-center text-gray-600">
+            Start free, upgrade anytime to unlock more features.
+          </WILabel>
+        </div>
+      </div>
 
-      <div className="mt-12 grid grid-cols-1 md:grid-cols-2 gap-8 max-w-4xl mx-auto">
+      <div className="mt-12 grid grid-cols-1 md:grid-cols-3 gap-8 max-w-4xl md:mx-auto">
         {plans.map((plan) => (
           <div
             key={plan.name}
