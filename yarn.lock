@@ -500,6 +500,20 @@
     "@smithy/util-utf8" "^4.1.0"
     tslib "^2.6.2"
 
+"@aws-sdk/s3-request-presigner@^3.888.0":
+  version "3.888.0"
+  resolved "https://registry.yarnpkg.com/@aws-sdk/s3-request-presigner/-/s3-request-presigner-3.888.0.tgz#2c629e1bfe1547490873ca71dc38c17fd806a776"
+  integrity sha512-3VAF0tJxW0p/ttUzJEgrMe52zZVoEG9dcJGdp4N0RG+LD41lp7QuQEYAZ/LGn7mwJsT0q18+tEJ5XzKmJFrOiA==
+  dependencies:
+    "@aws-sdk/signature-v4-multi-region" "3.888.0"
+    "@aws-sdk/types" "3.887.0"
+    "@aws-sdk/util-format-url" "3.887.0"
+    "@smithy/middleware-endpoint" "^4.2.1"
+    "@smithy/protocol-http" "^5.2.1"
+    "@smithy/smithy-client" "^4.6.1"
+    "@smithy/types" "^4.5.0"
+    tslib "^2.6.2"
+
 "@aws-sdk/signature-v4-multi-region@3.888.0":
   version "3.888.0"
   resolved "https://registry.yarnpkg.com/@aws-sdk/signature-v4-multi-region/-/signature-v4-multi-region-3.888.0.tgz#27336bd763746daa3513a8a72436754a370fccce"
