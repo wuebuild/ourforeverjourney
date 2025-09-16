@@ -19,7 +19,7 @@ export async function POST(req: NextRequest) {
   const presignedPost = await createPresignedPost(s3, {
     Bucket,
     Key,
-    Conditions: [['content-length-range', 0, 10485760]], // max 10 MB
+    // Conditions: [['content-length-range', 0, 10485760]], // max 10 MB
     Fields: { 'Content-Type': type },
     Expires: 60,
   });
