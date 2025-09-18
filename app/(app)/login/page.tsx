@@ -13,7 +13,7 @@ export default function LoginPage() {
         password
     });
     const id = data.data.id
-    if (data.status == 200) { router.push(`/gallery/${id}`); }
+    if (data.data.id) { router.push(`/gallery/${id}`); }
     else { alert("Wrong password"); }
   };
 
