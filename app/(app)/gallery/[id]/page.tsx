@@ -14,7 +14,7 @@ interface FileWithProgress {
 export default function Gallery() {
   const [files, setFiles] = useState<FileWithProgress[]>([]);
   const [listImages, setListImages] = useState<string[]>([]);
-  const [showUploadedImages, setShowUploadedImages] = useState<Boolean>(false);
+  const [showUploadedImages, setShowUploadedImages] = useState<boolean>(false);
   const params = useParams<{ id: string }>();
   const { id } = params;
 

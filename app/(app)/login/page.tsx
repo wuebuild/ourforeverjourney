@@ -1,7 +1,6 @@
-'use client';  // 👈 this is required if using App Router
-
+'use client';
 import axios from 'axios';
-import { useRouter } from 'next/navigation';  // 👈 correct hook for App Router
+import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 
 export default function LoginPage() {
@@ -10,10 +9,10 @@ export default function LoginPage() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    let data = await axios.post('/api/auth/login', {
+    const data = await axios.post('/api/auth/login', {
         password
     });
-    let id = data.data.id
+    const id = data.data.id
     if (data.status == 200) { router.push(`/gallery/${id}`); }
     else { alert("Wrong password"); }
   };

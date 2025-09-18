@@ -10,30 +10,22 @@ const s3 = new S3Client({
 });
 
 export async function GET(req: NextRequest) {
-  try {
-    const { searchParams } = new URL(req.url);
-    const folder = searchParams.get("folder") || "images/";
+  const { searchParams } = new URL(req.url);
+  const folder = searchParams.get("folder") || "images/";
 
-    console.log("ENV Bucket:", process.env.AWS_BUCKET_NAME);
-    console.log("Folder param:", folder);
+  console.log("ENV Bucket:", process.env.AWS_BUCKET_NAME);
+  console.log("Folder param:", folder);
 
-    const command = new ListObjectsV2Command({
-      Bucket: process.env.AWS_BUCKET_NAME!, // must not be undefined
-      Prefix: `uploads/${folder}`,
-    });
+  const command = new ListObjectsV2Command({
+    Bucket: process.env.AWS_BUCKET_NAME!, // must not be undefined
+    Prefix: `uploads/${folder}`,
+  });
 
-    const response = await s3.send(command);
+  const response = await s3.send(command);
 
-    const files = (response.Contents || [])
-      .map((obj) => obj.Key)
-      .filter((key) => key && /\.(png|jpg|jpeg|gif|webp)$/i.test(key));
+  const files = (response.Contents || [])
+    .map((obj) => obj.Key)
+    .filter((key) => key && /\.(png|jpg|jpeg|gif|webp)$/i.test(key));
 
-    return NextResponse.json({ files });
-  } catch (err: any) {
-    console.error("Error listing images:", err);
-    return NextResponse.json(
-      { error: err.message || "Unknown error" },
-      { status: 500 }
-    );
-  }
+  return NextResponse.json({ files });
 }
