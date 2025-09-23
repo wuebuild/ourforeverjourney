@@ -5,7 +5,7 @@ const nextConfig: NextConfig = {
   /* config options here */
   i18n,
   images: {
-    domains: ["images.unsplash.com"], // 👈 add Unsplash or any external source
+    domains: ["images.unsplash.com", "ourforeverjourney.s3.ap-southeast-1.amazonaws.com"], // 👈 add Unsplash or any external source
   },
 };
 
