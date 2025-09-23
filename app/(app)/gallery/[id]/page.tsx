@@ -24,24 +24,26 @@ export default function Gallery() {
 
     Array.from(fileList).forEach((file) => {
       // compress before adding
-      const preview = URL.createObjectURL(file);
-      setFiles((prev) => [
-        ...prev,
-        { file: file, preview, progress: 0 },
-      ]);
-      // new Compressor(file, {
-      //   quality: 1, // 0–1
-      //   success: (compressed: File) => {
-      //     const preview = URL.createObjectURL(compressed); // preview URL
-      //     setFiles((prev) => [
-      //       ...prev,
-      //       { file: compressed, preview, progress: 0 },
-      //     ]);
-      //   },
-      //   error(err) {
-      //     console.error(err);
-      //   },
-      // });
+      // const preview = URL.createObjectURL(file);
+      // setFiles((prev) => [
+      //   ...prev,
+      //   { file: file, preview, progress: 0 },
+      // ]);
+      new Compressor(file, {
+        quality: 0.8, // 0–1
+        maxWidth: 1920, // optional resize
+        maxHeight: 1080,
+        success: (compressed: File) => {
+          const preview = URL.createObjectURL(compressed); // preview URL
+          setFiles((prev) => [
+            ...prev,
+            { file: compressed, preview, progress: 0 },
+          ]);
+        },
+        error(err) {
+          console.error(err);
+        },
+      });
     });
   };
 
