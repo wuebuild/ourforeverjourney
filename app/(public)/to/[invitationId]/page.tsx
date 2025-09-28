@@ -3,7 +3,7 @@ import moment from "moment";
 import { title } from "process";
 import FPExample from "@/components/templates/luxury/fpExample";
 
-const TemplateComponent = templates["fpanimation_1"];
+// const TemplateComponent = templates["fpanimation_1"];
 
 export default function InvitationPage() {
   const data = {
@@ -60,6 +60,6 @@ export default function InvitationPage() {
     cover: "https://images.unsplash.com/photo-1532712938310-34cb3982ef74?q=80&w=2940&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
     isTemplate: true
   };
-  return <TemplateComponent data={data} />;
+  return <div>hello world</div>;
   // return <FPExample/>
 }
