@@ -22,6 +22,7 @@ import WeddingEventCards from "./weddingEvent";
 import WeddingGiftCard from "./gift";
 import RSVPCard from "./rsvp";
 import BestWishesCard from "./wishes";
+import { CoupleInfo } from "@/lib/couples";
 
 
 interface diffTime {
@@ -84,7 +85,7 @@ const masonry = [
   "uploads/irawan-cindy/1759040505657-SAM_5187.webp",
 ]
 
-export default function FPFantasy1 ({data} : {data:WeddingData}) {
+export default function FPFantasy1 ({data} : {data:CoupleInfo}) {
     const [openInvitation, setOpenInvitation] = useState(false);
     const formattedDate = moment(data.date).format('DD MMMM YYYY')
     return (
@@ -113,7 +114,7 @@ export default function FPFantasy1 ({data} : {data:WeddingData}) {
                     transition={{ duration: 0.5}}
                 >
                     <InvitationCover 
-                        cover={data.cover || ''} date={data.date || ''} 
+                        cover={''} date={data.date || ''} 
                         coupleString={data.coupleString || ''}
                         setOpenInvitation={setOpenInvitation}/>
                 </motion.div>
@@ -202,7 +203,7 @@ function InvitationCover ({setOpenInvitation, cover, date, coupleString} : {setO
   );
 }
 
-function InvitationBody({data} : {data: WeddingData}) {
+function InvitationBody({data} : {data: CoupleInfo}) {
   const [ended, setEnded] = useState(false)
 
   // const videoRef = useRef(null);
@@ -324,7 +325,7 @@ function InvitationBody({data} : {data: WeddingData}) {
   );
 }
 
-function CarouselandInfo ({data}: {data: WeddingData}) {
+function CarouselandInfo ({data}: {data: CoupleInfo}) {
   const autoplayOptions = { speed: 1, stopOnInteraction: true } 
   const [emblaRef] = useEmblaCarousel({ duration: 50, loop: true, slidesToScroll: 1 }, [Autoplay(autoplayOptions)])
   const [ slides, setSlides ] = useState<string[]>(images)
@@ -374,7 +375,7 @@ function CarouselandInfo ({data}: {data: WeddingData}) {
   )
 }
 
-function InformationAndCountdown ({data}: {data:WeddingData}) {
+function InformationAndCountdown ({data}: {data:CoupleInfo}) {
   const [diff, setDiff] = useState(getDiff());
   const autoplayOptions = { speed: 1, stopOnInteraction: true } 
   const [emblaRef] = useEmblaCarousel({ axis:'y', duration: 50, loop: true, slidesToScroll: 1 }, [Autoplay(autoplayOptions)])

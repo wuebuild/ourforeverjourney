@@ -28,9 +28,9 @@ export interface Couple {
 export interface CoupleObj {
   image: string;
   name: string;
-  title: string;
-  parent: string;
-  instagram: string;
+  title?: string;
+  parent?: string;
+  instagram?: string;
 }
 
 export interface Events {

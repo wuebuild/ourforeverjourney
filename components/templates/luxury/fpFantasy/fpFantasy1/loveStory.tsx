@@ -1,6 +1,6 @@
 "use client";
 import React, { useMemo, useRef } from "react";
-import { motion, useScroll, useTransform } from "framer-motion";
+import { motion, useScroll, useTransform, type MotionValue } from "framer-motion";
 
 export type LoveStep = {
   title: string;
@@ -13,10 +13,12 @@ export default function LoveStoryOnboarding({
   steps,
   accent = "rose",
   className = "",
+  glassWhileActive = false, // ⬅️ turn glass background on/off
 }: {
   steps: LoveStep[];
   accent?: string;
   className?: string;
+  glassWhileActive?: boolean;
 }) {
   const pinRef = useRef<HTMLDivElement>(null);
 
@@ -26,7 +28,7 @@ export default function LoveStoryOnboarding({
   // Scroll progress across the whole pinned section (0 → 1)
   const { scrollYProgress } = useScroll({
     target: pinRef,
-    offset: ["start start", "end end"], // start when top reaches top; end when bottom reaches bottom
+    offset: ["start start", "end end"],
   });
 
   // Dynamic Tailwind (safelist these in tailwind.config if accent is dynamic)
@@ -38,7 +40,7 @@ export default function LoveStoryOnboarding({
   if (!steps?.length) return null;
 
   return (
-    <section className={"relative pb-8 -mb-1" + className}>
+    <section className={"relative pb-8 -mb-1 " + className}>
       {/* Outer scroller: its height defines how long we stay pinned */}
       <div ref={pinRef} style={{ height: `${totalVh}vh` }}>
         {/* Sticky viewport that stays fixed while we scroll the outer div */}
@@ -58,6 +60,7 @@ export default function LoveStoryOnboarding({
                   pillRingClass={pillRingClass}
                   glowClass={glowClass}
                   accent={accent}
+                  glassWhileActive={glassWhileActive}
                 />
               ))}
             </div>
@@ -65,26 +68,44 @@ export default function LoveStoryOnboarding({
             {/* Right rail progress (optional) */}
             <aside className="pointer-events-none absolute right-4 top-1/2 hidden -translate-y-1/2 lg:block">
               <ul className="flex flex-col gap-2">
-                {steps.map((_, i) => {
-                  const segSize = 1 / steps.length;
-                  const center = (i + 0.5) * segSize;
-                  const scale = useTransform(
-                    scrollYProgress,
-                    [center - segSize / 3, center, center + segSize / 3],
-                    [0.6, 1, 0.6]
-                  );
-                  return (
-                    <motion.li key={i} style={{ scale }}>
-                      <span className="block h-2 w-2 rounded-full bg-gray-300 shadow-[0_0_0_2px_rgba(0,0,0,0.06)]" />
-                    </motion.li>
-                  );
-                })}
+                {steps.map((_, i) => (
+                  <ProgressDot
+                    key={i}
+                    index={i}
+                    total={steps.length}
+                    progress={scrollYProgress}
+                  />
+                ))}
               </ul>
             </aside>
           </div>
         </div>
       </div>
     </section>
+  );
+}
+
+/* --------------------- Progress dot (hook-safe) --------------------- */
+function ProgressDot({
+  index,
+  total,
+  progress,
+}: {
+  index: number;
+  total: number;
+  progress: MotionValue<number>;
+}) {
+  const segSize = 1 / total;
+  const center = (index + 0.5) * segSize;
+  const scale = useTransform(
+    progress,
+    [center - segSize / 3, center, center + segSize / 3],
+    [0.6, 1, 0.6]
+  );
+  return (
+    <motion.li style={{ scale }}>
+      <span className="block h-2 w-2 rounded-full bg-gray-300 shadow-[0_0_0_2px_rgba(0,0,0,0.06)]" />
+    </motion.li>
   );
 }
 
@@ -99,62 +120,68 @@ function Slide({
   pillRingClass,
   glowClass,
   accent,
+  glassWhileActive,
 }: {
   index: number;
   total: number;
   step: LoveStep;
-  progress: ReturnType<typeof useScroll>["scrollYProgress"];
+  progress: MotionValue<number>;
   pillBgClass: string;
   pillTextClass: string;
   pillRingClass: string;
   glowClass: string;
   accent: string;
+  glassWhileActive: boolean;
 }) {
   const seg = 1 / total;
   const start = index * seg;
   const end = (index + 1) * seg;
 
-  // ---- Opacity/Y curves with special handling for first & last slides ----
-  // First slide: visible at 0, then fades out near the end of its segment.
   const isFirst = index === 0;
-  // Last slide: fades in near the start of its segment and stays visible at 1.
   const isLast = index === total - 1;
 
-  let opacity: any;
-  let y: any;
+  // Build ranges conditionally, then call hooks ONCE
+  const opacityInput: number[] = isFirst
+    ? [0, seg * 0.5, seg * 0.8, seg]
+    : isLast
+    ? [1 - seg, 1 - seg * 0.8, 1 - seg * 0.2, 1]
+    : [start, start + seg * 0.25, end - seg * 0.25, end];
 
-  if (isFirst) {
-    // Keep visible at very start (progress = 0)
-    opacity = useTransform(
-      progress,
-      [0, seg * 0.5, seg * 0.8, seg],
-      [1, 1, 0.6, 0] // fade out toward end of first segment
-    );
-    y = useTransform(progress, [0, seg * 0.5, seg], [0, 0, -24]);
-  } else if (isLast) {
-    // Fade in toward last segment and remain visible at 1
-    opacity = useTransform(
-      progress,
-      [1 - seg, 1 - seg * 0.8, 1 - seg * 0.2, 1],
-      [0, 0.6, 1, 1]
-    );
-    y = useTransform(progress, [1 - seg, 1], [24, 0]);
-  } else {
-    // Middle slides: fade/translate in their own segment
-    opacity = useTransform(
-      progress,
-      [start, start + seg * 0.25, end - seg * 0.25, end],
-      [0, 1, 1, 0]
-    );
-    y = useTransform(progress, [start, start + seg * 0.25, end], [24, 0, -24]);
-  }
+  const opacityOutput: number[] = isFirst
+    ? [1, 1, 0.6, 0]
+    : isLast
+    ? [0, 0.6, 1, 1]
+    : [0, 1, 1, 0];
+
+  const yInput: number[] = isFirst
+    ? [0, seg * 0.5, seg]
+    : isLast
+    ? [1 - seg, 1]
+    : [start, start + seg * 0.25, end];
+
+  const yOutput: number[] = isFirst
+    ? [0, 0, -24]
+    : isLast
+    ? [24, 0]
+    : [24, 0, -24];
+
+  const opacity = useTransform(progress, opacityInput, opacityOutput);
+  const y = useTransform(progress, yInput, yOutput);
 
   return (
     <motion.section
       className="absolute inset-0 grid grid-rows-[auto_1fr_auto] p-4 sm:p-6"
       style={{ opacity, y }}
     >
-      {/* No forced white background, stays transparent at very start & end */}
+      {/* ⬇️ Conditional glass background: visible only while slide is active */}
+      {glassWhileActive && (
+        <motion.div
+          className="absolute inset-0 -z-10 rounded-2xl bg-white/30 backdrop-blur-sm"
+          style={{ opacity }}
+          aria-hidden
+        />
+      )}
+
       {/* Top meta */}
       <div className="flex items-center justify-between">
         <span
@@ -173,12 +200,19 @@ function Slide({
       {/* Content */}
       <div className="mt-6 grid items-center gap-6 lg:grid-cols-2">
         <div>
-          <h3 className="text-2xl font-imperial text-[42px] tracking-tight text-gray-900">{step.title}</h3>
-          {step.caption && <p className="mt-3 text-gray-600 leading-relaxed">{step.caption}</p>}
+          <h3 className="text-2xl font-imperial text-[42px] tracking-tight text-gray-900">
+            {step.title}
+          </h3>
+          {step.caption && (
+            <p className="mt-3 text-gray-600 leading-relaxed">{step.caption}</p>
+          )}
         </div>
 
         <div className="relative">
-          <div className={["absolute -inset-2 rounded-3xl blur-2xl", glowClass].join(" ")} aria-hidden />
+          <div
+            className={["absolute -inset-2 rounded-3xl blur-2xl", glowClass].join(" ")}
+            aria-hidden
+          />
           <div className="relative overflow-hidden rounded-2xl ring-1 ring-black/5">
             <img
               src={
