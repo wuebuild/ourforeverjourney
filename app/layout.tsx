@@ -24,7 +24,8 @@ export default function RootLayout({
           as="video"
           href="/videos/fairytale-video.mp4"
           type="video/mp4"
-          crossOrigin="anonymous"
+          // remove crossOrigin for same-origin assets
+          fetchPriority="high"
         />
       </head>
       <body className={`antialiased`}>
