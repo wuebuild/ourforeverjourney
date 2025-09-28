@@ -143,7 +143,7 @@ function InvitationBody({data} : {data: WeddingData}) {
         <CountdownSection diff={diff} />
       </section> */}
       {/*  The Groom and The Bride  */}
-      <GroomAndBride data={data?.couple!}/>
+       {data?.couple ? <GroomAndBride data={data.couple} /> : null}
       {/* Gallery (2 cols mobile, 4 cols desktop) */}
       {/* <section className="p-6 grid grid-cols-2 md:grid-cols-4 gap-4"> */}
       <section className="p-6">
