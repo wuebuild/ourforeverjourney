@@ -255,7 +255,7 @@ function Lightbox({
           >
             ◀
           </button>
-          <div className="mx-3 aspect-[16/10] w-full overflow-hidden rounded-2xl ring-1 ring-white/10">
+          <div className="mx-3 w-full overflow-hidden rounded-2xl ring-1 ring-white/10">
             <img
               src={`${host}${images[index]}`}
               alt={`Fullscreen ${index + 1}`}
