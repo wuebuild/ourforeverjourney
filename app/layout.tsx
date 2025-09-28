@@ -19,6 +19,13 @@ export default function RootLayout({
           href="https://fonts.googleapis.com/css2?family=Imperial+Script&display=swap"
           rel="stylesheet"
         />
+        <link
+          rel="preload"
+          as="video"
+          href="/videos/fairytale-video.mp4"
+          type="video/mp4"
+          crossOrigin="anonymous"
+        />
       </head>
       <body className={`antialiased`}>
         {children}
