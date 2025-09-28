@@ -1,12 +1,36 @@
-import { templates } from "@/lib/templates";
+import { Couple } from "@/types/invitation";
 import moment from "moment";
-import { title } from "process";
-import FPExample from "@/components/templates/luxury/fpExample";
 
-// const TemplateComponent = templates["fpanimation_1"];
+// lib/couples.ts
+export type CoupleInfo = {
+  slug: string;              // kebab-case, e.g. "irawan-cindy"
+  names: string;             // "Irawan & Cindy"
+  dateISO: string;           // "2025-11-17"
+  summary?: string;  
+  couple: Couple;
+  coverImage: string;
+  coupleString: string,
+  quote: string,
+  hero: string,
+  gallery: string[],
+  date: string,
+  events: event[],
+  templateType: string
+};
 
-export default function InvitationPage() {
-  const data = {
+type event = {
+  title: string,
+  date: string,
+  time: string,
+  mapUrl: string
+}
+
+const COUPLES: Record<string, CoupleInfo> = {
+  "irawangohan-cindy": {
+    slug: "irawangohan-cindy",
+    names: "Irawan Gohan & Cindy",
+    dateISO: "2025-11-17",
+    summary: "Undangan pernikahan Irawan & Cindy. Join us for a day of love and celebration.",
     couple: { 
       groom: { 
         image: "https://ourforeverjourney.s3.ap-southeast-1.amazonaws.com/uploads/irawan-cindy/1759040505643-SAM_5204.webp",
@@ -40,26 +64,19 @@ export default function InvitationPage() {
         mapUrl: "https://maps.app",
       },
     ],
-    rsvpUrl: "/rsvp",
-    streamUrl: "/stream",
-    wishes: [
-      {
-        wish: "Congratulations! Wishing you a lifetime of love.",
-      },
-      {
-        wish: "So happy for you both!",
-      }
-    ],
-    title: "",
-    time: "",
-    heroImage: "",
-    song: "",
-    album: [],
-    mapUrl: "",
-    location: "",
-    cover: "https://images.unsplash.com/photo-1532712938310-34cb3982ef74?q=80&w=2940&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-    isTemplate: true
-  };
-  return <div>hello world</div>;
-  // return <FPExample/>
+    coverImage: "https://ourforeverjourney.s3.ap-southeast-1.amazonaws.com/uploads/irawan-cindy/1759040505917-SAM_4924.webp",
+    templateType: 'fpfantasy_1'
+  },
+  // add more couples here...
+};
+
+export async function listCoupleSlugs(): Promise<string[]> {
+  // swap with DB fetch later
+  return Object.keys(COUPLES);
+}
+
+export async function getCoupleBySlug(slug: string): Promise<CoupleInfo | null> {
+  // normalize to kebab just in case
+  const norm = slug.trim().toLowerCase();
+  return COUPLES[norm] ?? null;
 }

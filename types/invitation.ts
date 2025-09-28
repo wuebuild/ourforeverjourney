@@ -1,5 +1,5 @@
-export interface WeddingTemplateData {
-  couple: { groom: string; bride: string } | undefined;
+export interface WeddingData {
+  couple: Couple | undefined;
   coupleString: string | undefined;
   title: string | undefined;
   date: string | undefined; // ISO string
@@ -9,23 +9,37 @@ export interface WeddingTemplateData {
   cover: string | undefined;
   heroImage: string | undefined;
   song: string | undefined;
-  events: events[] | [];
-  wishes: wish[] | [];
+  events: Events[] | [];
+  wishes: Wish[] | [];
   gallery: string[] | [];
   album: string[] | [];
   streamUrl: string | undefined;
   rsvpUrl: string | undefined;
   mapUrl: string | undefined;
   location: string | undefined;
+  isTemplate: boolean | true;
 }
 
-export interface events {
+export interface Couple {
+  bride: CoupleObj;
+  groom: CoupleObj;
+}
+
+export interface CoupleObj {
+  image: string;
+  name: string;
+  title?: string;
+  parent?: string;
+  instagram?: string;
+}
+
+export interface Events {
   title: string;
   date: string;
   time: string;
   mapUrl: string;
 }
 
-export interface wish {
+export interface Wish {
   wish: string;
 }

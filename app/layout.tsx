@@ -14,6 +14,12 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
+      <head>
+        <link
+          href="https://fonts.googleapis.com/css2?family=Imperial+Script&display=swap"
+          rel="stylesheet"
+        />
+      </head>
       <body className={`antialiased`}>
         {children}
       </body>

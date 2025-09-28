@@ -14,7 +14,7 @@ interface diffTime {
     ss: number
 }
 
-export default function FPRomantic ({data} : {data:WeddingData}) {
+export default function FPAnimation1 ({data} : {data:WeddingData}) {
     const [openInvitation, setOpenInvitation] = useState(false);
     return (
         <div className="relative bg-white text-gray-800 overflow-hidden">
@@ -143,7 +143,7 @@ function InvitationBody({data} : {data: WeddingData}) {
         <CountdownSection diff={diff} />
       </section> */}
       {/*  The Groom and The Bride  */}
-       {data?.couple ? <GroomAndBride data={data.couple} /> : null}
+      {data?.couple ? <GroomAndBride data={data.couple} /> : null}
       {/* Gallery (2 cols mobile, 4 cols desktop) */}
       {/* <section className="p-6 grid grid-cols-2 md:grid-cols-4 gap-4"> */}
       <section className="p-6">
