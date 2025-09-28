@@ -11,6 +11,7 @@ module.exports = {
                 heading: ['var(--font-heading)', 'serif'],
                 script: ['var(--font-script)', 'cursive'],
                 body: ['var(--font-body)', 'sans-serif'],
+                imperial: ['"Imperial Script"', 'cursive', 'sans-serif']
             },
         },
     },

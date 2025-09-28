@@ -1,0 +1,11 @@
+    /* border-radius: 'var(--border-radius)';
+    border-style: var(--border-style);
+    border-color: var(--border-color);
+    border-block-start-width: var(--border-block-start-width);
+    border-inline-end-width: var(--border-inline-end-width);
+    border-block-end-width: var(--border-block-end-width);
+    border-inline-start-width: var(--border-inline-start-width);
+    top: calc(0px - var(--border-top-width));
+    left: calc(0px - var(--border-left-width));
+    width: max(100% + var(--border-left-width) + var(--border-right-width), 100%);
+    height: max(100% + var(--border-top-width) + var(--border-bottom-width), 100%); */

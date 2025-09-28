@@ -14,7 +14,7 @@ interface diffTime {
     ss: number
 }
 
-export default function FPRomantic ({data} : {data:WeddingData}) {
+export default function FPAnimation1 ({data} : {data:WeddingData}) {
     const [openInvitation, setOpenInvitation] = useState(false);
     return (
         <div className="relative bg-white text-gray-800 overflow-hidden">

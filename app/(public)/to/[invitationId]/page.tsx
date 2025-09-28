@@ -1,12 +1,23 @@
 import { templates } from "@/lib/templates";
+import moment from "moment";
 import { title } from "process";
+import FPExample from "@/components/templates/luxury/fpExample";
 
-const TemplateComponent = templates["fpromantic"];
+const TemplateComponent = templates["fpanimation_1"];
 
 export default function InvitationPage() {
   const data = {
-    couple: { groom: "John Doe", bride: "Adinda"},
-    coupleString: "Adinda & John Doe",
+    couple: { 
+      groom: { 
+        image: "https://ourforeverjourney.s3.ap-southeast-1.amazonaws.com/uploads/irawan-cindy/1759040505643-SAM_5204.webp",
+        name: "Irawan Gohan",
+      }, 
+      bride: {
+        image: "https://ourforeverjourney.s3.ap-southeast-1.amazonaws.com/uploads/irawan-cindy/1759040505631-IMG_9271.webp",
+        name: "Cindy",
+      }
+    },
+    coupleString: "Irawan Gohan & Cindy",
     quote: "Creating memories is a priceless gift.",
     hero: "https://images.unsplash.com/photo-1532712938310-34cb3982ef74?q=80&w=2940&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
     gallery: ["https://images.unsplash.com/photo-1708209851731-4ebd7d5729f1?q=80&w=928&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D", 
@@ -14,7 +25,7 @@ export default function InvitationPage() {
       "https://images.unsplash.com/photo-1755810392482-3f1d4ea988f1?q=80&w=687&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D", 
       "https://images.unsplash.com/photo-1755810392485-963085b812f5?q=80&w=687&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"  
     ],
-    date: "2025-08-30T17:00:00",
+    date: moment(new Date()).add(2, "days").format('YYYY-MM-DDTHH:mm:ss'),
     events: [
       {
         title: "Akad Nikah",
@@ -46,8 +57,9 @@ export default function InvitationPage() {
     album: [],
     mapUrl: "",
     location: "",
-    cover: "https://images.unsplash.com/photo-1532712938310-34cb3982ef74?q=80&w=2940&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+    cover: "https://images.unsplash.com/photo-1532712938310-34cb3982ef74?q=80&w=2940&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+    isTemplate: true
   };
-
   return <TemplateComponent data={data} />;
+  // return <FPExample/>
 }

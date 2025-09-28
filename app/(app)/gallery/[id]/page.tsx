@@ -30,9 +30,14 @@ export default function Gallery() {
       //   { file: file, preview, progress: 0 },
       // ]);
       new Compressor(file, {
-        quality: 0.8, // 0–1
-        maxWidth: 1920, // optional resize
-        maxHeight: 1080,
+        // quality: 0.8, // 0–1
+        // Target a typical content/lightbox size
+        // maxWidth: 1900,
+        maxHeight: 2880,
+        quality: 0.8,                 // good balance
+        mimeType: "image/webp",       // try WebP; falls back if unsupported
+        convertSize: 300 * 1024,      // PNGs > 500 KB become JPEG/WebP; keep low for web
+        checkOrientation: true,       // handle EXIF rotate
         success: (compressed: File) => {
           const preview = URL.createObjectURL(compressed); // preview URL
           setFiles((prev) => [
