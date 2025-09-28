@@ -293,7 +293,7 @@ function InvitationBody({data} : {data: CoupleInfo}) {
         />
       </div>
       <div className="px-6 sm:px-12 py-6 sm:py-6" style={{ backgroundImage: `url(${bgcream1.src})` }}>
-        <h1 className="py-6 text-4xl md:text-5xl font-serif">{"Our Gallery"}</h1>
+        <h1 className="py-6 text-4xl md:text-5xl font-serif text-black">{"Our Gallery"}</h1>
         <WeddingGalleryCarousel 
           images={images} host={'https://ourforeverjourney.s3.ap-southeast-1.amazonaws.com/'} rounded={false} 
           masonry={masonry}
@@ -341,10 +341,10 @@ function CarouselandInfo ({data}: {data: CoupleInfo}) {
       />
     
       {/* Overlay content */}
-      <div className="absolute mt-[-100px] md:mt-[-100px] inset-0 flex flex-col items-center justify-center text-white space-y-8">
+      <div className="absolute mt-[-120px] md:mt-[-120px] inset-0 flex flex-col items-center justify-center text-white space-y-8">
         {/* Carousel */}
-        <div className="embla overflow-hidden w-[200px] md:w-[300px] max-w-[90%] h-[350px] md:h-[400px] 
-          rounded-t-[100px] md:rounded-t-[150px]
+        <div className="embla overflow-hidden w-[70%] md:w-[300px] max-w-[90%] h-[380px] md:h-[400px] 
+          rounded-t-[150px] md:rounded-t-[150px]
           border-[5px] border-[#F8F8F6]" ref={emblaRef}>
           <div className="embla__container flex">
             {slides.map((slide, index) => (
@@ -501,7 +501,7 @@ function GroomAndBride({ data }: { data: Couple }) {
           {/* People */}
           <div
             className="
-              relative z-10 mt-10 grid grid-cols-1 gap-8 md:gap-10
+              relative z-10 mt-2 grid grid-cols-1 gap-8 md:gap-10
               items-start
             "
           >
