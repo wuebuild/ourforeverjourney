@@ -34,7 +34,38 @@ function FormInner() {
   return (
     // … same JSX as before, using `registered` and `next`
     <form onSubmit={onSubmit} className="mt-6 space-y-4">
-      {/* fields... */}
+      <WIInput
+        label="Email"
+        type="email"
+        value={email}
+        onChange={(e) => setEmail(e.target.value)}
+        placeholder="you@example.com"
+        required
+        helperText="Use the email you registered with."
+        // error={err && "Check your email/password"} // optional inline error
+      />
+
+      <WIPasswordInput
+        label="Password"
+        value={password}
+        onChange={(e) => setPassword(e.target.value)}
+        placeholder="••••••••"
+        required
+      />
+
+      {err && (
+        <div className="rounded-lg border border-rose-200 bg-rose-50 px-3 py-2 text-sm text-rose-800">
+          {err}
+        </div>
+      )}
+
+      <button
+        type="submit"
+        disabled={pending}
+        className="w-full rounded-xl bg-pink-600 px-4 py-2.5 text-white shadow-sm hover:bg-pink-700 disabled:opacity-60"
+      >
+        {pending ? "Signing in…" : "Sign in"}
+      </button>
     </form>
   );
 }
