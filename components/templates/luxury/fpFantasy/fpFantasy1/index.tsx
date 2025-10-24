@@ -8,6 +8,7 @@ import { AnimatePresence, motion, useScroll, useTransform} from "framer-motion";
 import moment, { duration } from "moment";
 import useEmblaCarousel from "embla-carousel-react"
 import Autoplay from 'embla-carousel-autoplay'
+import { useSearchParams } from "next/navigation";
 
 import fairytalebg from "./assets/fairy-tale-bg.jpg";
 import fairytalecover from "./assets/fairy-tale-cover.jpg";
@@ -73,9 +74,18 @@ const images = [
   "uploads/irawan-cindy/1759040506432-SAM_5441.webp",
   // latar classic
   "uploads/irawan-cindy/1759040506441-SAM_5591.webp",
-  "uploads/irawan-cindy/1759040506447-SAM_5529.webp"
-  // instagram
-  
+  "uploads/irawan-cindy/1759040506447-SAM_5529.webp",
+  // // instagram
+  // "uploads/irawan-cindy/565560539_18537775375055426_7299414695406161832_n.webp",
+  // "uploads/irawan-cindy/566176234_18537775360055426_8047079165145294821_n.webp",
+  // "uploads/irawan-cindy/567632355_18537775174055426_3916455664815506615_n.webp",
+  // "uploads/irawan-cindy/567704089_18537775423055426_6542266019012211843_n.webp",
+  // "uploads/irawan-cindy/568098456_18537775402055426_5854995356824183491_n.webp",
+  // "uploads/irawan-cindy/568254366_18537775432055426_4165810283871033002_n.webp",
+  // "uploads/irawan-cindy/568559583_18537775393055426_4288120486608324863_n.webp",
+  // "uploads/irawan-cindy/568639122_18537775414055426_4437316235932282748_n.webp",
+  // "uploads/irawan-cindy/568678684_18537775384055426_4480191052523691071_n.webp",
+  // "uploads/irawan-cindy/569050899_18537775153055426_6010142526291825036_n.webp",
 ]
 
 const masonry = [
@@ -85,6 +95,17 @@ const masonry = [
   "uploads/irawan-cindy/1759040505651-SAM_5028.webp",
   "uploads/irawan-cindy/1759040505654-SAM_4768.webp",
   "uploads/irawan-cindy/1759040505657-SAM_5187.webp",
+  // instagram
+  "uploads/irawan-cindy/565560539_18537775375055426_7299414695406161832_n.webp",
+  "uploads/irawan-cindy/566176234_18537775360055426_8047079165145294821_n.webp",
+  "uploads/irawan-cindy/567632355_18537775174055426_3916455664815506615_n.webp",
+  "uploads/irawan-cindy/567704089_18537775423055426_6542266019012211843_n.webp",
+  "uploads/irawan-cindy/568098456_18537775402055426_5854995356824183491_n.webp",
+  "uploads/irawan-cindy/568254366_18537775432055426_4165810283871033002_n.webp",
+  "uploads/irawan-cindy/568559583_18537775393055426_4288120486608324863_n.webp",
+  "uploads/irawan-cindy/568639122_18537775414055426_4437316235932282748_n.webp",
+  // "uploads/irawan-cindy/568678684_18537775384055426_4480191052523691071_n.webp",
+  "uploads/irawan-cindy/569050899_18537775153055426_6010142526291825036_n.webp",
 ]
 
 export default function FPFantasy1 ({data} : {data:CoupleInfo}) {
@@ -96,6 +117,7 @@ export default function FPFantasy1 ({data} : {data:CoupleInfo}) {
           className="hidden md:block overflow-hidden md:w-2/3 md:max-w-[calc(100vw-500px)] md:h-[100vh] bg-cover bg-center sticky top-0" 
           style={{
             backgroundImage: `url(${fairytalebg.src})`
+            // backgroundImage: `url(https://ourforeverjourney.s3.ap-southeast-1.amazonaws.com/${'uploads/irawan-cindy/569050899_18537775153055426_6010142526291825036_n.webp'})`
           }}>
             <div className="absolute inset-0 bg-gradient-to-b from-black/0 to-black/80"></div>
             <div className="absolute inset-0 bg-gradient-to-b from-white/50 to-white/0"></div>
@@ -145,7 +167,9 @@ function InvitationCover ({setOpenInvitation, cover, date, coupleString} : {setO
     d: 0, h: 0, m: 0, s: 0,
   });
   const formattedDate = moment(date).format('DD MMMM YYYY')
-  const invited = ''
+  const params = useSearchParams();
+  const to = params.get("to") || ""; 
+  const invited = to
 
   useEffect(() => {
     const timer = setInterval(() => {
@@ -185,7 +209,10 @@ function InvitationCover ({setOpenInvitation, cover, date, coupleString} : {setO
             {coupleString}
           </h2>
           <p className="mt-4 text-white md:text-white-800">
-            Kepada Yth.<br />{invited || "Tamu Undangan"}
+            Kepada Yth.
+          </p>
+          <p className="mt-2 text-xl md:text-2xl font-serif text-white md:text-white-800">
+            {invited || "Tamu Undangan"}
           </p>
           
           <motion.a
