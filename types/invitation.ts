@@ -43,3 +43,26 @@ export interface Events {
 export interface Wish {
   wish: string;
 }
+
+export interface CoupleInfo {
+  slug: string;              // kebab-case, e.g. "irawan-cindy"
+  names: string;             // "Irawan & Cindy"
+  dateISO: string;           // "2025-11-17"
+  summary?: string;  
+  couple: Couple;
+  coverImage: string;
+  coupleString: string,
+  quote: string,
+  hero: string,
+  gallery: string[],
+  date: string,
+  events: event[],
+  templateType: string
+};
+
+type event = {
+  title: string,
+  date: string,
+  time: string,
+  mapUrl: string
+}

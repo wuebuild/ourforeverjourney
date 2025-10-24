@@ -1,25 +1,20 @@
 import { resolveTemplate } from "@/lib/templates";
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
-import { getCoupleBySlug, listCoupleSlugs } from "@/lib/couples";
+import { getInvitationGuest } from "@/services/server/invitation";
 
 export const revalidate = 60;
 
 type PageParams = { couple: string };
-
-// --- SSG (optional)
-export async function generateStaticParams() {
-  const slugs = await listCoupleSlugs();
-  return slugs.map((slug) => ({ couple: slug }));
-}
 
 // --- Metadata: params is a Promise → await it
 export async function generateMetadata(
   props: { params: Promise<PageParams> }
 ): Promise<Metadata> {
   const { couple } = await props.params;
-  const data = await getCoupleBySlug(couple);
+  const data = await getInvitationGuest(couple);
   if (!data) return {};
+  console.log('here data', data)
 
   const title = `${data.names} — Wedding Invitation`;
   const description = data.summary ?? `${data.names} Wedding Invitation`;
@@ -52,7 +47,7 @@ export async function generateMetadata(
 export default async function CouplePage(props: { params: Promise<PageParams> }) {
   const { couple } = await props.params;
 
-  const data = await getCoupleBySlug(couple);
+  const data = await getInvitationGuest(couple);
   if (!data) return notFound();
 
   const TemplateComponent = resolveTemplate(data.templateType, "fpfantasy_1");

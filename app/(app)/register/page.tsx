@@ -1,7 +1,118 @@
-export default function Login() { 
+"use client";
 
-    return (
-        <div>Here Register</div>
-    )
+import { useState, useTransition } from "react";
+import { useRouter } from "next/navigation";
+// import { apiPost } from "@/lib/api-client";
 
+export default function RegisterPage() {
+  const router = useRouter();
+
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [confirm, setConfirm] = useState("");
+  const [show, setShow] = useState(false);
+  const [err, setErr] = useState<string | null>(null);
+  const [pending, startTransition] = useTransition();
+
+  const onSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    setErr(null);
+
+    if (password !== confirm) {
+      setErr("Passwords do not match");
+      return;
+    }
+
+    // startTransition(async () => {
+    //   try {
+    //     await apiPost("/auth/register", { name, email, password });
+    //     router.replace("/login?registered=1");
+    //   } catch (e: any) {
+    //     setErr(e.message || "Registration failed");
+    //   }
+    // });
+  };
+
+  return (
+    <div className="min-h-screen grid place-items-center bg-gray-50 p-4">
+      <div className="w-full max-w-md rounded-2xl bg-white p-6 shadow-sm ring-1 ring-gray-200">
+        <h1 className="text-2xl font-semibold">Create your account</h1>
+        <p className="mt-1 text-sm text-gray-600">Start creating and sharing invitations.</p>
+
+        <form onSubmit={onSubmit} className="mt-6 space-y-4">
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-1">Name</label>
+            <input
+              type="text"
+              value={name}
+              onChange={(e) => setName(e.target.value)}
+              className="w-full rounded-xl border-gray-300 px-3 py-2 focus:border-indigo-500 focus:ring-indigo-500"
+              placeholder="Your name"
+            />
+          </div>
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-1">Email</label>
+            <input
+              type="email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              className="w-full rounded-xl border-gray-300 px-3 py-2 focus:border-indigo-500 focus:ring-indigo-500"
+              placeholder="you@example.com"
+              required
+            />
+          </div>
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-1">Password</label>
+            <div className="relative">
+              <input
+                type={show ? "text" : "password"}
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                className="w-full rounded-xl border-gray-300 px-3 py-2 pr-12 focus:border-indigo-500 focus:ring-indigo-500"
+                placeholder="Minimum 8 characters"
+                required
+                minLength={8}
+              />
+              <button
+                type="button"
+                onClick={() => setShow((s) => !s)}
+                className="absolute inset-y-0 right-2 my-1 rounded-lg px-2 text-sm text-gray-600 hover:bg-gray-100"
+              >
+                {show ? "Hide" : "Show"}
+              </button>
+            </div>
+          </div>
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-1">Confirm Password</label>
+            <input
+              type={show ? "text" : "password"}
+              value={confirm}
+              onChange={(e) => setConfirm(e.target.value)}
+              className="w-full rounded-xl border-gray-300 px-3 py-2 focus:border-indigo-500 focus:ring-indigo-500"
+              placeholder="Repeat password"
+              required
+              minLength={8}
+            />
+          </div>
+
+          {err && (
+            <div className="rounded-lg border border-rose-200 bg-rose-50 px-3 py-2 text-sm text-rose-800">{err}</div>
+          )}
+
+          <button
+            type="submit"
+            disabled={pending}
+            className="w-full rounded-xl bg-indigo-600 px-4 py-2.5 text-white shadow-sm hover:bg-indigo-700 disabled:opacity-60"
+          >
+            {pending ? "Creating…" : "Create account"}
+          </button>
+        </form>
+
+        <p className="mt-4 text-sm text-gray-600">
+          Already have an account? <a href="/login" className="text-indigo-600 hover:underline">Sign in</a>
+        </p>
+      </div>
+    </div>
+  );
 }

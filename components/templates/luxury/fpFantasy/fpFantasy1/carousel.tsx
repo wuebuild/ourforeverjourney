@@ -1,7 +1,43 @@
-import React, { useCallback, useEffect, useRef, useState } from "react";
+import React, { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import useEmblaCarousel from "embla-carousel-react";
 import Autoplay from "embla-carousel-autoplay";
 import type { EmblaCarouselType } from "embla-carousel";
+
+/** Small helper that makes <img> cheap to render/paint */
+function SmartImg({
+  src,
+  alt,
+  className,
+  sizes,
+  eager = false,
+  style,
+}: {
+  src: string;
+  alt: string;
+  className?: string;
+  sizes?: string;
+  eager?: boolean;
+  style?: React.CSSProperties;
+}) {
+  return (
+    <img
+      src={`//wsrv.nl/?url=${src}&w=1000`}
+      alt={alt}
+      loading={eager ? "eager" : "lazy"}
+      decoding="async"
+      sizes={sizes}
+      className={className}
+      // content-visibility avoids layout/paint until scrolled into view
+      style={{
+        contentVisibility: "auto",
+        // A rough intrinsic size so the browser can reserve space without layout jank.
+        // Tweak to your typical portrait ratio; these values are CSS pixels.
+        containIntrinsicSize: "600px 800px",
+        ...style,
+      }}
+    />
+  );
+}
 
 export default function WeddingGalleryCarousel({
   images,
@@ -9,14 +45,14 @@ export default function WeddingGalleryCarousel({
   showMasonry = true,
   className = "",
   host = "",
-  masonry
+  masonry,
 }: {
   images: string[];
   rounded?: boolean;
   showMasonry?: boolean;
   className?: string;
   host?: string;
-  masonry: string[]
+  masonry: string[];
 }) {
   const [selectedIndex, setSelectedIndex] = useState(0);
   const [isLightboxOpen, setIsLightboxOpen] = useState(false);
@@ -26,20 +62,45 @@ export default function WeddingGalleryCarousel({
   );
 
   const [emblaRef, emblaApi] = useEmblaCarousel(
-    { align: "start", loop: true, dragFree: false },
+    {
+      align: "start",
+      loop: true,
+      dragFree: false,
+      // Slip improves smoothness slightly under load
+      // and lets Embla skip some heavy snap math.
+      skipSnaps: true,
+      containScroll: "trimSnaps",
+    },
     [mainAutoplay.current]
   );
+
   const [thumbsRef, thumbsApi] = useEmblaCarousel({
     dragFree: true,
     containScroll: "trimSnaps",
   });
 
+  // Only render a small window of slides around the current index
+  const VIRTUAL_WINDOW = 2; // current ±2
+  const visibleSet = useMemo(() => {
+    if (!images?.length) return new Set<number>();
+    const set = new Set<number>();
+    for (let o = -VIRTUAL_WINDOW; o <= VIRTUAL_WINDOW; o++) {
+      const idx = (selectedIndex + o + images.length) % images.length;
+      set.add(idx);
+    }
+    return set;
+  }, [selectedIndex, images?.length]);
+
   // Sync thumbs with main
-  const onSelect = useCallback((api?: EmblaCarouselType) => {
-    if (!api) return;
-    setSelectedIndex(api.selectedScrollSnap());
-    thumbsApi?.scrollTo(api.selectedScrollSnap());
-  }, [thumbsApi]);
+  const onSelect = useCallback(
+    (api?: EmblaCarouselType) => {
+      if (!api) return;
+      const idx = api.selectedScrollSnap();
+      setSelectedIndex(idx);
+      thumbsApi?.scrollTo(idx);
+    },
+    [thumbsApi]
+  );
 
   useEffect(() => {
     if (!emblaApi) return;
@@ -48,9 +109,12 @@ export default function WeddingGalleryCarousel({
     emblaApi.on("reInit", onSelect);
   }, [emblaApi, onSelect]);
 
-  const scrollTo = useCallback((index: number) => {
-    emblaApi?.scrollTo(index);
-  }, [emblaApi]);
+  const scrollTo = useCallback(
+    (index: number) => {
+      emblaApi?.scrollTo(index);
+    },
+    [emblaApi]
+  );
 
   // Keyboard navigation
   useEffect(() => {
@@ -65,7 +129,18 @@ export default function WeddingGalleryCarousel({
     return () => window.removeEventListener("keydown", handler);
   }, [emblaApi]);
 
-  // Guard
+  // Pause autoplay when the tab isn’t visible (saves work)
+  useEffect(() => {
+    const onVis = () => {
+      if (!emblaApi) return;
+      const api = mainAutoplay.current;
+      if (document.hidden) api.stop();
+      else api.play();
+    };
+    document.addEventListener("visibilitychange", onVis);
+    return () => document.removeEventListener("visibilitychange", onVis);
+  }, [emblaApi]);
+
   if (!images || images.length === 0) return null;
 
   return (
@@ -87,108 +162,93 @@ export default function WeddingGalleryCarousel({
                   className="embla__slide relative min-w-0 flex-[0_0_100%]"
                   key={i}
                 >
-                  <button
-                    className="group block w-full focus:outline-none"
-                    onClick={() => setIsLightboxOpen(true)}
-                    aria-label="Open image in fullscreen"
-                  >
-                    <div className="aspect-[3/4] sm:aspect-[10/12] w-full overflow-hidden">
-                      <img
-                        src={`${host}${src}`}
-                        alt={`Gallery ${i + 1}`}
-                        loading="lazy"
-                        className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-[1.02]"
-                      />
-                    </div>
-                  </button>
+                  {visibleSet.has(i) ? (
+                    <button
+                      className="group block w-full focus:outline-none"
+                      onClick={() => setIsLightboxOpen(true)}
+                      aria-label="Open image in fullscreen"
+                    >
+                      <div className="aspect-[3/4] sm:aspect-[10/12] w-full overflow-hidden">
+                        <SmartImg
+                          src={`${host}${src}`}
+                          alt={`Gallery ${i + 1}`}
+                          eager={i === 0} // only the first one eager-loads
+                          sizes="(max-width: 640px) 100vw, 768px"
+                          className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-[1.02]"
+                        />
+                      </div>
+                    </button>
+                  ) : (
+                    // lightweight placeholder preserves layout without mounting the <img>
+                    <div className="aspect-[3/4] sm:aspect-[10/12] w-full bg-black/5" />
+                  )}
                 </div>
               ))}
             </div>
           </div>
 
           {/* Subtle gradient edge hint */}
-          <div className="pointer-events-none absolute inset-y-0 left-0 w-16 bg-gradient-to-r from-black/10 to-transparent"/>
-          <div className="pointer-events-none absolute inset-y-0 right-0 w-16 bg-gradient-to-l from-black/10 to-transparent"/>
-
-          {/* Controls */}
-          {/* <div className="absolute inset-x-0 top-1/2 z-10 flex -translate-y-1/2 justify-between px-3 sm:px-4">
-            <button
-              onClick={() => emblaApi?.scrollPrev()}
-              className="rounded-full bg-white/80 px-3 py-2 text-gray-900 backdrop-blur transition hover:bg-white"
-            >
-              ◀
-            </button>
-            <button
-              onClick={() => emblaApi?.scrollNext()}
-              className="rounded-full bg-white/80 px-3 py-2 text-gray-900 backdrop-blur transition hover:bg-white"
-            >
-              ▶
-            </button>
-          </div> */}
+          <div className="pointer-events-none absolute inset-y-0 left-0 w-16 bg-gradient-to-r from-black/10 to-transparent" />
+          <div className="pointer-events-none absolute inset-y-0 right-0 w-16 bg-gradient-to-l from-black/10 to-transparent" />
         </div>
 
-        {/* src={`${host}${src}`} */}
         {/* Thumbnails */}
         <div className="mt-3 embla overflow-hidden" ref={thumbsRef}>
-            <div className="embla__container flex">
-                {images.map((src, i) => (
-                <button
-                    key={i}
-                    onClick={() => scrollTo(i)}
-                    className={[
-                    // Each thumb is a slide with fixed basis so Embla can measure correctly
-                    "embla__slide flex-[0_0_auto] mr-2 relative h-20 w-16 sm:h-24 sm:w-20 overflow-hidden",
-                    "rounded-xl ring-1 transition",
-                    selectedIndex === i
-                        ? "ring-rose-400"
-                        : "ring-black/10 hover:ring-black/20",
-                    ].join(" ")}
-                    aria-label={`Go to slide ${i + 1}`}
-                >
-                    <img
-                        src={`${host}${src}`}
-                        alt={`Thumb ${i + 1}`}
-                        loading="lazy"
-                        className="h-full w-full object-cover"
-                    />
-                    {selectedIndex === i && (
-                        <span className="pointer-events-none absolute inset-0 rounded-xl ring-2 ring-inset ring-rose-400/60" />
-                    )}
-                </button>
-                ))}
-            </div>
+          <div className="embla__container flex">
+            {images.map((src, i) => (
+              <button
+                key={i}
+                onClick={() => scrollTo(i)}
+                className={[
+                  "embla__slide flex-[0_0_auto] mr-2 relative h-20 w-16 sm:h-24 sm:w-20 overflow-hidden",
+                  "rounded-xl ring-1 transition",
+                  selectedIndex === i
+                    ? "ring-rose-400"
+                    : "ring-black/10 hover:ring-black/20",
+                ].join(" ")}
+                aria-label={`Go to slide ${i + 1}`}
+              >
+                <SmartImg
+                  src={`${host}${src}`}
+                  alt={`Thumb ${i + 1}`}
+                  sizes="64px"
+                  className="h-full w-full object-cover"
+                />
+                {selectedIndex === i && (
+                  <span className="pointer-events-none absolute inset-0 rounded-xl ring-2 ring-inset ring-rose-400/60" />
+                )}
+              </button>
+            ))}
+          </div>
         </div>
       </div>
 
       {/* Optional Masonry Section */}
       {showMasonry && (
         <div className="mx-auto mt-10 max-w-6xl">
-            {/* 2-column grid (1 col on xs, 2 cols from sm+) */}
-            <div className="grid grid-cols-2 gap-4">
+          <div className="grid grid-cols-2 gap-4">
             {masonry.map((src, i) => (
-                <div key={i} className="relative">
+              <div key={i} className="relative">
                 <button
-                    onClick={() => {
+                  onClick={() => {
                     setSelectedIndex(i);
                     setIsLightboxOpen(true);
-                    }}
-                    className="group relative block w-full overflow-hidden rounded-2xl ring-1 ring-black/5"
+                  }}
+                  className="group relative block w-full overflow-hidden rounded-2xl ring-1 ring-black/5"
                 >
-                    <img
+                  <SmartImg
                     src={`${host}${src}`}
                     alt={`Masonry ${i + 1}`}
-                    loading="lazy"
+                    sizes="(max-width: 640px) 50vw, 600px"
                     className="w-full h-full object-cover"
-                    />
-
-                    {/* dark overlay on hover */}
-                    <span className="absolute inset-0 bg-black/30 opacity-0 transition-opacity duration-200 group-hover:opacity-100" />
+                  />
+                  <span className="absolute inset-0 bg-black/30 opacity-0 transition-opacity duration-200 group-hover:opacity-100" />
                 </button>
-                </div>
+              </div>
             ))}
-            </div>
+          </div>
         </div>
-        )}
+      )}
 
       {/* LIGHTBOX */}
       {isLightboxOpen && (
@@ -197,8 +257,8 @@ export default function WeddingGalleryCarousel({
           startIndex={selectedIndex}
           onClose={() => setIsLightboxOpen(false)}
           host={host}
-        />)
-      }
+        />
+      )}
     </section>
   );
 }
@@ -227,7 +287,6 @@ function Lightbox({
     return () => window.removeEventListener("keydown", esc);
   }, [onClose]);
 
-  // Close when clicking the shadow (but not the image)
   const onShadowClick: React.MouseEventHandler<HTMLDivElement> = (e) => {
     if (e.target === backdropRef.current) onClose();
   };
@@ -256,10 +315,13 @@ function Lightbox({
             ◀
           </button>
           <div className="mx-3 w-full overflow-hidden rounded-2xl ring-1 ring-white/10">
-            <img
+            <SmartImg
               src={`${host}${images[index]}`}
               alt={`Fullscreen ${index + 1}`}
+              eager
               className="h-full w-full object-contain"
+              // Lightbox image doesn’t need content-visibility (always visible)
+              style={{ contentVisibility: "visible", containIntrinsicSize: undefined }}
             />
           </div>
           <button

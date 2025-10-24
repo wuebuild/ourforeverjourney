@@ -74,6 +74,8 @@ const images = [
   // latar classic
   "uploads/irawan-cindy/1759040506441-SAM_5591.webp",
   "uploads/irawan-cindy/1759040506447-SAM_5529.webp"
+  // instagram
+  
 ]
 
 const masonry = [
@@ -378,7 +380,7 @@ function CarouselandInfo ({data}: {data: CoupleInfo}) {
 function InformationAndCountdown ({data}: {data:CoupleInfo}) {
   const [diff, setDiff] = useState(getDiff());
   const autoplayOptions = { speed: 1, stopOnInteraction: true } 
-  const [emblaRef] = useEmblaCarousel({ axis:'y', duration: 50, loop: true, slidesToScroll: 1 }, [Autoplay(autoplayOptions)])
+  const [emblaRef] = useEmblaCarousel({ axis:'y', duration: 50, loop: true, slidesToScroll: 1, watchDrag: false, watchFocus: false }, [Autoplay(autoplayOptions)])
 
   const [ slides, setSlides ] = useState<string[]>(images)
 

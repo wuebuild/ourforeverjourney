@@ -6,7 +6,7 @@ export default function PublicLayout ({
     return (
         <div className="min-h-screen bg-neutral-50">
             <Nav/>
-            <div className="pt-32"/>
+            <div className="pt-16"/>
             {children}
         </div>
     )
