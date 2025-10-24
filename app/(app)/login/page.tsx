@@ -24,7 +24,7 @@ export default function LoginPage() {
       try {
         // await apiPost("/auth/login", { email, password }, { withCredentials: true });
         router.replace(next);
-      } catch (e: any) {
+      } catch (e: unknown) {
         const message = e instanceof Error ? e.message : String(e);
         setErr(message || "Login failed");
       }
