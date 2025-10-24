@@ -1,3 +1,4 @@
+// components/ui/Input.tsx
 "use client";
 
 import * as React from "react";
@@ -38,16 +39,16 @@ export const WIInput = React.forwardRef<HTMLInputElement, InputProps>(
     },
     ref
   ) => {
-    const inputId = id || React.useId();
+    // ✅ Always call the hook
+    const autoId = React.useId();
+    const inputId = id ?? autoId;
+
     const hasError = !!error;
 
     return (
       <div className={clsx("w-full", containerClassName)}>
         {label && (
-          <label
-            htmlFor={inputId}
-            className="mb-1 block text-sm font-medium text-gray-700"
-          >
+          <label htmlFor={inputId} className="mb-1 block text-sm font-medium text-gray-700">
             {label}
           </label>
         )}
@@ -61,11 +62,7 @@ export const WIInput = React.forwardRef<HTMLInputElement, InputProps>(
             "focus-within:ring-4 transition-shadow"
           )}
         >
-          {leftIcon && (
-            <span className="pointer-events-none absolute left-3 text-gray-400">
-              {leftIcon}
-            </span>
-          )}
+          {leftIcon && <span className="pointer-events-none absolute left-3 text-gray-400">{leftIcon}</span>}
 
           <input
             id={inputId}
@@ -80,15 +77,11 @@ export const WIInput = React.forwardRef<HTMLInputElement, InputProps>(
             {...props}
           />
 
-          {rightIcon && (
-            <span className="absolute right-3 text-gray-500">{rightIcon}</span>
-          )}
+          {rightIcon && <span className="absolute right-3 text-gray-500">{rightIcon}</span>}
         </div>
 
         {hasError ? (
-          <p className="mt-1 text-xs text-rose-600">
-            {typeof error === "string" ? error : "Invalid value"}
-          </p>
+          <p className="mt-1 text-xs text-rose-600">{typeof error === "string" ? error : "Invalid value"}</p>
         ) : helperText ? (
           <p className="mt-1 text-xs text-gray-500">{helperText}</p>
         ) : null}
