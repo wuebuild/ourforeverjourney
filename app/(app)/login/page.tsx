@@ -4,6 +4,7 @@ import { useState, useTransition } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { WIInput } from "@/components/ui/molecules/WIInput";
 import { WIPasswordInput } from "@/components/ui/molecules/WIPasswordInput";
+import Link from "next/link";
 
 export default function LoginPage() {
   const router = useRouter();
@@ -24,7 +25,8 @@ export default function LoginPage() {
         // await apiPost("/auth/login", { email, password }, { withCredentials: true });
         router.replace(next);
       } catch (e: any) {
-        setErr(e.message || "Login failed");
+        const message = e instanceof Error ? e.message : String(e);
+        setErr(message || "Login failed");
       }
     });
   };
@@ -77,9 +79,9 @@ export default function LoginPage() {
 
         <p className="mt-4 text-sm text-gray-600">
           Don’t have an account?{" "}
-          <a href="/register" className="text-pink-600 hover:underline">
+          <Link href="/register" className="text-pink-600 hover:underline">
             Create one
-          </a>
+          </Link>
         </p>
       </div>
     </div>

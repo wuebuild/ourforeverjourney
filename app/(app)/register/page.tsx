@@ -2,6 +2,7 @@
 
 import { useState, useTransition } from "react";
 import { useRouter } from "next/navigation";
+import Link from "next/link";
 // import { apiPost } from "@/lib/api-client";
 
 export default function RegisterPage() {
@@ -110,7 +111,7 @@ export default function RegisterPage() {
         </form>
 
         <p className="mt-4 text-sm text-gray-600">
-          Already have an account? <a href="/login" className="text-indigo-600 hover:underline">Sign in</a>
+          Already have an account? <Link href="/login" className="text-indigo-600 hover:underline">Sign in</Link>
         </p>
       </div>
     </div>

@@ -4,6 +4,7 @@
 import Link from "next/link";
 import { cookies } from "next/headers"; // or getServerSession if using NextAuth
 import { redirect } from "next/navigation";
+import { Invitation } from "@/types/api";
 
 function formatDate(d: Date) {
   try {
@@ -70,7 +71,7 @@ export default async function MyInvitationPage() {
           </div>
         ) : (
           <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-5">
-            {[].map((inv: any) => {
+            {[].map((inv: Invitation) => {
               const id = String(inv._id);
               const dt = formatDate(inv.dateTime);
               const guestsCount = (inv.guests || []).length;

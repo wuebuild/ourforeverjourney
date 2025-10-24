@@ -18,7 +18,7 @@ export default function InvitationInformationPage({ params }: PageProps) {
     const openHref = isUrl ? raw : raw ? `https://www.google.com/maps?q=${q}` : "";
 
     // expose for submit
-    (window as any).__mapsValue = raw; // quick-and-simple bridge to onSubmit
+    window.__mapsValue = raw; // quick-and-simple bridge to onSubmit
 
     return (
       <div className="space-y-3">
@@ -216,8 +216,9 @@ export default function InvitationInformationPage({ params }: PageProps) {
       // setCreatedId(data._id);
       // setCreatedGuests(data.guests);
       showToast("Invitation created");
-    } catch (err: any) {
-      setError(err.message || "Something went wrong");
+    } catch (err: unknown) {
+      const message = err instanceof Error ? err.message : String(err);
+      setError(message || "Something went wrong");
     } finally {
       setCreating(false);
     }
