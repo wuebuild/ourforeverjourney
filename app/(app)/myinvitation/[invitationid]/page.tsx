@@ -1,13 +1,13 @@
 "use client";
-
-import { WIInput } from "@/components/ui/molecules/WIInput";
 import { useMemo, useState } from "react";
+import { WIInput } from "@/components/ui/molecules/WIInput";
+import { useParams } from "next/navigation";
 
-type PageProps = { params: { invitationId: string } };
+type RouteParams = { invitationid: string };
 
-export default function InvitationInformationPage({ params }: PageProps) {
+export default function InvitationInformationPage() {
   
-  const { invitationId } = params;
+  const { invitationid } = useParams<RouteParams>();
 
   function MapField() {
     const [raw, setRaw] = useState<string>("");
