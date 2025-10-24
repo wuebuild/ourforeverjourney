@@ -208,7 +208,7 @@ function InvitationCover ({setOpenInvitation, cover, date, coupleString} : {setO
           <h2 className="text-3xl md:text-4xl font-serif text-white md:text-white-800 mt-2">
             {coupleString}
           </h2>
-          <p className="mt-4 text-white md:text-white-800">
+          <p className="mt-16 text-white md:text-white-800">
             Kepada Yth.
           </p>
           <p className="mt-2 text-xl md:text-2xl font-serif text-white md:text-white-800">
