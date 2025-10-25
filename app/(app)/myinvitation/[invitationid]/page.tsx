@@ -205,7 +205,7 @@ export default function InvitationInformationPage() {
           })),
         guests: guestInputs.filter((g) => g.name.trim()).map((g) => ({ name: g.name.trim() })),
       };
-      let newBody = {
+      const newBody = {
         ...form,
         date: form.dateTime?.split('T')[0],
         time: form.dateTime?.split('T')[1]
