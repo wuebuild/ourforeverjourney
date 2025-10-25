@@ -29,3 +29,9 @@ export function postWishes(body: unknown) {
     body: JSON.stringify(body),
   });
 }
+export function postRSVP(body: unknown) {
+  return clientFetch<Wish>(`/invitation-guest/confirm-rsvp`, {
+    method: "POST",
+    body: JSON.stringify(body),
+  });
+}

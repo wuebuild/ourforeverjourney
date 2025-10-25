@@ -1,4 +1,5 @@
 "use client";
+import { postRSVP } from "@/services/client/invitation";
 import React, { useMemo, useState } from "react";
 
 export type RSVPPayload = {
@@ -8,6 +9,7 @@ export type RSVPPayload = {
 };
 
 export type RSVPCardProps = {
+  slug?: string;
   bgImage?: string;
   title?: string;
   subtitle?: string;
@@ -17,6 +19,7 @@ export type RSVPCardProps = {
 };
 
 export default function RSVPCard({
+  slug = "",
   bgImage = "https://images.unsplash.com/photo-1523661149972-0bedfd3bd8c5?q=80&w=1600&auto=format&fit=crop",
   title = "Rsvp",
   subtitle = "Konfirmasi kehadiran Anda dengan mengisi form berikut",
@@ -64,6 +67,11 @@ export default function RSVPCard({
         address, // empty if you keep the field commented
       };
       await onSubmit?.(payload);
+      await postRSVP({
+        name: name,
+        guestTotal: Number(attendees),
+        slug
+      })
 
       // Save + show success view
       setLastPayload(payload);

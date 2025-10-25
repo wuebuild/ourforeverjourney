@@ -331,6 +331,7 @@ function InvitationBody({data} : {data: CoupleInfo}) {
         />
         <div className="p-4"/>
         <RSVPCard
+          slug={data.slug}
           guestName={invited}
           onSubmit={async (data) => {
             // TODO: send to your endpoint
