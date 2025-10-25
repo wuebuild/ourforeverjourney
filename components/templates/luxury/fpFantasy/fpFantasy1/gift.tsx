@@ -95,10 +95,10 @@ export default function WeddingGiftCard({
                 {acc.bankLogo ?? <BcaLogo className="h-8 w-auto mx-auto text-[#1A4BA1]" />}
 
                 <div className="mt-3 space-y-1 text-[13px] sm:text-[14px] leading-6">
-                  <div className="font-medium">{acc.bankName}</div>
+                  {/* <div className="font-medium">{acc.bankName}</div> */}
                   <div>No. Rekening {acc.accountNumber}</div>
                   <div>
-                    a.n <span className="font-semibold">{acc.holder}</span>
+                    a.n <span className="font-semibold">{acc.accountName}</span>
                   </div>
                 </div>
 

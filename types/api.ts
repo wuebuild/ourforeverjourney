@@ -59,5 +59,5 @@ export interface GiftBankAccount {
     bankLogo?: React.ReactNode,
     bankName: string,
     accountNumber: string,
-    holder: string
+    accountName: string
 }
