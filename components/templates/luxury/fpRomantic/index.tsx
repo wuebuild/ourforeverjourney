@@ -187,7 +187,7 @@ function InvitationBody({data} : {data: WeddingData}) {
         <h2 className="text-xl md:text-2xl font-heading mb-4 text-center">Send Your Best Wishes</h2>
         <div className="space-y-4 max-w-lg mx-auto">
           {data.wishes.map((w, i) => (
-            <p key={i} className="italic text-center">“{w.wish}”</p>
+            <p key={i} className="italic text-center">“{w.message}”</p>
           ))}
         </div>
         <form className="mt-6 flex flex-col items-center">
