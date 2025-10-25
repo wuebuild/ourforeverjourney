@@ -5,6 +5,7 @@ import { useRouter, useSearchParams } from "next/navigation";
 import Link from "next/link";
 import { WIInput } from "@/components/ui/molecules/WIInput";
 import { WIPasswordInput } from "@/components/ui/molecules/WIPasswordInput";
+import { login } from "@/services/client/auth";
 
 function FormInner() {
   const router = useRouter();
@@ -23,6 +24,17 @@ function FormInner() {
     startTransition(async () => {
       try {
         // await apiPost("/auth/login", { email, password }, { withCredentials: true });
+        let token = await login({
+          email,
+          password
+        })
+        localStorage.setItem("token", token)
+        document.cookie = [
+          `token=${encodeURIComponent(token)}`,
+          `Path=/`,
+          `Max-Age=${60 * 60 * 24 * 30}`,
+          `SameSite=Lax`,
+        ].filter(Boolean).join("; ");
         router.replace(next);
       } catch (e: unknown) {
         const message = e instanceof Error ? e.message : String(e);

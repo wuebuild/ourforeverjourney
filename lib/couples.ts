@@ -1,29 +1,5 @@
-import { Couple } from "@/types/invitation";
+import { Couple, CoupleInfo } from "@/types/invitation";
 import moment from "moment";
-
-// lib/couples.ts
-export type CoupleInfo = {
-  slug: string;              // kebab-case, e.g. "irawan-cindy"
-  names: string;             // "Irawan & Cindy"
-  dateISO: string;           // "2025-11-17"
-  summary?: string;  
-  couple: Couple;
-  coverImage: string;
-  coupleString: string,
-  quote: string,
-  hero: string,
-  gallery: string[],
-  date: string,
-  events: event[],
-  templateType: string
-};
-
-type event = {
-  title: string,
-  date: string,
-  time: string,
-  mapUrl: string
-}
 
 const COUPLES: Record<string, CoupleInfo> = {
   "irawangohan-cindy": {
@@ -53,14 +29,22 @@ const COUPLES: Record<string, CoupleInfo> = {
     events: [
       {
         title: "Akad Nikah",
+        eventType: "wedding",
+        location: "",
+        locationAddress: "",
+        dateTime: "",
         date: "April 28, 2025",
         time: "09:00 AM",
         mapUrl: "https://maps.app",
       },
       {
-        title: "Resepsi",
-        date: "April 30, 2025",
-        time: "17:00 PM",
+        title: "Akad Nikah",
+        eventType: "wedding",
+        location: "",
+        locationAddress: "",
+        dateTime: "",
+        date: "April 28, 2025",
+        time: "09:00 AM",
         mapUrl: "https://maps.app",
       },
     ],

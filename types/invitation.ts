@@ -1,3 +1,5 @@
+import { Event, GiftBankAccount } from "./api";
+
 export interface WeddingData {
   couple: Couple | undefined;
   coupleString: string | undefined;
@@ -9,7 +11,7 @@ export interface WeddingData {
   cover: string | undefined;
   heroImage: string | undefined;
   song: string | undefined;
-  events: Events[] | [];
+  events: Event[] | [];
   wishes: Wish[] | [];
   gallery: string[] | [];
   album: string[] | [];
@@ -33,15 +35,15 @@ export interface CoupleObj {
   instagram?: string;
 }
 
-export interface Events {
-  title: string;
-  date: string;
-  time: string;
-  mapUrl: string;
-}
-
 export interface Wish {
-  wish: string;
+  _id: string;
+  name: string;
+  message: string;
+  reply?: {
+    user: string,
+    reply: string
+  };
+  createdAt: Date | string | number;
 }
 
 export interface CoupleInfo {
@@ -56,13 +58,7 @@ export interface CoupleInfo {
   hero: string,
   gallery: string[],
   date: string,
-  events: event[],
+  events: Event[],
+  gifts: GiftBankAccount[],
   templateType: string
 };
-
-type event = {
-  title: string,
-  date: string,
-  time: string,
-  mapUrl: string
-}

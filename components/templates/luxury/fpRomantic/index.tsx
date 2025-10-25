@@ -2,7 +2,7 @@
 import { useEffect, useRef, useState, Dispatch, SetStateAction } from "react";
 import { Play, Pause } from "lucide-react";
 import Image from "next/image";
-import { Couple, WeddingData } from "@/types/invitation";
+import { Couple, CoupleInfo, WeddingData } from "@/types/invitation";
 import { Calendar } from "lucide-react";
 import WILabel from "../../../ui/atoms/WILabel";
 import { AnimatePresence, motion} from "framer-motion";
@@ -134,7 +134,7 @@ function InvitationBody({data} : {data: WeddingData}) {
           {/* <h1 className="text-3xl md:text-6xl font-heading">{data.coupleString}</h1> */}
           <WILabel font="heading" color="white" className="text-3xl md:text-6xl font-heading">{data.coupleString}</WILabel>
           <p className="mt-2 text-sm md:text-lg">{data.quote}</p>
-          <CountdownSection diff={diff} />
+          <CountdownSection data={data} diff={diff} />
         </div>
       </div>
 
@@ -267,7 +267,7 @@ function GroomAndBride({ data }: { data: Couple }) {
   );
 }
 
-function CountdownSection({ diff }: { diff: diffTime}) {
+function CountdownSection({ data, diff }: { data: WeddingData,diff: diffTime}) {
   const handleSaveToCalendar = () => {
     // Example: Google Calendar link
     const start = "20250101T100000Z"; // YYYYMMDDTHHmmssZ
@@ -282,44 +282,6 @@ function CountdownSection({ diff }: { diff: diffTime}) {
   };
 
   return (
-    // <section className="p-8 text-center bg-gradient-to-b from-pink-50 to-white">
-    //   <WILabel font="heading" className="text-3xl md:text-4xl font-heading font-bold text-pink-700">
-    //     Save the Date
-    //   </WILabel>
-
-    //   {/* Countdown */}
-    //   <div className="mt-6 flex justify-center gap-4 md:gap-8">
-    //     {[
-    //       { label: "Days", value: diff.ds },
-    //       { label: "Hours", value: diff.hs },
-    //       { label: "Minutes", value: diff.ms },
-    //       { label: "Seconds", value: diff.ss },
-    //     ].map((item, i) => (
-    //       <div
-    //         key={i}
-    //         className="flex flex-col items-center bg-white shadow-lg rounded-xl min-w-16 min-h-18 md:w-24 md:h-24 justify-center border border-pink-200"
-    //       >
-    //         <span>
-    //           <WILabel className="text-sm md:text-3xl font-bold text-pink-600">{item.value}</WILabel>
-    //         </span>
-    //         <span>
-    //           <WILabel className="text-[8px] md:text-sm text-gray-500">{item.label}</WILabel>
-    //         </span>
-    //       </div>
-    //     ))}
-    //   </div>
-
-    //   {/* Save to calendar button */}
-    //   <div className="mt-8">
-    //     <button
-    //       onClick={handleSaveToCalendar}
-    //       className="inline-flex items-center gap-2 bg-pink-600 text-white px-6 py-3 rounded-full shadow-lg hover:bg-pink-700 transition"
-    //     >
-    //       <Calendar size={20} />
-    //       <WILabel color="white">Save to Calendar</WILabel>
-    //     </button>
-    //   </div>
-    // </section>
     <section className="flex justify-center py-6 px-4">
       <div className="w-full max-w-3xl flex justify-between items-center border-t border-b border-white/80 text-white">
         {/* Left side - countdown */}
@@ -349,7 +311,7 @@ function CountdownSection({ diff }: { diff: diffTime}) {
         <div className="flex-1 text-center py-4">
           <p className="text-sm mb-1">Save The Date</p>
           <p className="text-xl font-semibold tracking-wide">
-            06 <b>.</b> 11 <b>.</b> 2025
+            x <b>.</b> x <b>.</b> x
           </p>
         </div>
       </div>

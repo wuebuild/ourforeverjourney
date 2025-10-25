@@ -1,7 +1,9 @@
 "use client";
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { WIInput } from "@/components/ui/molecules/WIInput";
 import { useParams } from "next/navigation";
+import { deleteInvitation, getInvitation, updateInvitation } from "@/services/client/invitation";
+import { CreatedGuest, Event, EventType, Gift, Guest } from "@/types/api";
 
 type RouteParams = { invitationid: string };
 
@@ -63,31 +65,26 @@ export default function InvitationInformationPage() {
     );
   }
   
-  type EventType = "reception" | "wedding" | "both";
-  type Gift = { bankName: string; accountName: string; accountNumber: string };
-  type Guest = { name: string };
-  type CreatedGuest = { name: string; token: string; inviteUrl: string };
+  function cryptoRandom() { return Math.random().toString(36).slice(2, 10); }
 
   // ---- form state
   const [eventType, setEventType] = useState<EventType>("both");
   const [location, setLocation] = useState("");
   const [dateTime, setDateTime] = useState("");
   // --- Multiple Events state (responsive-friendly)
-  type EventItem = { id: string; title: string; eventType: EventType; location: string; dateTime: string; maps: string };
-  const [events, setEvents] = useState<EventItem[]>([
-    { id: cryptoRandom(), title: "Main Ceremony", eventType: "both", location: "", dateTime: "", maps: "" },
+  const [events, setEvents] = useState<Event[]>([
+    { _id: cryptoRandom(), title: "Main Ceremony", eventType: "both", location: "", locationAddress: "", dateTime: "", mapUrl: "" },
   ]);
 
-  function cryptoRandom() { return Math.random().toString(36).slice(2, 10); }
-
   const addEvent = () => {
-    setEvents((prev) => [...prev, { id: cryptoRandom(), title: `Event ${prev.length + 1}`, eventType: "reception", location: "", dateTime: "", maps: "" }]);
+    setEvents((prev) => [...prev, { id: cryptoRandom(), title: `Event ${prev.length + 1}`, eventType: "reception", location: "", locationAddress: "", dateTime: "", mapUrl: "" }]);
   };
-  const removeEvent = (id: string) => setEvents((prev) => prev.filter((e) => e.id !== id));
-  const setEventField = (id: string, key: keyof EventItem, value: string) => {
-    setEvents((prev) => prev.map((e) => (e.id === id ? { ...e, [key]: value } : e)));
+  const removeEvent = (_id: string) => setEvents((prev) => prev.filter((e) => e._id !== _id));
+  const setEventField = (_id: string, key: keyof Event, value: string) => {
+    setEvents((prev) => prev.map((e) => (e._id === _id ? { ...e, [key]: value } : e)));
   };
-  const [gifts, setGifts] = useState<Gift[]>([{ bankName: "", accountName: "", accountNumber: "" }]);
+  const [gifts, setGifts] = useState<Gift[]>([]);
+  // { bankName: "", accountName: "", accountNumber: "" }
   const [guestCount, setGuestCount] = useState<number>(1);
   const [guestInputs, setGuestInputs] = useState<Guest[]>([{ name: "" }]);
 
@@ -102,10 +99,6 @@ export default function InvitationInformationPage() {
 
   // derived
   const isValid = useMemo(() => {
-    // if (!location.trim()) return false;
-    // if (!dateTime) return false;
-    // allow zero gifts
-    // allow zero guests, but better UX if at least 1 name provided
     return true;
   }, [location, dateTime]);
 
@@ -152,12 +145,22 @@ export default function InvitationInformationPage() {
     setGuestInputs(next);
   };
 
+  useEffect(() => {
+    loadInvitation()
+  }, [])
+
+  const loadInvitation = async () => {
+    const data = await getInvitation(invitationid)
+    console.log("here data", data)
+    setEvents(data.event)
+    setCreatedGuests([...data.guests])
+  }
+
   const copyToClipboard = async (text: string) => {
     try {
       await navigator.clipboard.writeText(text);
       showToast("Link copied");
     } catch {
-      // Fallback
       prompt("Copy the link:", text);
     }
   };
@@ -184,14 +187,15 @@ export default function InvitationInformationPage() {
           title: ev.title,
           eventType: ev.eventType,
           location: ev.location.trim(),
+          locationAddress: ev.locationAddress?.trim(),
           dateTime: ev.dateTime,
-          maps: ev.maps,
+          maps: ev.mapUrl,
         })),
         // Legacy fields (can remove once API updated)
         eventType: first.eventType ?? eventType,
         location: first.location ?? location.trim(),
         dateTime: first.dateTime ?? dateTime,
-        maps: first.maps ?? "",
+        maps: first.mapUrl ?? "",
         gifts: gifts
           .filter((g) => g.bankName || g.accountName || g.accountNumber)
           .map((g) => ({
@@ -201,14 +205,25 @@ export default function InvitationInformationPage() {
           })),
         guests: guestInputs.filter((g) => g.name.trim()).map((g) => ({ name: g.name.trim() })),
       };
-
-      console.log('here form', form)
+      let newBody = {
+        ...form,
+        date: form.dateTime?.split('T')[0],
+        time: form.dateTime?.split('T')[1]
+      }
+      console.log('here form', newBody)
 
       // const res = await fetch("/api/invitations-update", {
       //   method: "POST",
       //   headers: { "Content-Type": "application/json" },
       //   body: JSON.stringify(form),
       // });
+
+      const data = await updateInvitation(
+        invitationid,  
+        newBody
+      )
+
+      loadInvitation()
 
       // const data = await res.json();
       // if (!res.ok) throw new Error(data?.error || "Failed to create");
@@ -223,6 +238,13 @@ export default function InvitationInformationPage() {
       setCreating(false);
     }
   };
+
+  const deleteGuest = async (_id: string) => {
+    if (_id) { 
+      await deleteInvitation(_id)
+      loadInvitation()
+    }
+  }
 
   return (
     <div className="min-h-screen bg-gray-50">
@@ -248,38 +270,38 @@ export default function InvitationInformationPage() {
 
           <div className="space-y-5">
             {events.map((ev, idx) => (
-              <div key={ev.id} className="rounded-2xl border border-gray-200 p-4">
-                <div className="flex items-center justify-between gap-3">
-                  <div className="flex-1">
-                    <label className="block text-xs text-gray-500">Title</label>
-                    <WIInput
-                      type="text"
-                      value={ev.title}
-                      onChange={(e) => setEventField(ev.id, "title", e.target.value)}
-                      placeholder={`Event ${idx + 1} (e.g., Akad / Reception)`}
-                      className="w-full rounded-xl border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 px-3 py-2"
-                    />
-                  </div>
-                  <div className="w-48">
-                    <label className="block text-xs text-gray-500">Type</label>
-                    <select
-                      value={ev.eventType}
-                      onChange={(e) => setEventField(ev.id, "eventType", e.target.value)}
-                      className="w-full rounded-xl border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 px-3 py-2 capitalize"
-                    >
-                      <option value="both">Both</option>
-                      <option value="wedding">Wedding</option>
-                      <option value="reception">Reception</option>
-                    </select>
-                  </div>
+              <div key={ev._id} className="rounded-2xl border border-gray-200 p-4">
+                <div className="text-right">
                   <button
                     type="button"
-                    onClick={() => removeEvent(ev.id)}
+                    onClick={() => removeEvent(ev._id || '')}
                     className="self-end inline-flex items-center gap-2 rounded-xl border border-gray-300 bg-white px-3 py-2 text-sm hover:bg-gray-50"
                     aria-label="Remove event"
                   >
                     Remove
                   </button>
+                </div>
+                <div className="mt-4 grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <WIInput
+                      type="text"
+                      label="Title"
+                      value={ev.title}
+                      onChange={(e) => setEventField(ev._id || '', "title", e.target.value)}
+                      placeholder={`Event ${idx + 1} (e.g., Akad / Reception)`}
+                      className="w-full rounded-xl border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 px-3 py-2"
+                    />
+                    <div className="flex-1 md:w-48">
+                      <label className="block text-xs text-gray-500">Type</label>
+                      <select
+                        value={ev.eventType}
+                        onChange={(e) => setEventField(ev._id || '', "eventType", e.target.value)}
+                        className="inline-flex items-center gap-2 rounded-xl border border-gray-300 bg-white hover:bg-gray-50 focus:border-indigo-500 focus:ring-indigo-500 mt-2 px-3 py-3 capitalize"
+                      >
+                        <option value="other">Other</option>
+                        <option value="wedding">Wedding</option>
+                        <option value="reception">Reception</option>
+                      </select>
+                    </div>
                 </div>
 
                 <div className="mt-4 grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -288,10 +310,21 @@ export default function InvitationInformationPage() {
                     <WIInput
                       type="text"
                       value={ev.location}
-                      onChange={(e) => setEventField(ev.id, "location", e.target.value)}
+                      onChange={(e) => setEventField(ev._id || '', "location", e.target.value)}
                       placeholder="e.g., The Westin Jakarta, Ballroom A"
                       className="w-full rounded-xl border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 px-3 py-2"
                       required
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-1">Location Address<span className="text-rose-600">*</span></label>
+                    <WIInput
+                      type="text"
+                      value={ev.locationAddress}
+                      onChange={(e) => setEventField(ev._id || '', "locationAddress", e.target.value)}
+                      placeholder="e.g., The Westin Jakarta, Ballroom A"
+                      className="w-full rounded-xl border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 px-3 py-2"
+                      // required
                     />
                   </div>
                   <div>
@@ -299,7 +332,7 @@ export default function InvitationInformationPage() {
                     <WIInput
                       type="datetime-local"
                       value={ev.dateTime}
-                      onChange={(e) => setEventField(ev.id, "dateTime", e.target.value)}
+                      onChange={(e) => setEventField(ev._id || '', "dateTime", e.target.value)}
                       className="w-full rounded-xl border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 px-3 py-2"
                       required
                     />
@@ -311,17 +344,17 @@ export default function InvitationInformationPage() {
                   <label className="block text-sm font-medium text-gray-700 mb-1">Google Maps URL / Address</label>
                   <WIInput
                     type="text"
-                    value={ev.maps}
-                    onChange={(e) => setEventField(ev.id, "maps", e.target.value)}
+                    value={ev.mapUrl}
+                    onChange={(e) => setEventField(ev._id || '', "mapUrl", e.target.value)}
                     placeholder="Paste a Google Maps share link or type the full address"
                     className="w-full rounded-xl border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 px-3 py-2"
                   />
-                  {ev.maps && (
+                  {ev.mapUrl && (
                     <div className="mt-3 grid grid-cols-1 md:grid-cols-3 gap-4">
                       <div className="md:col-span-2">
                         <div className="aspect-[16/10] w-full overflow-hidden rounded-xl ring-1 ring-gray-200">
                           <iframe
-                            src={`https://www.google.com/maps?q=${encodeURIComponent(ev.maps)}&output=embed`}
+                            src={`https://www.google.com/maps?q=${encodeURIComponent(ev.mapUrl)}&output=embed`}
                             loading="lazy"
                             referrerPolicy="no-referrer-when-downgrade"
                             className="h-full w-full"
@@ -330,7 +363,7 @@ export default function InvitationInformationPage() {
                       </div>
                       <div className="md:col-span-1 flex md:items-start">
                         <a
-                          href={/^https?:\/\//i.test(ev.maps) ? ev.maps : `https://www.google.com/maps?q=${encodeURIComponent(ev.maps)}`}
+                          href={/^https?:\/\//i.test(ev.mapUrl) ? ev.mapUrl : `https://www.google.com/maps?q=${encodeURIComponent(ev.mapUrl)}`}
                           target="_blank"
                           className="inline-flex items-center justify-center rounded-xl border border-gray-300 bg-white px-4 py-2 text-sm hover:bg-gray-50"
                         >
@@ -470,31 +503,6 @@ export default function InvitationInformationPage() {
           <div className="rounded-xl border border-rose-200 bg-rose-50 px-4 py-3 text-rose-800">{error}</div>
         )}
 
-        {/* Sticky action bar */}
-        <div className="sticky bottom-0 inset-x-0 border-t bg-white/80 backdrop-blur supports-[backdrop-filter]:bg-white/60">
-          <div className="mx-auto max-w-5xl px-6 py-4 flex items-center justify-between gap-4">
-            <div className="text-sm text-gray-600">
-              {createdGuests ? (
-                <span>
-                  Created <span className="font-medium">{createdGuests.length}</span> guest link{createdGuests.length === 1 ? "" : "s"}.
-                </span>
-              ) : (
-                <span>Ready to generate unique links for your guests.</span>
-              )}
-            </div>
-            <button
-              type="submit"
-              disabled={creating || !isValid}
-              className="inline-flex items-center gap-2 rounded-xl bg-indigo-600 px-5 py-2.5 text-white shadow-sm hover:bg-indigo-700 disabled:opacity-60"
-            >
-              {creating && (
-                <svg className="h-4 w-4 animate-spin" viewBox="0 0 24 24"><circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" fill="none"/><path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v4a4 4 0 00-4 4H4z"/></svg>
-              )}
-              {creating ? "Saving..." : "Save"}
-            </button>
-          </div>
-        </div>
-
         {/* Result list */}
         {createdGuests && (
           <section className="bg-white rounded-2xl shadow-sm ring-1 ring-gray-200 p-6">
@@ -523,12 +531,44 @@ export default function InvitationInformationPage() {
                       <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="opacity-70"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
                       Copy
                     </button>
+                    <button
+                      type="button"
+                      onClick={() => deleteGuest(g._id || '')}
+                      className="inline-flex items-center gap-2 rounded-xl border border-gray-300 bg-white px-3 py-2 text-sm hover:bg-gray-50"
+                    >
+                      Delete
+                    </button>
                   </div>
                 </div>
               ))}
             </div>
           </section>
         )}
+
+        {/* Sticky action bar */}
+        <div className="sticky bottom-0 inset-x-0 border-t bg-white/80 backdrop-blur supports-[backdrop-filter]:bg-white/60">
+          <div className="mx-auto max-w-5xl px-6 py-4 flex items-center justify-between gap-4">
+            <div className="text-sm text-gray-600">
+              {createdGuests ? (
+                <span>
+                  Created <span className="font-medium">{createdGuests.length}</span> guest link{createdGuests.length === 1 ? "" : "s"}.
+                </span>
+              ) : (
+                <span>Ready to generate unique links for your guests.</span>
+              )}
+            </div>
+            <button
+              type="submit"
+              disabled={creating || !isValid}
+              className="inline-flex items-center gap-2 rounded-xl bg-indigo-600 px-5 py-2.5 text-white shadow-sm hover:bg-indigo-700 disabled:opacity-60"
+            >
+              {creating && (
+                <svg className="h-4 w-4 animate-spin" viewBox="0 0 24 24"><circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" fill="none"/><path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v4a4 4 0 00-4 4H4z"/></svg>
+              )}
+              {creating ? "Saving..." : "Save"}
+            </button>
+          </div>
+        </div>
       </form>
 
       {/* Toast */}

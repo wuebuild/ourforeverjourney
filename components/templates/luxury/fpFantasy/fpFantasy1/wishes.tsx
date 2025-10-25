@@ -1,19 +1,9 @@
 "use client";
 import React, { useMemo, useState } from "react";
-
-/* ================================================================
-   BestWishesCard (Guestbook) — list scrolls, header+form fixed
-   ================================================================ */
-
-export type Wish = {
-  id: string;
-  name: string;
-  message: string;
-  createdAt: Date | string | number;
-};
+import { Wish } from "@/types/invitation";
 
 export default function BestWishesCard({
-  initialWishes = demoWishes,
+  initialWishes = [],
   title = "Best Wishes",
   subtitle = "Sampaikan doa dan ucapan terbaik Anda",
   onSubmitWish,
@@ -51,7 +41,7 @@ export default function BestWishesCard({
       const maybe = await onSubmitWish?.({ name: name.trim(), message: message.trim() });
       const newWish: Wish =
         (maybe as Wish) ??
-        ({ id: crypto.randomUUID(), name: name.trim(), message: message.trim(), createdAt: new Date() } as Wish);
+        ({ _id: crypto.randomUUID(), name: name.trim(), message: message.trim(), createdAt: new Date() } as Wish);
       setWishes((w) => [newWish, ...w]);
       setName("");
       setMessage("");
@@ -109,7 +99,7 @@ export default function BestWishesCard({
               <div className="max-h-[60vh] sm:max-h-[68vh] overflow-y-auto overscroll-y-auto">
                 <ul className="divide-y divide-black/15">
                   {wishes.map((w) => (
-                    <li key={w.id} className="px-4 py-4">
+                    <li key={w._id} className="px-4 py-4">
                       <div className="mb-1 font-semibold">{w.name}</div>
                       <p className="whitespace-pre-line text-[14px] leading-6 text-[#2B3142]">
                         {w.message}
@@ -166,41 +156,41 @@ function ClockIcon({ className = "" }: { className?: string }) {
   );
 }
 
-/* -------------------------- Demo Seed Data -------------------------- */
-const demoWishes: Wish[] = [
-  {
-    id: "1",
-    name: "AW",
-    message:
-      "Happy Wedding Irawan and Cindy",
-    createdAt: new Date(Date.now() - 1000 * 60 * 60 * 24 * 7 * 52 * 1 - 1000 * 60 * 60 * 24 * 9),
-  },
-  {
-    id: "5",
-    name: "AW",
-    message:
-      "Happy Wedding Irawan and Cindy",
-    createdAt: new Date(Date.now() - 1000 * 60 * 60 * 24 * 7 * 52 * 1 - 1000 * 60 * 60 * 24 * 9),
-  },
-  {
-    id: "2",
-    name: "Albert",
-    message:
-      "Happy Wedding Irawan and Cindy",
-    createdAt: new Date(Date.now() - 1000 * 60 * 60 * 24 * 7 * 52 * 1 - 1000 * 60 * 60 * 24 * 9),
-  },
-  {
-    id: "3",
-    name: "Testing",
-    message:
-      "Happy Wedding Irawan and Cindy",
-    createdAt: new Date(Date.now() - 1000 * 60 * 60 * 24 * 7 * 52 * 1 - 1000 * 60 * 60 * 24 * 9),
-  },
-  {
-    id: "4",
-    name: "AW",
-    message:
-      "Happy Wedding Irawan and Cindy",
-    createdAt: new Date(Date.now() - 1000 * 60 * 60 * 24 * 7 * 52 * 1 - 1000 * 60 * 60 * 24 * 9),
-  },
-];
+// /* -------------------------- Demo Seed Data -------------------------- */
+// const demoWishes: Wish[] = [
+//   {
+//     _id: "1",
+//     name: "AW",
+//     message:
+//       "Happy Wedding Irawan and Cindy",
+//     createdAt: new Date(Date.now() - 1000 * 60 * 60 * 24 * 7 * 52 * 1 - 1000 * 60 * 60 * 24 * 9),
+//   },
+//   {
+//     _id: "5",
+//     name: "AW",
+//     message:
+//       "Happy Wedding Irawan and Cindy",
+//     createdAt: new Date(Date.now() - 1000 * 60 * 60 * 24 * 7 * 52 * 1 - 1000 * 60 * 60 * 24 * 9),
+//   },
+//   {
+//     _id: "2",
+//     name: "Albert",
+//     message:
+//       "Happy Wedding Irawan and Cindy",
+//     createdAt: new Date(Date.now() - 1000 * 60 * 60 * 24 * 7 * 52 * 1 - 1000 * 60 * 60 * 24 * 9),
+//   },
+//   {
+//     _id: "3",
+//     name: "Testing",
+//     message:
+//       "Happy Wedding Irawan and Cindy",
+//     createdAt: new Date(Date.now() - 1000 * 60 * 60 * 24 * 7 * 52 * 1 - 1000 * 60 * 60 * 24 * 9),
+//   },
+//   {
+//     _id: "4",
+//     name: "AW",
+//     message:
+//       "Happy Wedding Irawan and Cindy",
+//     createdAt: new Date(Date.now() - 1000 * 60 * 60 * 24 * 7 * 52 * 1 - 1000 * 60 * 60 * 24 * 9),
+//   },
+// ];

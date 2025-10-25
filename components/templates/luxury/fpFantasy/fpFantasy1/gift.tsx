@@ -1,19 +1,13 @@
 "use client";
+import { GiftBankAccount } from "@/types/api";
 import React, { useMemo, useState } from "react";
-
-export type BankAccount = {
-  bankLogo?: React.ReactNode;
-  bankName: string;
-  accountNumber: string;
-  holder: string;
-};
 
 export type WeddingGiftCardProps = {
   bgImage?: string;
   title?: string;
   lead?: string;
   ctaText?: string;
-  accounts?: BankAccount[];
+  accounts?: GiftBankAccount[];
   className?: string;
 };
 
@@ -22,10 +16,7 @@ export default function WeddingGiftCard({
   title = "Wedding Gift",
   lead = "Doa restu Anda merupakan karunia yang sangat berarti bagi kami. Dan jika memberi adalah ungkapan tanda kasih Anda, Anda dapat memberi kado secara cashless.",
   ctaText = "KLIK DI SINI",
-  accounts = [
-    { bankName: "Bank BCA", accountNumber: "xxxxxxxxxx", holder: "Irawan Gohan" },
-    { bankName: "Bank BCA", accountNumber: "xxxxxxxxxx", holder: "Cindy" },
-  ],
+  accounts,
   className = "",
 }: WeddingGiftCardProps) {
   const [showAccounts, setShowAccounts] = useState(false);
@@ -81,17 +72,20 @@ export default function WeddingGiftCard({
           {lead}
         </p>
 
-        <div className="mt-5 flex justify-center">
-          <button
-            onClick={() => setShowAccounts((v) => !v)}
-            className="inline-flex items-center gap-2 rounded-full bg-[#C4AA74] px-5 py-2.5 text-[13px] font-semibold text-[#1B1A17] shadow hover:brightness-105 focus:outline-none focus:ring-2 focus:ring-white/50"
-          >
-            <GiftIcon className="h-4 w-4" />
-            {ctaText}
-          </button>
-        </div>
+        {
+          accounts &&
+          <div className="mt-5 flex justify-center">
+            <button
+              onClick={() => setShowAccounts((v) => !v)}
+              className="inline-flex items-center gap-2 rounded-full bg-[#C4AA74] px-5 py-2.5 text-[13px] font-semibold text-[#1B1A17] shadow hover:brightness-105 focus:outline-none focus:ring-2 focus:ring-white/50"
+            >
+              <GiftIcon className="h-4 w-4" />
+              {ctaText}
+            </button>
+          </div>
+        }
 
-        {showAccounts && (
+        {(accounts && showAccounts) && (
           <div className="mt-6 rounded-[22px] bg-white/95 p-5 text-center text-[#1B1A17] shadow-inner">
             {accounts.map((acc, i) => (
               <div

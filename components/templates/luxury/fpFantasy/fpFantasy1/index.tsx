@@ -2,7 +2,7 @@
 import { useEffect, useRef, useState, Dispatch, SetStateAction } from "react";
 import { Play, Pause, Calendar, CalendarIcon, CalendarClockIcon } from "lucide-react";
 import Image from "next/image";
-import { Couple, WeddingData } from "@/types/invitation";
+import { Couple, CoupleInfo, WeddingData } from "@/types/invitation";
 import WILabel from "../../../../ui/atoms/WILabel";
 import { AnimatePresence, motion, useScroll, useTransform} from "framer-motion";
 import moment, { duration } from "moment";
@@ -23,7 +23,6 @@ import WeddingEventCards from "./weddingEvent";
 import WeddingGiftCard from "./gift";
 import RSVPCard from "./rsvp";
 import BestWishesCard from "./wishes";
-import { CoupleInfo } from "@/lib/couples";
 
 
 interface diffTime {
@@ -234,14 +233,9 @@ function InvitationCover ({setOpenInvitation, cover, date, coupleString} : {setO
 
 function InvitationBody({data} : {data: CoupleInfo}) {
   const [ended, setEnded] = useState(false)
-
-  // const videoRef = useRef(null);
-  // const { scrollYProgress } = useScroll({
-  //   target: videoRef,
-  //   offset: ["start start", "end start"],
-  // });
-  // // fade out as you scroll
-  // const opacity = useTransform(scrollYProgress, [0, 1], [1, 0]);
+  const params = useSearchParams();
+  const to = params.get("to") || ""; 
+  const invited = to
 
   return (
     <div className="bg-fixed bg-cover bg-center" style={{ backgroundImage: `url(${fairytalebg.src})` }}>
@@ -274,24 +268,7 @@ function InvitationBody({data} : {data: CoupleInfo}) {
         <InformationAndCountdown data={data}/>
       </div>
       <div className="px-6 sm:px-12 py-6 sm:py-6">
-        <WeddingEventCards events={[
-          {
-            title: "PEMBERKATAN",
-            date: "2024-10-30T14:00:00+07:00",
-            time: "14.00 WIB",
-            venueLine1: "Vihara Maha Cundi",
-            venueLine2: "Jl. Kapten Muslim No.8 BCD, Medan",
-            mapHref: "https://maps.google.com/?q=Vihara%20Maha%20Cundi%20Medan",
-          },
-          {
-            title: "RESEPSI PERNIKAHAN",
-            date: "2024-11-17T19:00:00+07:00",
-            time: "19.00 WIB",
-            venueLine1: "Restoran Wisma Benteng",
-            venueLine2: "Jl. Kapten Maulana Lubis No.6, Medan",
-            mapHref: "https://maps.google.com/?q=Restoran%20Wisma%20Benteng%20Medan",
-          },
-        ]}/>
+        <WeddingEventCards events={data.events}/>
       </div>
       <div>
         <GroomAndBride data={data.couple!} />
@@ -302,20 +279,20 @@ function InvitationBody({data} : {data: CoupleInfo}) {
           steps={[
             {
               title: "First Hello",
-              caption: "Lorem ipsum.",
-              date: "2019",
+              caption: `A gentle spark lit the first time our paths crossed. In a single glance, something familiar as if destiny had quietly whispered, “You’ve found each other.” That day became the first line in our forever story..`,
+              date: "",
               image: `https://ourforeverjourney.s3.ap-southeast-1.amazonaws.com/${images[0]}`,
             },
             {
-              title: "Our First Trip",
-              caption: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
-              date: "2020",
+              title: "When Forever Feels Right",
+              caption: `There was no single moment just a quiet certainty that grew stronger each day. In laughter, in silence, in ordinary days, we found peace in knowing we had found our forever.`,
+              date: "",
               image: `https://ourforeverjourney.s3.ap-southeast-1.amazonaws.com/${images[1]}`,
             },
             {
               title: "The Promise",
-              caption: "Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.",
-              date: "2024",
+              caption: `Time has carried us here, to the day our souls finally say “yes.” Surrounded by those we love, we promise to keep choosing each other again and again, in every tomorrow.`,
+              date: "",
               image: `https://ourforeverjourney.s3.ap-southeast-1.amazonaws.com/${images[2]}`,
             },
           ]}
@@ -330,13 +307,11 @@ function InvitationBody({data} : {data: CoupleInfo}) {
       </div>
       <div className="px-6 sm:px-12 py-6 sm:py-6">
         <WeddingGiftCard
-          accounts={[
-            { bankName: "Bank BCA", accountNumber: "xxxxxxxxxx", holder: "Irawan Gohan" },
-            { bankName: "Bank BCA", accountNumber: "xxxxxxxxxx", holder: "Cindy" },
-          ]}
+          accounts={data.gifts}
         />
         <div className="p-4"/>
         <RSVPCard
+          guestName={invited}
           onSubmit={async (data) => {
             // TODO: send to your endpoint
             console.log("RSVP received:", data);
@@ -471,7 +446,7 @@ function InformationAndCountdown ({data}: {data:CoupleInfo}) {
             </div>
           </div>
         </div>
-        <CountdownSection diff={diff}/>
+        <CountdownSection data={data} diff={diff}/>
     </section>
   )
 }
@@ -642,7 +617,7 @@ function pad2(n: number) {
   return String(n).padStart(2, "0");
 }
 
-export function CountdownSection({ diff }: { diff: diffTime }) {
+export function CountdownSection({ data, diff }: { data: CoupleInfo, diff: diffTime }) {
   const handleSaveToCalendar = () => {
     // Google Calendar deep-link
     const start = "20251106T090000Z"; // <- set your real start/end
@@ -709,8 +684,8 @@ export function CountdownSection({ diff }: { diff: diffTime }) {
             Save the Date
           </p>
           <p className="mt-1 sm:mt-2 text-[#B23A48] text-2xl sm:text-3xl font-medium tracking-widest">
-            06 <span className="opacity-60">·</span> 11{" "}
-            <span className="opacity-60">·</span> 2025
+            {moment(data.date).date()} <span className="opacity-60">·</span> {moment(data.date).month() + 1}{" "}
+            <span className="opacity-60">·</span> {moment(data.date).year()}
           </p>
 
           <button

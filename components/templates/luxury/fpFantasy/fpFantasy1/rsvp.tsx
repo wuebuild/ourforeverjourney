@@ -11,6 +11,7 @@ export type RSVPCardProps = {
   bgImage?: string;
   title?: string;
   subtitle?: string;
+  guestName?: string;
   onSubmit?: (data: RSVPPayload) => Promise<void> | void;
   className?: string;
 };
@@ -21,8 +22,9 @@ export default function RSVPCard({
   subtitle = "Konfirmasi kehadiran Anda dengan mengisi form berikut",
   onSubmit,
   className = "",
+  guestName = ""
 }: RSVPCardProps) {
-  const [name, setName] = useState("");
+  const [name, setName] = useState(guestName);
   const [attendees, setAttendees] = useState<number | "">("");
   const [address, setAddress] = useState("");
   const [busy, setBusy] = useState(false);

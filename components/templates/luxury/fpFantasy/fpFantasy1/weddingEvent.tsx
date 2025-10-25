@@ -1,21 +1,6 @@
 "use client";
 import React, { useEffect, useRef } from "react";
-
-/**
- * WeddingEventCards (stable + transparent)
- * - Default state is visible (no hidden pre-state) → avoids HMR "gone" issue
- * - IntersectionObserver only ADDS an animation class (.reveal-in)
- * - Transparent navy card: bg-[rgba(13,23,48,0.8)] + backdrop blur
- */
-
-export type EventItem = {
-  title: string;
-  date: string | Date;
-  time?: string;
-  venueLine1: string;
-  venueLine2?: string;
-  mapHref?: string;
-};
+import { Event } from "@/types/api";
 
 const fmtWeekday = new Intl.DateTimeFormat("id-ID", { weekday: "long" });
 const fmtDay = new Intl.DateTimeFormat("id-ID", { day: "2-digit" });
@@ -27,7 +12,7 @@ export default function WeddingEventCards({
   className = "",
   bgImage = "https://images.unsplash.com/photo-1523661149972-0bedfd3bd8c5?q=80&w=1200&auto=format&fit=crop",
 }: {
-  events: EventItem[];
+  events: Event[];
   className?: string;
   bgImage?: string;
 }) {
@@ -118,16 +103,16 @@ export default function WeddingEventCards({
                 <PinIcon className="h-6 w-6 text-white" />
                 <div className="text-[13px] leading-6 text-white/85">
                   <div>Bertempat di:</div>
-                  <div className="font-medium">{ev.venueLine1}</div>
-                  {ev.venueLine2 && <div className="text-white/75">{ev.venueLine2}</div>}
+                  <div className="font-medium">{ev.location}</div>
+                  {ev.locationAddress && <div className="text-white/75">{ev.locationAddress}</div>}
                 </div>
               </div>
 
               {/* CTA */}
-              {ev.mapHref && (
+              {ev.mapUrl && (
                 <div className="mt-3 flex justify-center">
                   <a
-                    href={ev.mapHref}
+                    href={ev.mapUrl}
                     target="_blank"
                     rel="noreferrer"
                     className="inline-flex items-center gap-2 rounded-full bg-[#C4AA74] px-5 py-2 text-[13px] font-medium text-[#1B1A17] shadow hover:brightness-105 focus:outline-none focus:ring-2 focus:ring-white/40"

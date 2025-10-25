@@ -1,7 +1,6 @@
 "use client";
-
+import { useEffect, useState } from "react";
 import Link from "next/link";
-import { useState } from "react";
 import { useTranslation } from "next-i18next";
 import { Menu, X } from "lucide-react";
 import WILabel from "../atoms/WILabel";
@@ -19,7 +18,14 @@ const navItems: NavItem[] = [
 
 export default function Nav() {
   const [isOpen, setIsOpen] = useState(false);
-  const { t } = useTranslation("common")
+  const [isLogin, setIsLogin] = useState<boolean | null>(null); // null until mounted
+  const { t } = useTranslation("common");
+
+  useEffect(() => {
+    // runs only in the browser
+    const token = window.localStorage.getItem("token");
+    setIsLogin(!!token);
+  }, []);
 
   return (
     <nav className="fixed top-0 left-0 w-full bg-white/80 backdrop-blur-md shadow-md z-50">
@@ -40,20 +46,23 @@ export default function Nav() {
               <WILabel>{item.label}</WILabel>
             </Link>
           ))}
-          <div className="flex gap-3 ml-6">
-            <Link
-              href="/register"
-              className="px-4 py-2 text-sm rounded-lg hover:bg-pink-50 transition"
-            >
-              <WILabel>{"Register"}</WILabel>
-            </Link>
-            <Link
-              href="/login"
-              className="px-4 py-2 text-sm rounded-lg bg-pink-600 text-white hover:bg-pink-700 transition"
-            >
-              <WILabel color="white">{"Login"}</WILabel>
-            </Link>
-          </div>
+          {
+            !isLogin &&
+            <div className="flex gap-3 ml-6">
+              <Link
+                href="/register"
+                className="px-4 py-2 text-sm rounded-lg hover:bg-pink-50 transition"
+              >
+                <WILabel>{"Register"}</WILabel>
+              </Link>
+              <Link
+                href="/login"
+                className="px-4 py-2 text-sm rounded-lg bg-pink-600 text-white hover:bg-pink-700 transition"
+              >
+                <WILabel color="white">{"Login"}</WILabel>
+              </Link>
+            </div>
+          }
         </div>
 
         {/* Mobile Menu Button */}
@@ -79,23 +88,31 @@ export default function Nav() {
                 {item.label}
               </Link>
             ))}
-            <hr className="border-gray-200 my-2" />
+            {
+              !isLogin && <hr className="border-gray-200 my-2" />
+            }
 
             {/* Mobile Auth Buttons */}
-            <Link
-              href="/register"
-              className="px-4 py-2 text-center rounded-lg border border-pink-600 text-pink-600 hover:bg-pink-50 transition"
-              onClick={() => setIsOpen(false)}
-            >
-                Register
-            </Link>
-            <Link
-              href="/login"
-              className="px-4 py-2 text-center rounded-lg bg-pink-600 text-white hover:bg-pink-700 transition"
-              onClick={() => setIsOpen(false)}
-            >
-              Login
-            </Link>
+            {
+              !isLogin &&
+              <Link
+                href="/register"
+                className="px-4 py-2 text-center rounded-lg border border-pink-600 text-pink-600 hover:bg-pink-50 transition"
+                onClick={() => setIsOpen(false)}
+              >
+                  Register
+              </Link>
+            }
+            {
+              !isLogin &&
+              <Link
+                href="/login"
+                className="px-4 py-2 text-center rounded-lg bg-pink-600 text-white hover:bg-pink-700 transition"
+                onClick={() => setIsOpen(false)}
+              >
+                Login
+              </Link>
+            }
           </div>
         </div>
       )}
