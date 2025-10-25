@@ -6,6 +6,7 @@ export interface Invitation {
     time: string,
     guests: CreatedGuest[],
     event: Event[],
+    rsvp: RSVP[],
     location: string,
     eventType: string,
     createdDate: Date
@@ -61,6 +62,11 @@ export interface GiftBankAccount {
     accountNumber: string,
     accountName: string
 }
+
+export interface RSVP {
+  name: string;
+  guestTotal: number;
+};
 
 export interface DefaultResponse {
     response: boolean

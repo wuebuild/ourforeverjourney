@@ -1,3 +1,5 @@
+import { redirect } from "next/navigation";
+
 export const apiBase = process.env.NEXT_PUBLIC_API_BASE!.replace(/\/$/, "");
 
 export async function clientFetch<T>(path: string, init: RequestInit = {}): Promise<T> {
@@ -8,6 +10,7 @@ export async function clientFetch<T>(path: string, init: RequestInit = {}): Prom
     ...init,
   });
   const data = await res.json().catch(() => null);
+  if (data?.statusCode == 405) { redirect(`/login?next=${encodeURIComponent("/myinvitation")}`); }
   if (!res.ok) throw new Error(data?.error || data?.message || `HTTP ${res.status}`);
   return data.data as T;
 }

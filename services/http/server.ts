@@ -1,4 +1,5 @@
 import { cookies } from "next/headers";
+import { redirect } from "next/navigation";
 
 export const apiBase = process.env.API_BASE!.replace(/\/$/, "");
 
@@ -17,7 +18,7 @@ export async function serverFetch<T>(path: string, init: RequestInit = {}): Prom
     ...init,
   });
   const data = await res.json().catch(() => null);
-  console.log('here data', data)
+  if (data?.statusCode == 405) { redirect(`/login?next=${encodeURIComponent("/myinvitation")}`) }
   if (!res.ok) throw new Error(data?.error || data?.message || `HTTP ${res.status}`);
   return data.data as T;
 }

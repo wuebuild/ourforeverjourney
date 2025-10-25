@@ -3,7 +3,7 @@ import { useEffect, useMemo, useState } from "react";
 import { WIInput } from "@/components/ui/molecules/WIInput";
 import { useParams } from "next/navigation";
 import { deleteInvitation, getInvitation, updateInvitation } from "@/services/client/invitation";
-import { CreatedGuest, Event, EventType, Gift, Guest } from "@/types/api";
+import { CreatedGuest, Event, EventType, Gift, Guest, RSVP } from "@/types/api";
 
 type RouteParams = { invitationid: string };
 
@@ -96,6 +96,7 @@ export default function InvitationInformationPage() {
   // ---- result state
   const [createdId, setCreatedId] = useState<string | null>(null);
   const [createdGuests, setCreatedGuests] = useState<CreatedGuest[] | null>(null);
+  const [rsvp, setRSVP] = useState<RSVP[] | null>(null);
 
   // derived
   const isValid = useMemo(() => {
@@ -154,6 +155,7 @@ export default function InvitationInformationPage() {
     console.log("here data", data)
     setEvents(data.event)
     setCreatedGuests([...data.guests])
+    setRSVP([...data.rsvp])
   }
 
   const copyToClipboard = async (text: string) => {
@@ -538,6 +540,24 @@ export default function InvitationInformationPage() {
                     >
                       Delete
                     </button>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </section>
+        )}
+
+        {
+          rsvp && (
+          <section className="bg-white rounded-2xl shadow-sm ring-1 ring-gray-200 p-6">
+            <h2 className="text-lg font-medium mb-4">Reservation</h2>
+            <p className="text-sm text-gray-600 mb-4">Invitation ID: <span className="font-mono text-gray-800">{createdId}</span></p>
+            <div className="space-y-3">
+              {rsvp.map((g, i) => (
+                <div key={i} className="flex flex-col md:flex-row md:items-center gap-3 rounded-xl border border-gray-200 p-4">
+                  <div className="flex-1 min-w-0">
+                    <div className="text-sm font-medium text-gray-900 truncate">{g.name || `Guest #${i + 1}`}</div>
+                    <div className="text-xs text-gray-600 break-all mt-0.5">Total Guest : {g.guestTotal}</div>
                   </div>
                 </div>
               ))}
