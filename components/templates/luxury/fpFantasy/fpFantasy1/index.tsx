@@ -46,35 +46,42 @@ const colorHex = {
 }
 
 const images = [
-  // "uploads/irawan-cindy/1759040505631-IMG_9271.webp",
-  // "uploads/irawan-cindy/1759040505643-SAM_5204.webp",
+  "uploads/irawan-cindy/1759040505878-SAM_4827.webp",
+  "uploads/irawan-cindy/1759040505657-SAM_5187.webp",
+  "uploads/irawan-cindy/1759040506146-SAM_5139.webp",
+  "uploads/irawan-cindy/1759040505901-SAM_5197.webp",
+  "uploads/irawan-cindy/569050899_18537775153055426_6010142526291825036_n.webp",
+  "uploads/irawan-cindy/1759040506195-SAM_5295.webp",
+  // "uploads/irawan-cindy/565560539_18537775375055426_7299414695406161832_n.webp",
+]
+
+const chapter = [
   // black dress
   "uploads/irawan-cindy/1759040505647-SAM_5070.webp",
-  "uploads/irawan-cindy/1759040505651-SAM_5028.webp",
-  // white place
-  "uploads/irawan-cindy/1759040505654-SAM_4768.webp",
-  "uploads/irawan-cindy/1759040505657-SAM_5187.webp",
-  // green
-  "uploads/irawan-cindy/1759040505892-SAM_5480.webp",
-  "uploads/irawan-cindy/1759040505901-SAM_5197.webp",
+  "uploads/irawan-cindy/1759040506170-SAM_5322.webp",
+  "uploads/irawan-cindy/1759040505925-SAM_4927.webp",
+]
+
+const cover = [
+  "uploads/irawan-cindy/1759040506175-SAM_5503.webp",
   "uploads/irawan-cindy/1759040505912-SAM_4985.webp",
   "uploads/irawan-cindy/1759040505917-SAM_4924.webp",
-  "uploads/irawan-cindy/1759040505925-SAM_4927.webp",
-  "uploads/irawan-cindy/1759040506146-SAM_5139.webp",
-  "uploads/irawan-cindy/1759040506156-SAM_5232.webp",
-  "uploads/irawan-cindy/1759040506162-SAM_4980.webp",
-  "uploads/irawan-cindy/1759040506175-SAM_5503.webp",
-  // latar nature
-  "uploads/irawan-cindy/1759040506170-SAM_5322.webp",
-  "uploads/irawan-cindy/1759040506195-SAM_5295.webp",
-  // latar flower
-  "uploads/irawan-cindy/1759040505878-SAM_4827.webp",
-  "uploads/irawan-cindy/1759040506421-SAM_5424.webp",
-  "uploads/irawan-cindy/1759040506432-SAM_5441.webp",
-  // latar classic
-  "uploads/irawan-cindy/1759040506441-SAM_5591.webp",
   "uploads/irawan-cindy/1759040506447-SAM_5529.webp",
-  // // instagram
+]
+
+const quotesImages = [
+  "uploads/irawan-cindy/568639122_18537775414055426_4437316235932282748_n.webp",
+  // "uploads/irawan-cindy/1759040505901-SAM_5197.webp",
+  // "uploads/irawan-cindy/569050899_18537775153055426_6010142526291825036_n.webp",
+  // "uploads/irawan-cindy/1759040506195-SAM_5295.webp",
+]
+
+const galleries = [
+  // "uploads/irawan-cindy/1759040505647-SAM_5070.webp",
+  "uploads/irawan-cindy/1759040505654-SAM_4768.webp",
+  "uploads/irawan-cindy/1759040505651-SAM_5028.webp",
+  "uploads/irawan-cindy/1759040506432-SAM_5441.webp",
+  // "uploads/irawan-cindy/1759040506162-SAM_4980.webp",
   // "uploads/irawan-cindy/565560539_18537775375055426_7299414695406161832_n.webp",
   // "uploads/irawan-cindy/566176234_18537775360055426_8047079165145294821_n.webp",
   // "uploads/irawan-cindy/567632355_18537775174055426_3916455664815506615_n.webp",
@@ -85,26 +92,30 @@ const images = [
   // "uploads/irawan-cindy/568639122_18537775414055426_4437316235932282748_n.webp",
   // "uploads/irawan-cindy/568678684_18537775384055426_4480191052523691071_n.webp",
   // "uploads/irawan-cindy/569050899_18537775153055426_6010142526291825036_n.webp",
+  // "uploads/irawan-cindy/1759040505654-SAM_4768.webp",
+  // "uploads/irawan-cindy/1759040505657-SAM_5187.webp",
+  // "uploads/irawan-cindy/1759040505901-SAM_5197.webp",
+  // "uploads/irawan-cindy/1759040505912-SAM_4985.webp",
+  // "uploads/irawan-cindy/1759040505917-SAM_4924.webp",
+  // "uploads/irawan-cindy/1759040505925-SAM_4927.webp",
+  // "uploads/irawan-cindy/1759040506146-SAM_5139.webp",
+  // "uploads/irawan-cindy/1759040506162-SAM_4980.webp",
+  // "uploads/irawan-cindy/1759040506175-SAM_5503.webp",
+  // "uploads/irawan-cindy/1759040506170-SAM_5322.webp",
+  // "uploads/irawan-cindy/1759040506195-SAM_5295.webp",
+  // "uploads/irawan-cindy/1759040505878-SAM_4827.webp",
+  // "uploads/irawan-cindy/1759040506432-SAM_5441.webp",
+  // "uploads/irawan-cindy/1759040506447-SAM_5529.webp",
+  "uploads/irawan-cindy/1759040506156-SAM_5232.webp",
+  "uploads/irawan-cindy/1759040506421-SAM_5424.webp",
+  "uploads/irawan-cindy/1759040506441-SAM_5591.webp",
+  // "uploads/irawan-cindy/1759040505901-SAM_5197.webp",
 ]
 
 const masonry = [
-  "uploads/irawan-cindy/1759040505631-IMG_9271.webp",
-  "uploads/irawan-cindy/1759040505643-SAM_5204.webp",
-  "uploads/irawan-cindy/1759040505647-SAM_5070.webp",
-  "uploads/irawan-cindy/1759040505651-SAM_5028.webp",
-  "uploads/irawan-cindy/1759040505654-SAM_4768.webp",
-  "uploads/irawan-cindy/1759040505657-SAM_5187.webp",
-  // instagram
+  "uploads/irawan-cindy/1759040506162-SAM_4980.webp",
+  "uploads/irawan-cindy/1759040505892-SAM_5480.webp",
   "uploads/irawan-cindy/565560539_18537775375055426_7299414695406161832_n.webp",
-  "uploads/irawan-cindy/566176234_18537775360055426_8047079165145294821_n.webp",
-  "uploads/irawan-cindy/567632355_18537775174055426_3916455664815506615_n.webp",
-  "uploads/irawan-cindy/567704089_18537775423055426_6542266019012211843_n.webp",
-  "uploads/irawan-cindy/568098456_18537775402055426_5854995356824183491_n.webp",
-  "uploads/irawan-cindy/568254366_18537775432055426_4165810283871033002_n.webp",
-  "uploads/irawan-cindy/568559583_18537775393055426_4288120486608324863_n.webp",
-  "uploads/irawan-cindy/568639122_18537775414055426_4437316235932282748_n.webp",
-  // "uploads/irawan-cindy/568678684_18537775384055426_4480191052523691071_n.webp",
-  "uploads/irawan-cindy/569050899_18537775153055426_6010142526291825036_n.webp",
 ]
 
 export default function FPFantasy1 ({data} : {data:CoupleInfo}) {
@@ -238,7 +249,11 @@ function InvitationBody({data} : {data: CoupleInfo}) {
   const invited = to
 
   return (
-    <div className="bg-fixed bg-cover bg-center" style={{ backgroundImage: `url(${fairytalebg.src})` }}>
+    <div className="bg-fixed bg-contain bg-center" style={{ 
+      // backgroundImage: `url(${fairytalebg.src})` 
+      backgroundImage: `url(https://ourforeverjourney.s3.ap-southeast-1.amazonaws.com/${"uploads/irawan-cindy/567704089_18537775423055426_6542266019012211843_n.webp"})` 
+      // uploads/irawan-cindy/1759040506447-SAM_5529.webp
+    }}>
       {/* <motion.div ref={videoRef} style={{ opacity }}></motion.div> */}
       <div className="relative w-full h-screen">
         <motion.video
@@ -279,21 +294,26 @@ function InvitationBody({data} : {data: CoupleInfo}) {
           steps={[
             {
               title: "First Hello",
-              caption: `A gentle spark lit the first time our paths crossed. In a single glance, something familiar as if destiny had quietly whispered, “You’ve found each other.” That day became the first line in our forever story..`,
+              caption: `Semua dimulai dengan sederhana satu tatapan, satu senyum, satu rasa yang terasa begitu akrab.  
+                Dalam sekejap, dunia seolah berhenti.  
+                Sapaan pertama itu awal dari perjalanan ini.`,
               date: "",
-              image: `https://ourforeverjourney.s3.ap-southeast-1.amazonaws.com/${images[0]}`,
+              image: `https://ourforeverjourney.s3.ap-southeast-1.amazonaws.com/${chapter[0]}`,
             },
             {
               title: "When Forever Feels Right",
-              caption: `There was no single moment just a quiet certainty that grew stronger each day. In laughter, in silence, in ordinary days, we found peace in knowing we had found our forever.`,
+              caption: `Tak ada momen megah, hanya rasa yang tumbuh setiap hari.
+              Dalam tawa dan hening, kita menyadari cinta ini terasa seperti rumah.`,
               date: "",
-              image: `https://ourforeverjourney.s3.ap-southeast-1.amazonaws.com/${images[1]}`,
+              image: `https://ourforeverjourney.s3.ap-southeast-1.amazonaws.com/${chapter[1]}`,
             },
             {
               title: "The Promise",
-              caption: `Time has carried us here, to the day our souls finally say “yes.” Surrounded by those we love, we promise to keep choosing each other again and again, in every tomorrow.`,
+              caption: `Dan kini, kita berdiri di antara cinta dan restu yang menyelimuti.
+                Dua jiwa, satu janji.
+                Untuk hari ini, esok, dan selamanya.`,
               date: "",
-              image: `https://ourforeverjourney.s3.ap-southeast-1.amazonaws.com/${images[2]}`,
+              image: `https://ourforeverjourney.s3.ap-southeast-1.amazonaws.com/${chapter[2]}`,
             },
           ]}
         />
@@ -302,7 +322,7 @@ function InvitationBody({data} : {data: CoupleInfo}) {
         <h1 className="py-6 text-4xl md:text-5xl font-serif text-black">{"Our Gallery"}</h1>
         <WeddingGalleryCarousel 
           images={images} host={'https://ourforeverjourney.s3.ap-southeast-1.amazonaws.com/'} rounded={false} 
-          masonry={masonry}
+          masonry={galleries}
         />
       </div>
       <div className="px-6 sm:px-12 py-6 sm:py-6">
@@ -332,7 +352,7 @@ function InvitationBody({data} : {data: CoupleInfo}) {
 function CarouselandInfo ({data}: {data: CoupleInfo}) {
   const autoplayOptions = { speed: 1, stopOnInteraction: true } 
   const [emblaRef] = useEmblaCarousel({ duration: 50, loop: true, slidesToScroll: 1 }, [Autoplay(autoplayOptions)])
-  const [ slides, setSlides ] = useState<string[]>(images)
+  const [ slides, setSlides ] = useState<string[]>(cover)
   const formattedDate = moment(data.date).format('DD MMMM YYYY')
   return (
     <div className="relative w-full h-screen">
@@ -368,7 +388,7 @@ function CarouselandInfo ({data}: {data: CoupleInfo}) {
         </div>
     
         {/* Label */}
-        <div className="absolute bottom-28 md:bottom-18 text-white text-center">
+        <div className="absolute bottom-28 md:bottom-18 min-[300px]:bottom-18 min-[380px]:bottom-35 min-[400px]:bottom-40 text-white text-center">
           <p className="uppercase text-sm tracking-widest">The Wedding Of</p>
           <h1 className="text-4xl md:text-4xl font-serif">{data.couple?.groom.name} &</h1>
           <h1 className="text-4xl md:text-4xl font-serif">{data.couple?.bride.name}</h1>
@@ -384,7 +404,7 @@ function InformationAndCountdown ({data}: {data:CoupleInfo}) {
   const autoplayOptions = { speed: 1, stopOnInteraction: true } 
   const [emblaRef] = useEmblaCarousel({ axis:'y', duration: 50, loop: true, slidesToScroll: 1, watchDrag: false, watchFocus: false }, [Autoplay(autoplayOptions)])
 
-  const [ slides, setSlides ] = useState<string[]>(images)
+  const [ slides, setSlides ] = useState<string[]>(quotesImages)
 
   function getDiff() {
     const d = new Date(data.date || '').getTime() - Date.now();

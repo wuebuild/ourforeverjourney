@@ -73,7 +73,7 @@ export default function WeddingGiftCard({
         </p>
 
         {
-          accounts &&
+          (accounts && accounts.length > 0) &&
           <div className="mt-5 flex justify-center">
             <button
               onClick={() => setShowAccounts((v) => !v)}
