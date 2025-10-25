@@ -61,3 +61,7 @@ export interface GiftBankAccount {
     accountNumber: string,
     accountName: string
 }
+
+export interface DefaultResponse {
+    response: boolean
+}

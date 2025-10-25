@@ -43,7 +43,7 @@ export interface Wish {
     user: string,
     reply: string
   };
-  createdAt: Date | string | number;
+  createdDate: Date | string | number;
 }
 
 export interface CoupleInfo {

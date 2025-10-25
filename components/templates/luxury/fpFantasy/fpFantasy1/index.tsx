@@ -339,7 +339,7 @@ function InvitationBody({data} : {data: CoupleInfo}) {
         />
       </div>
       <div className="px-6 sm:px-12 py-6 sm:py-6">
-        <BestWishesCard />
+        <BestWishesCard slug={data.slug}/>
       </div>
       <div style={{ backgroundImage: `url(${bgcream1.src})` }}>
         <WeddingInviteEndingCard heroImages={masonry} couple={data.coupleString} bgImage={`url(${fairytalebg.src})`} />

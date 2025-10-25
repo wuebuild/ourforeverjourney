@@ -1,14 +1,17 @@
 "use client";
-import React, { useMemo, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import { Wish } from "@/types/invitation";
+import { getWishes, postWishes } from "@/services/client/invitation";
 
 export default function BestWishesCard({
+  slug = "",
   initialWishes = [],
   title = "Best Wishes",
   subtitle = "Sampaikan doa dan ucapan terbaik Anda",
   onSubmitWish,
   className = "",
 }: {
+  slug: string,
   initialWishes?: Wish[];
   title?: string;
   subtitle?: string;
@@ -16,7 +19,7 @@ export default function BestWishesCard({
   className?: string;
 }) {
   const [wishes, setWishes] = useState<Wish[]>(
-    [...initialWishes].sort((a, b) => +new Date(b.createdAt) - +new Date(a.createdAt))
+    [...initialWishes].sort((a, b) => +new Date(b.createdDate) - +new Date(a.createdDate))
   );
   const [name, setName] = useState("");
   const [message, setMessage] = useState("");
@@ -29,6 +32,22 @@ export default function BestWishesCard({
     []
   );
 
+  useEffect(() => {
+    loadWishes()
+  }, [])
+
+  // load Wishes
+  const loadWishes = async () => {
+    const wish = await getWishes(slug)
+    console.log('here data wish', wish)
+    if (wish) { setWishes(wish) }
+  }
+
+  const sendWishes = async (body: unknown) => {
+    await postWishes(body)
+    loadWishes()
+  }
+
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
     setError(null);
@@ -38,11 +57,12 @@ export default function BestWishesCard({
     }
     try {
       setBusy(true);
-      const maybe = await onSubmitWish?.({ name: name.trim(), message: message.trim() });
-      const newWish: Wish =
-        (maybe as Wish) ??
-        ({ _id: crypto.randomUUID(), name: name.trim(), message: message.trim(), createdAt: new Date() } as Wish);
-      setWishes((w) => [newWish, ...w]);
+      // const maybe = await onSubmitWish?.({ name: name.trim(), message: message.trim() });
+      // const newWish: Wish =
+      //   (maybe as Wish) ??
+      //   ({ _id: crypto.randomUUID(), name: name.trim(), message: message.trim(), createdAt: new Date() } as Wish);
+      // setWishes((w) => [newWish, ...w]);
+      sendWishes({ name: name.trim(), message: message.trim(), slug })
       setName("");
       setMessage("");
     } catch {
@@ -106,7 +126,7 @@ export default function BestWishesCard({
                       </p>
                       <div className="mt-2 flex items-center gap-3 text-[12px] text-[#667085]">
                         <ClockIcon className="h-4 w-4" />
-                        <span>{timeAgo(w.createdAt)}</span>
+                        <span>{timeAgo(w.createdDate)}</span>
                         <button
                           type="button"
                           className="rounded px-1.5 py-0.5 text-[#0E1524] hover:bg-black/5"

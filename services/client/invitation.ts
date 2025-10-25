@@ -1,6 +1,6 @@
 import { clientFetch } from "../http/client";
-import type { Invitation, InvitationBody } from "@/types/api";
-import type { CoupleInfo } from "@/types/invitation";
+import type { DefaultResponse, Invitation, InvitationBody } from "@/types/api";
+import type { CoupleInfo, Wish } from "@/types/invitation";
 
 export function getMyInvitations() {
   return clientFetch<Invitation[]>("/invitation/mine");
@@ -19,4 +19,13 @@ export function updateInvitation(id: string, body: unknown) {
 }
 export function deleteInvitation(id: string) {
   return clientFetch<Invitation>(`/invitation-guest/delete/${id}`);
+}
+export function getWishes(slug: string) {
+  return clientFetch<Wish[]>(`/invitation-guest/get-wishes/${slug}`);
+}
+export function postWishes(body: unknown) {
+  return clientFetch<Wish>(`/invitation-guest/send-wishes`, {
+    method: "POST",
+    body: JSON.stringify(body),
+  });
 }
