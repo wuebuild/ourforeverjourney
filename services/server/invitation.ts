@@ -11,7 +11,7 @@ export function getInvitation(id: string) {
 export function getInvitationGuest(id: string) {
     return serverFetch<CoupleInfo>(`/invitation-guest/${id}`);
 }
-export function updateInvitation(id: string, body: any) {
+export function updateInvitation(id: string, body: unknown) {
   return serverFetch<InvitationBody>(`/invitation/update-invitation/${id}`, {
     method: "POST",
     body: JSON.stringify(body),

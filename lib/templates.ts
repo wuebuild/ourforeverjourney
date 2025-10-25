@@ -1,8 +1,8 @@
 import type { ComponentType } from "react";
-import { CoupleInfo } from "./couples";
 import FPFantasy1 from "@/components/templates/luxury/fpFantasy/fpFantasy1";
-type TemplateProps = { data: CoupleInfo };
+import { CoupleInfo } from "@/types/invitation";
 
+type TemplateProps = { data: CoupleInfo };
 export const templates = {
     fpfantasy_1: FPFantasy1,
 } as const satisfies Record<string, ComponentType<TemplateProps>>;

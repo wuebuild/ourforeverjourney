@@ -90,7 +90,7 @@ export default function WeddingEventCards({
                 Acara akan dilaksanakan pada:
               </p>
 
-              <DateRow date={ev.date} />
+              <DateRow date={ev.date || ''} />
 
               {ev.time && (
                 <p className="text-center text-[12px] uppercase tracking-wide text-white/70">
