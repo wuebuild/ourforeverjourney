@@ -24,7 +24,7 @@ function FormInner() {
     startTransition(async () => {
       try {
         // await apiPost("/auth/login", { email, password }, { withCredentials: true });
-        let token = await login({
+        const token = await login({
           email,
           password
         })
