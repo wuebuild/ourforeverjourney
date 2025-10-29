@@ -15,7 +15,7 @@ import React, { JSX } from "react";
 
 export default function WeddingInviteEndingCard({
   couple = "",
-  message = `Merupakan suatu kehormatan dan kebahagiaan bagi kami apabila Anda berkenan hadir dan memberikan doa restunya untuk pernikahan kami.\n\nAtas doa & restunya,\nkami ucapkan terima kasih.`,
+  message = `It will be a joy for us if you are still willing to be present on this happy day. Thank you for all the words, prayers and attention given. See you on our special day!`,
   heroImages,
   socials = [
     { label: "Website", href: "https://ourforeverjourney.com", icon: GlobeIcon },

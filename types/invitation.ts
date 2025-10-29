@@ -17,6 +17,7 @@ export interface WeddingData {
   album: string[] | [];
   streamUrl: string | undefined;
   rsvpUrl: string | undefined;
+  hideRSVP: boolean | false;
   mapUrl: string | undefined;
   location: string | undefined;
   isTemplate: boolean | true;
@@ -58,7 +59,11 @@ export interface CoupleInfo {
   hero: string,
   gallery: string[],
   date: string,
+  title: string,
+  secondTitle: String,
   events: Event[],
   gifts: GiftBankAccount[],
-  templateType: string
+  templateType: string,
+  tags: string,
+  hideRSVP: boolean | false;
 };

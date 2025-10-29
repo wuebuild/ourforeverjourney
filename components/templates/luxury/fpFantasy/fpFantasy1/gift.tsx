@@ -14,8 +14,8 @@ export type WeddingGiftCardProps = {
 export default function WeddingGiftCard({
   bgImage = "https://images.unsplash.com/photo-1523661149972-0bedfd3bd8c5?q=80&w=1600&auto=format&fit=crop",
   title = "Wedding Gift",
-  lead = "Doa restu Anda merupakan karunia yang sangat berarti bagi kami. Dan jika memberi adalah ungkapan tanda kasih Anda, Anda dapat memberi kado secara cashless.",
-  ctaText = "KLIK DI SINI",
+  lead = "For beloved ones who may want to show your sincere love by sending a gift, please kindly tap the button below",
+  ctaText = "Click Here",
   accounts,
   className = "",
 }: WeddingGiftCardProps) {

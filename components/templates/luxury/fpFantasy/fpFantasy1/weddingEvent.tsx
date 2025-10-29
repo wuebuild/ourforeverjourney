@@ -82,29 +82,29 @@ export default function WeddingEventCards({
 
             {/* Content */}
             <div className="relative grid gap-4 rounded-[18px] p-4 sm:p-6">
-              <h3 className="text-center font-serif text-[18px] tracking-[0.2em] text-white/90">
+              <h3 className="text-center font-serif text-[24px] tracking-[0.2em] text-white/90">
                 {ev.title}
               </h3>
 
               <p className="mt-1 text-center text-[12px] text-white/70">
-                Acara akan dilaksanakan pada:
+                The ceremony will be held on:
               </p>
 
               <DateRow date={ev.date || ''} />
 
               {ev.time && (
-                <p className="text-center text-[12px] uppercase tracking-wide text-white/70">
-                  PUKUL {ev.time}
+                <p className="text-center font-serif text-[20px] tracking-wide text-white/80">
+                  at {ev.time}
                 </p>
               )}
 
               {/* Venue */}
               <div className="mt-2 flex flex-col items-center gap-2 text-center">
-                <PinIcon className="h-6 w-6 text-white" />
+                {/* <PinIcon className="h-6 w-6 text-white" /> */}
                 <div className="text-[13px] leading-6 text-white/85">
-                  <div>Bertempat di:</div>
-                  <div className="font-medium">{ev.location}</div>
-                  {ev.locationAddress && <div className="text-white/75">{ev.locationAddress}</div>}
+                  <div>📍 Venue:</div>
+                  <div className="font-medium text-[16px]">{ev.location}</div>
+                  {ev.locationAddress && <div className="text-white/90">{ev.locationAddress}</div>}
                 </div>
               </div>
 

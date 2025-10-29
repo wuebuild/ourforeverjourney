@@ -63,14 +63,18 @@ const chapter = [
 ]
 
 const cover = [
-  "uploads/irawan-cindy/1759040506175-SAM_5503.webp",
-  "uploads/irawan-cindy/1759040505912-SAM_4985.webp",
-  "uploads/irawan-cindy/1759040505917-SAM_4924.webp",
-  "uploads/irawan-cindy/1759040506447-SAM_5529.webp",
+  // "uploads/irawan-cindy/1759040506175-SAM_5503.webp",
+  // "uploads/irawan-cindy/1759040505912-SAM_4985.webp",
+  // "uploads/irawan-cindy/1759040505917-SAM_4924.webp",
+  // "uploads/irawan-cindy/1759040506447-SAM_5529.webp",
+  "uploads/irawan-cindy/1759040506432-SAM_5441.webp",
+  "uploads/irawan-cindy/1759040506421-SAM_5424.webp",
+  "uploads/irawan-cindy/1759040505892-SAM_5480.webp",
 ]
 
 const quotesImages = [
-  "uploads/irawan-cindy/568639122_18537775414055426_4437316235932282748_n.webp",
+  "uploads/irawan-cindy/1759040505917-SAM_4924.webp",
+  // "uploads/irawan-cindy/568639122_18537775414055426_4437316235932282748_n.webp",
   // "uploads/irawan-cindy/1759040505901-SAM_5197.webp",
   // "uploads/irawan-cindy/569050899_18537775153055426_6010142526291825036_n.webp",
   // "uploads/irawan-cindy/1759040506195-SAM_5295.webp",
@@ -80,7 +84,9 @@ const galleries = [
   // "uploads/irawan-cindy/1759040505647-SAM_5070.webp",
   "uploads/irawan-cindy/1759040505654-SAM_4768.webp",
   "uploads/irawan-cindy/1759040505651-SAM_5028.webp",
-  "uploads/irawan-cindy/1759040506432-SAM_5441.webp",
+  "uploads/irawan-cindy/1759040506175-SAM_5503.webp",
+  "uploads/irawan-cindy/1759040505912-SAM_4985.webp",
+  "uploads/irawan-cindy/1759040506447-SAM_5529.webp",
   // "uploads/irawan-cindy/1759040506162-SAM_4980.webp",
   // "uploads/irawan-cindy/565560539_18537775375055426_7299414695406161832_n.webp",
   // "uploads/irawan-cindy/566176234_18537775360055426_8047079165145294821_n.webp",
@@ -107,14 +113,16 @@ const galleries = [
   // "uploads/irawan-cindy/1759040506432-SAM_5441.webp",
   // "uploads/irawan-cindy/1759040506447-SAM_5529.webp",
   "uploads/irawan-cindy/1759040506156-SAM_5232.webp",
-  "uploads/irawan-cindy/1759040506421-SAM_5424.webp",
   "uploads/irawan-cindy/1759040506441-SAM_5591.webp",
+  "uploads/irawan-cindy/SAM_4928.webp",
+  "uploads/irawan-cindy/SAM_4942.webp",
+  "uploads/irawan-cindy/SAM_5087.webp",
   // "uploads/irawan-cindy/1759040505901-SAM_5197.webp",
 ]
 
 const masonry = [
   "uploads/irawan-cindy/1759040506162-SAM_4980.webp",
-  "uploads/irawan-cindy/1759040505892-SAM_5480.webp",
+  // "uploads/irawan-cindy/1759040505892-SAM_5480.webp",
   "uploads/irawan-cindy/565560539_18537775375055426_7299414695406161832_n.webp",
 ]
 
@@ -132,7 +140,7 @@ export default function FPFantasy1 ({data} : {data:CoupleInfo}) {
             <div className="absolute inset-0 bg-gradient-to-b from-black/0 to-black/80"></div>
             <div className="absolute inset-0 bg-gradient-to-b from-white/50 to-white/0"></div>
             <div className="absolute bottom-20 left-20 text-white">
-              <p className="uppercase text-sm tracking-widest">The Wedding Of</p>
+              <p className="uppercase text-sm tracking-widest">{data.secondTitle}</p>
               <h1 className="text-4xl md:text-5xl font-serif">{data.coupleString}</h1>
               <p className="mt-2 text-lg">{formattedDate}</p>
             </div>
@@ -148,7 +156,9 @@ export default function FPFantasy1 ({data} : {data:CoupleInfo}) {
                     transition={{ duration: 0.5}}
                 >
                     <InvitationCover 
-                        cover={''} date={data.date || ''} 
+                        cover={''} 
+                        title={data.title}
+                        date={data.date || ''} 
                         coupleString={data.coupleString || ''}
                         setOpenInvitation={setOpenInvitation}/>
                 </motion.div>
@@ -171,7 +181,7 @@ export default function FPFantasy1 ({data} : {data:CoupleInfo}) {
     )
 }
 
-function InvitationCover ({setOpenInvitation, cover, date, coupleString} : {setOpenInvitation: Dispatch<SetStateAction<boolean>>, cover: string, date: string, coupleString: string}) {
+function InvitationCover ({setOpenInvitation, cover, title, date, coupleString} : {setOpenInvitation: Dispatch<SetStateAction<boolean>>, cover: string, title: string, date: string, coupleString: string}) {
   const weddingDate = new Date(date); // 🎯 change to actual date
   const [timeLeft, setTimeLeft] = useState<{d:number,h:number,m:number,s:number}>({
     d: 0, h: 0, m: 0, s: 0,
@@ -213,7 +223,7 @@ function InvitationCover ({setOpenInvitation, cover, date, coupleString} : {setO
             height={100}
             className="mx-auto w-28 md:w-60 mb-6" />
           <p className="uppercase text-sm tracking-widest text-white md:text-white-800">
-            Wedding Invitation
+            {title}
           </p>
           <h2 className="text-3xl md:text-4xl font-serif text-white md:text-white-800 mt-2">
             {coupleString}
@@ -234,7 +244,7 @@ function InvitationCover ({setOpenInvitation, cover, date, coupleString} : {setO
           >
             <span className="inline-flex items-center gap-2">
               <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" fill="currentColor" viewBox="0 0 24 24"><path d="M12 0C8.7 0 6 2.7 6 6c0 4.2 6 12 6 12s6-7.8 6-12c0-3.3-2.7-6-6-6zM12 8.2c-1.2 0-2.2-1-2.2-2.2S10.8 3.8 12 3.8s2.2 1 2.2 2.2S13.2 8.2 12 8.2z"/></svg>
-              Buka Undangan
+              Open Invitation
             </span>
           </motion.a>
         </div>
@@ -282,7 +292,7 @@ function InvitationBody({data} : {data: CoupleInfo}) {
       <div style={{ backgroundImage: `url(${bgcream2.src})` }}>
         <InformationAndCountdown data={data}/>
       </div>
-      <div className="px-6 sm:px-12 py-6 sm:py-6">
+      <div className="px-6 sm:px-12 py-6 sm:py-6 pb-0">
         <WeddingEventCards events={data.events}/>
       </div>
       <div>
@@ -294,24 +304,25 @@ function InvitationBody({data} : {data: CoupleInfo}) {
           steps={[
             {
               title: "First Hello",
-              caption: `Semua dimulai dengan sederhana satu tatapan, satu senyum, satu rasa yang terasa begitu akrab.  
-                Dalam sekejap, dunia seolah berhenti.  
-                Sapaan pertama itu awal dari perjalanan ini.`,
+              caption: `It all began with something simple a glance, a smile, a feeling that felt so familiar.
+                In that fleeting moment, the world seemed to pause.
+                That very first hello became the beginning of our journey.`,
               date: "",
               image: `https://ourforeverjourney.s3.ap-southeast-1.amazonaws.com/${chapter[0]}`,
             },
             {
               title: "When Forever Feels Right",
-              caption: `Tak ada momen megah, hanya rasa yang tumbuh setiap hari.
-              Dalam tawa dan hening, kita menyadari cinta ini terasa seperti rumah.`,
+              caption: `There wasn’t a grand moment,
+                just a love that kept growing stronger every day.
+                In every laugh and quiet moment,
+                we realized home is wherever our love resides.`,
               date: "",
               image: `https://ourforeverjourney.s3.ap-southeast-1.amazonaws.com/${chapter[1]}`,
             },
             {
               title: "The Promise",
-              caption: `Dan kini, kita berdiri di antara cinta dan restu yang menyelimuti.
-                Dua jiwa, satu janji.
-                Untuk hari ini, esok, dan selamanya.`,
+              caption: `And now, we stand surrounded by love and blessings two souls, one promise.
+                For today, tomorrow, and forever.`,
               date: "",
               image: `https://ourforeverjourney.s3.ap-southeast-1.amazonaws.com/${chapter[2]}`,
             },
@@ -329,15 +340,20 @@ function InvitationBody({data} : {data: CoupleInfo}) {
         <WeddingGiftCard
           accounts={data.gifts}
         />
-        <div className="p-4"/>
-        <RSVPCard
-          slug={data.slug}
-          guestName={invited}
-          onSubmit={async (data) => {
-            // TODO: send to your endpoint
-            console.log("RSVP received:", data);
-          }}
-        />
+        {
+          !data.hideRSVP &&
+          <>
+            <div className="p-4"/>
+            <RSVPCard
+              slug={data.slug}
+              guestName={invited}
+              onSubmit={async (data) => {
+                // TODO: send to your endpoint
+                console.log("RSVP received:", data);
+              }}
+            />
+          </>
+        }
       </div>
       <div className="px-6 sm:px-12 py-6 sm:py-6">
         <BestWishesCard slug={data.slug}/>
@@ -368,7 +384,7 @@ function CarouselandInfo ({data}: {data: CoupleInfo}) {
       {/* Overlay content */}
       <div className="absolute mt-[-120px] md:mt-[-120px] inset-0 flex flex-col items-center justify-center text-white space-y-8">
         {/* Carousel */}
-        <div className="embla overflow-hidden w-[70%] md:w-[300px] max-w-[90%] h-[380px] md:h-[400px] 
+        <div className="embla overflow-hidden w-[60%] [@media(min-height:800px)]:w-[300px] max-w-[90%] h-[40%] [@media(min-height:800px)]:h-[380px] [@media(min-height:950px)]:h-[400px] 
           rounded-t-[150px] md:rounded-t-[150px]
           border-[5px] border-[#F8F8F6]" ref={emblaRef}>
           <div className="embla__container flex">
@@ -389,11 +405,13 @@ function CarouselandInfo ({data}: {data: CoupleInfo}) {
         </div>
     
         {/* Label */}
-        <div className="absolute bottom-28 md:bottom-18 min-[300px]:bottom-18 min-[380px]:bottom-35 min-[400px]:bottom-40 text-white text-center">
-          <p className="uppercase text-sm tracking-widest">The Wedding Of</p>
-          <h1 className="text-4xl md:text-4xl font-serif">{data.couple?.groom.name} &</h1>
-          <h1 className="text-4xl md:text-4xl font-serif">{data.couple?.bride.name}</h1>
-          <p className="mt-2 text-md">{formattedDate}</p>
+        <div className="absolute top-1/2 [@media(min-height:300px)]:mt-[120px] [@media(min-height:600px)]:mt-[150px] [@media(min-height:700px)]:mt-[160px] [@media(min-height:800px)]:mt-[180px] [@media(min-height:950px)]:mt-[200px] [@media(min-height:1000px)]:mt-[220px] text-white text-center">
+          <p className="uppercase text-sm tracking-widest">{data.secondTitle}</p>
+          <h1 className="text-2xl [@media(min-height:800px)]:text-4xl font-serif">{data.couple?.groom.name}</h1>
+          <h1 className="text-1xl [@media(min-height:800px)]:text-2xl font-serif">{'&'}</h1>
+          <h1 className="text-2xl [@media(min-height:800px)]:text-4xl font-serif">{data.couple?.bride.name}</h1>
+          <p className="mt-1 text-md">{formattedDate}</p>
+          <h1 className="text-sm md:text-sm font-serif">{data.tags}</h1>
         </div>
       </div>
     </div>
@@ -435,7 +453,7 @@ function InformationAndCountdown ({data}: {data:CoupleInfo}) {
             /> */}
             {/* Carousel */}
             <div className="embla h-[400px] overflow-hidden" ref={emblaRef}>
-                <div className="embla__container flex flex-col h-[400px]">
+                <div className="embla__container flex flex-col h-[500px]">
                   {slides.map((slide, index) => (
                     <div
                       className="embla__slide relative flex-[0_0_100%] h-full w-full"
@@ -454,16 +472,16 @@ function InformationAndCountdown ({data}: {data:CoupleInfo}) {
           </div>
           <div className="p-8">
             <div className="text-white">
-            “Hidup bersama-sama di kehidupan lalu dan karena kebajikan dalam kehidupan kali ini.
+              "Bound together through past lives, and united once more by virtue in this lifetime.
             </div>
             <div className="mt-4 text-white">
-              Cinta lahir bagaikan teratai di atas air. Dengan hidup bersama, dengan pandangan, dengan senyuman, cinta lahir di antara pria dan wanita. 
+              Love blossoms like a lotus upon the water through shared moments, gentle glances, and tender smiles, love arises between a man and a woman.
             </div>
             <div className="mt-4 text-white">
-              Ketika cinta masuk ke dalam pikiran, maka hati menjadi gembira.”
+              When love enters the mind, the heart is filled with joy.”
             </div>
             <div className="mt-8 text-white">
-              (Sang Buddha, Mahavastu Avadana)
+              (The Buddha, Mahavastu Avadana)
             </div>
           </div>
         </div>
@@ -520,7 +538,7 @@ function GroomAndBride({ data }: { data: Couple }) {
 
           {/* Intro (optional – edit or remove) */}
           <div className="font-body relative z-10 mx-auto mt-5 max-w-[60ch] text-center text-white/90 text-base leading-relaxed">
-            Atas berkat dan kasih karunia dari Tuhan kita. Di dalam sukacita kami mengundang Bapak/Ibu/Saudara/i kiranya berkenan meringankan langkah untuk menghadiri acara pernikahan kami.
+            By the love and grace of God, we cordially request the honour of your presence at the marriage of our beloved son and daughter
           </div>
 
           {/* People */}
@@ -559,10 +577,10 @@ function GroomAndBride({ data }: { data: Couple }) {
                 Irawan Gohan, S.E.
               </p>
               <p className="mt-2 text-sm text-white/85">
-                  Putra dari bapak &
+                  The Son of Mr. Sukrisno Gohan & 
               </p>
               <p className="text-sm text-white/85">
-                  Ibu 
+                  Mrs. Lisa (†)
               </p>
 
               {(data.groom.title || data.groom.parent) && (
@@ -620,10 +638,10 @@ function GroomAndBride({ data }: { data: Couple }) {
                 Cindy, S.E.
               </p>
               <p className="mt-2 text-sm text-white/85">
-                  Putra dari bapak &
+                  The Daughter of Mr. Tjoa Sui Thin &
               </p>
               <p className="text-sm text-white/85">
-                  Ibu 
+                  Mrs. Sarini Salim
               </p>
             </motion.div>
 

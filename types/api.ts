@@ -7,6 +7,7 @@ export interface Invitation {
     guests: CreatedGuest[],
     event: Event[],
     rsvp: RSVP[],
+    hideRSVP: boolean,
     location: string,
     eventType: string,
     createdDate: Date

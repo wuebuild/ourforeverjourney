@@ -4,6 +4,7 @@ import { WIInput } from "@/components/ui/molecules/WIInput";
 import { useParams } from "next/navigation";
 import { deleteInvitation, getInvitation, updateInvitation } from "@/services/client/invitation";
 import { CreatedGuest, Event, EventType, Gift, Guest, RSVP } from "@/types/api";
+import { WISwitch } from "@/components/ui/atoms/WISwitch";
 
 type RouteParams = { invitationid: string };
 
@@ -83,6 +84,7 @@ export default function InvitationInformationPage() {
   const setEventField = (_id: string, key: keyof Event, value: string) => {
     setEvents((prev) => prev.map((e) => (e._id === _id ? { ...e, [key]: value } : e)));
   };
+  const [hideRSVP, setHideRSVP] = useState<boolean>(false);
   const [gifts, setGifts] = useState<Gift[]>([]);
   // { bankName: "", accountName: "", accountNumber: "" }
   const [guestCount, setGuestCount] = useState<number>(1);
@@ -153,14 +155,26 @@ export default function InvitationInformationPage() {
   const loadInvitation = async () => {
     const data = await getInvitation(invitationid)
     console.log("here data", data)
+    setHideRSVP(data.hideRSVP)
     setEvents(data.event)
     setCreatedGuests([...data.guests])
     setRSVP([...data.rsvp])
   }
 
-  const copyToClipboard = async (text: string) => {
+  const copyToClipboard = async (text: string, guestName: string) => {
     try {
-      await navigator.clipboard.writeText(text);
+      // text
+      let template = `Dear ${guestName},`
+      template += `\n\nWe are so happy to invite you to share the joy and happiness of our engagement day.`
+      template += `\n\nThe engagement of Irawan Gohan & Cindy`
+      template += `\nDate: Monday, 10 November 2025`
+      template += `\nTime: 12:00 PM - 13.30 PM`
+      template += `\nPlace: Hai Kou Restaurant Wajir`
+      template += `\nJl. Kol. Sugiono No. 14D`
+      template += `\n\nWe'd love for you to be part of our big day!`
+      template += `\nCheck out our engagement invitatiob here & We kindly request your response to confirm your attendance.`
+      template += `\n${text}`
+      await navigator.clipboard.writeText(template);
       showToast("Link copied");
     } catch {
       prompt("Copy the link:", text);
@@ -193,6 +207,7 @@ export default function InvitationInformationPage() {
           dateTime: ev.dateTime,
           maps: ev.mapUrl,
         })),
+        hideRSVP,
         // Legacy fields (can remove once API updated)
         eventType: first.eventType ?? eventType,
         location: first.location ?? location.trim(),
@@ -388,7 +403,14 @@ export default function InvitationInformationPage() {
           </div>
         </section>
 
-        
+        {/* Hide RSVP */}
+        <section className="bg-white rounded-2xl shadow-sm ring-1 ring-gray-200 p-6">
+          <WISwitch
+            checked={hideRSVP}
+            onChange={setHideRSVP}
+            label="Hide guest RSVP"
+          />
+        </section>
 
         {/* Section: Wedding Gifts */}
         <section className="bg-white rounded-2xl shadow-sm ring-1 ring-gray-200 p-6">
@@ -527,7 +549,7 @@ export default function InvitationInformationPage() {
                     </a>
                     <button
                       type="button"
-                      onClick={() => copyToClipboard(g.inviteUrl)}
+                      onClick={() => copyToClipboard(g.inviteUrl, g.name)}
                       className="inline-flex items-center gap-2 rounded-xl border border-gray-300 bg-white px-3 py-2 text-sm hover:bg-gray-50"
                     >
                       <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="opacity-70"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
@@ -548,7 +570,7 @@ export default function InvitationInformationPage() {
         )}
 
         {
-          rsvp && (
+          (rsvp && !hideRSVP) && (
           <section className="bg-white rounded-2xl shadow-sm ring-1 ring-gray-200 p-6">
             <h2 className="text-lg font-medium mb-4">Reservation</h2>
             <p className="text-sm text-gray-600 mb-4">Invitation ID: <span className="font-mono text-gray-800">{createdId}</span></p>

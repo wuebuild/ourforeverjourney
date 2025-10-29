@@ -7,7 +7,7 @@ export default function BestWishesCard({
   slug = "",
   initialWishes = [],
   title = "Best Wishes",
-  subtitle = "Sampaikan doa dan ucapan terbaik Anda",
+  subtitle = "Send your prayers and best wishes.",
   onSubmitWish,
   className = "",
 }: {
