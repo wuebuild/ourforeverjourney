@@ -57,6 +57,8 @@ body {
 }
 .embla__container {
   display: flex;
+  backface-visibility: hidden;
+  will-change: transform;
 }
 .embla__slide {
   position: relative;

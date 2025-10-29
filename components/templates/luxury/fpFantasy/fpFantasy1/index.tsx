@@ -46,27 +46,41 @@ const colorHex = {
 }
 
 const images = [
-  "uploads/irawan-cindy/1759040505878-SAM_4827.webp",
   "uploads/irawan-cindy/1759040505657-SAM_5187.webp",
   "uploads/irawan-cindy/1759040506146-SAM_5139.webp",
   "uploads/irawan-cindy/1759040505901-SAM_5197.webp",
-  "uploads/irawan-cindy/569050899_18537775153055426_6010142526291825036_n.webp",
   "uploads/irawan-cindy/1759040506195-SAM_5295.webp",
-  // "uploads/irawan-cindy/565560539_18537775375055426_7299414695406161832_n.webp",
+  "uploads/irawan-cindy/569050899_18537775153055426_6010142526291825036_n.webp",
+  "uploads/irawan-cindy/565560539_18537775375055426_7299414695406161832_n.webp",
+  "uploads/irawan-cindy/1759040506170-SAM_5322.webp",
+  "uploads/irawan-cindy/1759040506156-SAM_5232.webp",
+  "uploads/irawan-cindy/1759040505925-SAM_4927.webp",
+  "uploads/irawan-cindy/1759040505912-SAM_4985.webp",
+  "uploads/irawan-cindy/1759040505917-SAM_4924.webp",
+  "uploads/irawan-cindy/1759040506162-SAM_4980.webp",
+  "uploads/irawan-cindy/SAM_4928.webp",
+  "uploads/irawan-cindy/SAM_4942.webp",
+  "uploads/irawan-cindy/1759040505878-SAM_4827.webp",
+  "uploads/irawan-cindy/1759040505654-SAM_4768.webp",
+  "uploads/irawan-cindy/1759040506432-SAM_5441.webp",
+  "uploads/irawan-cindy/1759040506421-SAM_5424.webp",
+  "uploads/irawan-cindy/1759040505892-SAM_5480.webp",
+  "uploads/irawan-cindy/1759040505651-SAM_5028.webp",
+  "uploads/irawan-cindy/1759040505647-SAM_5070.webp",
+  "uploads/irawan-cindy/SAM_5087.webp",
+  "uploads/irawan-cindy/1759040506447-SAM_5529.webp",
+  "uploads/irawan-cindy/1759040506175-SAM_5503.webp",
+  "uploads/irawan-cindy/1759040506441-SAM_5591.webp",
+  "uploads/irawan-cindy/568639122_18537775414055426_4437316235932282748_n.webp",
 ]
 
 const chapter = [
-  // black dress
   "uploads/irawan-cindy/1759040505647-SAM_5070.webp",
   "uploads/irawan-cindy/1759040506170-SAM_5322.webp",
   "uploads/irawan-cindy/1759040505925-SAM_4927.webp",
 ]
 
 const cover = [
-  // "uploads/irawan-cindy/1759040506175-SAM_5503.webp",
-  // "uploads/irawan-cindy/1759040505912-SAM_4985.webp",
-  // "uploads/irawan-cindy/1759040505917-SAM_4924.webp",
-  // "uploads/irawan-cindy/1759040506447-SAM_5529.webp",
   "uploads/irawan-cindy/1759040506432-SAM_5441.webp",
   "uploads/irawan-cindy/1759040506421-SAM_5424.webp",
   "uploads/irawan-cindy/1759040505892-SAM_5480.webp",
@@ -74,56 +88,49 @@ const cover = [
 
 const quotesImages = [
   "uploads/irawan-cindy/1759040505917-SAM_4924.webp",
-  // "uploads/irawan-cindy/568639122_18537775414055426_4437316235932282748_n.webp",
-  // "uploads/irawan-cindy/1759040505901-SAM_5197.webp",
-  // "uploads/irawan-cindy/569050899_18537775153055426_6010142526291825036_n.webp",
-  // "uploads/irawan-cindy/1759040506195-SAM_5295.webp",
 ]
 
 const galleries = [
-  // "uploads/irawan-cindy/1759040505647-SAM_5070.webp",
-  "uploads/irawan-cindy/1759040505654-SAM_4768.webp",
+  // "uploads/irawan-cindy/1759040505657-SAM_5187.webp",
+  // "uploads/irawan-cindy/1759040506146-SAM_5139.webp",
+  "uploads/irawan-cindy/1759040505901-SAM_5197.webp",
+  "uploads/irawan-cindy/SAM_4928.webp",
+  // "uploads/irawan-cindy/1759040506195-SAM_5295.webp",
+  // "uploads/irawan-cindy/1759040506170-SAM_5322.webp",
+  "uploads/irawan-cindy/565560539_18537775375055426_7299414695406161832_n.webp",
+  "uploads/irawan-cindy/569050899_18537775153055426_6010142526291825036_n.webp",
+  // "uploads/irawan-cindy/1759040506156-SAM_5232.webp",
+  // "uploads/irawan-cindy/1759040505925-SAM_4927.webp",
+  // "uploads/irawan-cindy/1759040505912-SAM_4985.webp",
+  // "uploads/irawan-cindy/1759040505917-SAM_4924.webp",
+  "uploads/irawan-cindy/1759040506162-SAM_4980.webp",
+  "uploads/irawan-cindy/SAM_4942.webp",
+  "uploads/irawan-cindy/1759040505878-SAM_4827.webp",
+  // "uploads/irawan-cindy/1759040505654-SAM_4768.webp",
+  // "uploads/irawan-cindy/1759040506432-SAM_5441.webp",
+  // "uploads/irawan-cindy/1759040506421-SAM_5424.webp",
+  "uploads/irawan-cindy/1759040505892-SAM_5480.webp",
   "uploads/irawan-cindy/1759040505651-SAM_5028.webp",
-  "uploads/irawan-cindy/1759040506175-SAM_5503.webp",
-  "uploads/irawan-cindy/1759040505912-SAM_4985.webp",
+  // "uploads/irawan-cindy/1759040505647-SAM_5070.webp",
+  "uploads/irawan-cindy/SAM_5087.webp",
   "uploads/irawan-cindy/1759040506447-SAM_5529.webp",
-  // "uploads/irawan-cindy/1759040506162-SAM_4980.webp",
-  // "uploads/irawan-cindy/565560539_18537775375055426_7299414695406161832_n.webp",
+  // "uploads/irawan-cindy/1759040506175-SAM_5503.webp",
+  "uploads/irawan-cindy/1759040506441-SAM_5591.webp",
+  // "uploads/irawan-cindy/568639122_18537775414055426_4437316235932282748_n.webp",
   // "uploads/irawan-cindy/566176234_18537775360055426_8047079165145294821_n.webp",
   // "uploads/irawan-cindy/567632355_18537775174055426_3916455664815506615_n.webp",
   // "uploads/irawan-cindy/567704089_18537775423055426_6542266019012211843_n.webp",
   // "uploads/irawan-cindy/568098456_18537775402055426_5854995356824183491_n.webp",
   // "uploads/irawan-cindy/568254366_18537775432055426_4165810283871033002_n.webp",
   // "uploads/irawan-cindy/568559583_18537775393055426_4288120486608324863_n.webp",
-  // "uploads/irawan-cindy/568639122_18537775414055426_4437316235932282748_n.webp",
   // "uploads/irawan-cindy/568678684_18537775384055426_4480191052523691071_n.webp",
-  // "uploads/irawan-cindy/569050899_18537775153055426_6010142526291825036_n.webp",
-  // "uploads/irawan-cindy/1759040505654-SAM_4768.webp",
-  // "uploads/irawan-cindy/1759040505657-SAM_5187.webp",
-  // "uploads/irawan-cindy/1759040505901-SAM_5197.webp",
-  // "uploads/irawan-cindy/1759040505912-SAM_4985.webp",
-  // "uploads/irawan-cindy/1759040505917-SAM_4924.webp",
-  // "uploads/irawan-cindy/1759040505925-SAM_4927.webp",
-  // "uploads/irawan-cindy/1759040506146-SAM_5139.webp",
-  // "uploads/irawan-cindy/1759040506162-SAM_4980.webp",
-  // "uploads/irawan-cindy/1759040506175-SAM_5503.webp",
-  // "uploads/irawan-cindy/1759040506170-SAM_5322.webp",
-  // "uploads/irawan-cindy/1759040506195-SAM_5295.webp",
-  // "uploads/irawan-cindy/1759040505878-SAM_4827.webp",
-  // "uploads/irawan-cindy/1759040506432-SAM_5441.webp",
-  // "uploads/irawan-cindy/1759040506447-SAM_5529.webp",
-  "uploads/irawan-cindy/1759040506156-SAM_5232.webp",
-  "uploads/irawan-cindy/1759040506441-SAM_5591.webp",
-  "uploads/irawan-cindy/SAM_4928.webp",
-  "uploads/irawan-cindy/SAM_4942.webp",
-  "uploads/irawan-cindy/SAM_5087.webp",
-  // "uploads/irawan-cindy/1759040505901-SAM_5197.webp",
 ]
 
 const masonry = [
-  "uploads/irawan-cindy/1759040506162-SAM_4980.webp",
-  // "uploads/irawan-cindy/1759040505892-SAM_5480.webp",
+  "uploads/irawan-cindy/569050899_18537775153055426_6010142526291825036_n.webp",
+  "uploads/irawan-cindy/1759040506195-SAM_5295.webp",
   "uploads/irawan-cindy/565560539_18537775375055426_7299414695406161832_n.webp",
+  "uploads/irawan-cindy/1759040506170-SAM_5322.webp",
 ]
 
 export default function FPFantasy1 ({data} : {data:CoupleInfo}) {
@@ -776,7 +783,7 @@ function MusicPlayerFAB() {
     <>
       {/* The hidden audio element */}
       <audio ref={audioRef} loop>
-        <source src="/songs/kinagrannis_canthelpfallinginlove.mp3" type="audio/mpeg" />
+        <source src="/songs/song_you_are_my_only_wish.mp3" type="audio/mpeg" />
         Your browser does not support the audio element.
       </audio>
 

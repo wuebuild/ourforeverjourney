@@ -2,6 +2,7 @@ import React, { useCallback, useEffect, useMemo, useRef, useState } from "react"
 import useEmblaCarousel from "embla-carousel-react";
 import Autoplay from "embla-carousel-autoplay";
 import type { EmblaCarouselType } from "embla-carousel";
+import Image from "next/image";
 
 /** Small helper that makes <img> cheap to render/paint */
 function SmartImg({
@@ -19,6 +20,7 @@ function SmartImg({
   eager?: boolean;
   style?: React.CSSProperties;
 }) {
+   const isSafari = typeof navigator !== "undefined" && /Safari/i.test(navigator.userAgent) && !/Chrome/i.test(navigator.userAgent);
   return (
     <img
       src={`//wsrv.nl/?url=${src}&w=1000`}
@@ -29,10 +31,8 @@ function SmartImg({
       className={className}
       // content-visibility avoids layout/paint until scrolled into view
       style={{
-        contentVisibility: "auto",
-        // A rough intrinsic size so the browser can reserve space without layout jank.
-        // Tweak to your typical portrait ratio; these values are CSS pixels.
-        containIntrinsicSize: "600px 800px",
+        ...(isSafari ? { willChange: "transform", backfaceVisibility: "hidden" }
+        : { contentVisibility: "auto", containIntrinsicSize: "600px 800px" }),
         ...style,
       }}
     />
@@ -55,7 +55,10 @@ export default function WeddingGalleryCarousel({
   masonry: string[];
 }) {
   const [selectedIndex, setSelectedIndex] = useState(0);
-  const [isLightboxOpen, setIsLightboxOpen] = useState(false);
+  const [isLightboxOpen, setIsLightboxOpen] = useState({
+    isOpen: false,
+    images: images
+  });
 
   const mainAutoplay = useRef(
     Autoplay({ delay: 4000, playOnInit: true, stopOnInteraction: false })
@@ -122,8 +125,14 @@ export default function WeddingGalleryCarousel({
       if (!emblaApi) return;
       if (e.key === "ArrowLeft") emblaApi.scrollPrev();
       if (e.key === "ArrowRight") emblaApi.scrollNext();
-      if (e.key.toLowerCase() === "f") setIsLightboxOpen(true);
-      if (e.key === "Escape") setIsLightboxOpen(false);
+      // if (e.key.toLowerCase() === "f") setIsLightboxOpen({
+      //   isOpen: true,
+      //   images: images
+      // });
+      if (e.key === "Escape") setIsLightboxOpen({
+        isOpen: false,
+        images: images
+      });
     };
     window.addEventListener("keydown", handler);
     return () => window.removeEventListener("keydown", handler);
@@ -165,7 +174,10 @@ export default function WeddingGalleryCarousel({
                   {visibleSet.has(i) ? (
                     <button
                       className="group block w-full focus:outline-none"
-                      onClick={() => setIsLightboxOpen(true)}
+                      onClick={() => setIsLightboxOpen({
+                        isOpen: true,
+                        images: images
+                      })}
                       aria-label="Open image in fullscreen"
                     >
                       <div className="aspect-[3/4] sm:aspect-[10/12] w-full overflow-hidden">
@@ -175,6 +187,7 @@ export default function WeddingGalleryCarousel({
                           eager={i === 0} // only the first one eager-loads
                           sizes="(max-width: 640px) 100vw, 768px"
                           className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-[1.02]"
+                          style={{ contentVisibility: "visible", containIntrinsicSize: undefined }}
                         />
                       </div>
                     </button>
@@ -213,6 +226,7 @@ export default function WeddingGalleryCarousel({
                   alt={`Thumb ${i + 1}`}
                   sizes="64px"
                   className="h-full w-full object-cover"
+                  style={{ contentVisibility: "visible", containIntrinsicSize: undefined }}
                 />
                 {selectedIndex === i && (
                   <span className="pointer-events-none absolute inset-0 rounded-xl ring-2 ring-inset ring-rose-400/60" />
@@ -232,7 +246,10 @@ export default function WeddingGalleryCarousel({
                 <button
                   onClick={() => {
                     setSelectedIndex(i);
-                    setIsLightboxOpen(true);
+                    setIsLightboxOpen({
+                      isOpen: true,
+                      images: masonry
+                    });
                   }}
                   className="group relative block w-full overflow-hidden rounded-2xl ring-1 ring-black/5"
                 >
@@ -241,6 +258,7 @@ export default function WeddingGalleryCarousel({
                     alt={`Masonry ${i + 1}`}
                     sizes="(max-width: 640px) 50vw, 600px"
                     className="w-full h-full object-cover"
+                    style={{ contentVisibility: "visible", containIntrinsicSize: undefined }}
                   />
                   <span className="absolute inset-0 bg-black/30 opacity-0 transition-opacity duration-200 group-hover:opacity-100" />
                 </button>
@@ -251,11 +269,14 @@ export default function WeddingGalleryCarousel({
       )}
 
       {/* LIGHTBOX */}
-      {isLightboxOpen && (
+      {isLightboxOpen.isOpen && (
         <Lightbox
-          images={images}
+          images={isLightboxOpen.images}
           startIndex={selectedIndex}
-          onClose={() => setIsLightboxOpen(false)}
+          onClose={() => setIsLightboxOpen({
+            isOpen: false,
+            images: images
+          })}
           host={host}
         />
       )}
@@ -263,12 +284,11 @@ export default function WeddingGalleryCarousel({
   );
 }
 
-/* ------------------------- Lightbox Component ------------------------- */
-function Lightbox({
+export function Lightbox({
   images,
   startIndex = 0,
+  host = "",
   onClose,
-  host,
 }: {
   images: string[];
   startIndex?: number;
@@ -276,17 +296,32 @@ function Lightbox({
   onClose: () => void;
 }) {
   const [index, setIndex] = useState(startIndex);
+  const [zoom, setZoom] = useState(false);
   const backdropRef = useRef<HTMLDivElement>(null);
 
   const goPrev = () => setIndex((p) => (p - 1 + images.length) % images.length);
   const goNext = () => setIndex((p) => (p + 1) % images.length);
 
+  // 🔒 prevent background scroll
   useEffect(() => {
-    const esc = (e: KeyboardEvent) => e.key === "Escape" && onClose();
-    window.addEventListener("keydown", esc);
-    return () => window.removeEventListener("keydown", esc);
+    document.body.style.overflow = "hidden";
+    return () => {
+      document.body.style.overflow = "";
+    };
+  }, []);
+
+  // ⌨️ keyboard shortcuts
+  useEffect(() => {
+    const handler = (e: KeyboardEvent) => {
+      if (e.key === "Escape") onClose();
+      if (e.key === "ArrowLeft") goPrev();
+      if (e.key === "ArrowRight") goNext();
+    };
+    window.addEventListener("keydown", handler);
+    return () => window.removeEventListener("keydown", handler);
   }, [onClose]);
 
+  // 💡 close when clicking shadow
   const onShadowClick: React.MouseEventHandler<HTMLDivElement> = (e) => {
     if (e.target === backdropRef.current) onClose();
   };
@@ -295,10 +330,11 @@ function Lightbox({
     <div
       ref={backdropRef}
       onClick={onShadowClick}
-      className="fixed inset-0 z-[60] flex items-center justify-center bg-black/90 p-4"
+      className="fixed inset-0 z-[60] flex items-center justify-center bg-black/95 p-2 sm:p-6 transition-opacity duration-300"
       aria-modal
       role="dialog"
     >
+      {/* ✕ Close button */}
       <button
         onClick={onClose}
         className="absolute right-4 top-4 rounded-full bg-white/10 px-3 py-1.5 text-white backdrop-blur hover:bg-white/20"
@@ -306,34 +342,41 @@ function Lightbox({
         Close ✕
       </button>
 
-      <div className="relative w-full max-w-6xl">
-        <div className="flex items-center justify-between">
-          <button
-            onClick={goPrev}
-            className="rounded-full bg-white/10 px-3 py-2 text-white backdrop-blur transition hover:bg-white/20"
-          >
-            ◀
-          </button>
-          <div className="mx-3 w-full overflow-hidden rounded-2xl ring-1 ring-white/10">
-            <SmartImg
-              src={`${host}${images[index]}`}
-              alt={`Fullscreen ${index + 1}`}
-              eager
-              className="h-full w-full object-contain"
-              // Lightbox image doesn’t need content-visibility (always visible)
-              style={{ contentVisibility: "visible", containIntrinsicSize: undefined }}
-            />
-          </div>
-          <button
-            onClick={goNext}
-            className="rounded-full bg-white/10 px-3 py-2 text-white backdrop-blur transition hover:bg-white/20"
-          >
-            ▶
-          </button>
+      {/* ◀ ▶ Navigation */}
+      <button
+        onClick={(e) => {
+          e.stopPropagation();
+          goPrev();
+        }}
+        className="z-10 absolute left-2 sm:left-6 top-1/2 -translate-y-1/2 rounded-full bg-white/10 px-3 py-2 text-white hover:bg-white/20"
+      >
+        ◀
+      </button>
+      <button
+        onClick={(e) => {
+          e.stopPropagation();
+          goNext();
+        }}
+        className="z-10 absolute right-2 sm:right-6 top-1/2 -translate-y-1/2 rounded-full bg-white/10 px-3 py-2 text-white hover:bg-white/20"
+      >
+        ▶
+      </button>
+
+      {/* 🖼️ Image Viewer */}
+      <div className="relative w-full h-[80vh] flex items-center justify-center">
+        <div className="relative w-[80%] h-[80%]">
+          <Image
+            alt={`Fullscreen ${index + 1}`}
+            src={`${host}${images[index]}`}
+            fill
+            className="object-contain"
+          />
         </div>
-        <div className="mt-3 text-center text-sm text-white/70">
-          {index + 1} / {images.length}
-        </div>
+      </div>
+
+      {/* 🧭 Counter */}
+      <div className="absolute bottom-6 text-center text-sm text-white/80">
+        {index + 1} / {images.length}
       </div>
     </div>
   );
