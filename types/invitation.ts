@@ -60,7 +60,7 @@ export interface CoupleInfo {
   gallery: string[],
   date: string,
   title: string,
-  secondTitle: String,
+  secondTitle: string,
   events: Event[],
   gifts: GiftBankAccount[],
   templateType: string,

@@ -472,7 +472,7 @@ function InformationAndCountdown ({data}: {data:CoupleInfo}) {
           </div>
           <div className="p-8">
             <div className="text-white">
-              "Bound together through past lives, and united once more by virtue in this lifetime.
+              “Bound together through past lives, and united once more by virtue in this lifetime.
             </div>
             <div className="mt-4 text-white">
               Love blossoms like a lotus upon the water through shared moments, gentle glances, and tender smiles, love arises between a man and a woman.
