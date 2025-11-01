@@ -173,7 +173,7 @@ export default function InvitationInformationPage() {
       template += `\nPlace: Hai Kou Restaurant Wajir`
       template += `\nJl. Kol. Sugiono No. 14D`
       template += `\n\nWe'd love for you to be part of our big day!`
-      template += `\nCheck out our engagement invitatiob here & We kindly request your response to confirm your attendance.`
+      template += `\nCheck out our engagement invitation here & We kindly request your response to confirm your attendance.❤️`
       template += `\n${text}`
       await navigator.clipboard.writeText(template);
       showToast("Link copied");
