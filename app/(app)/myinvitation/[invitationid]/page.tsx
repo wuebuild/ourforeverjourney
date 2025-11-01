@@ -157,6 +157,7 @@ export default function InvitationInformationPage() {
     console.log("here data", data)
     setHideRSVP(data.hideRSVP)
     setEvents(data.event)
+    setGifts(data.gifts)
     setCreatedGuests([...data.guests])
     setRSVP([...data.rsvp])
   }
@@ -205,14 +206,14 @@ export default function InvitationInformationPage() {
           location: ev.location.trim(),
           locationAddress: ev.locationAddress?.trim(),
           dateTime: ev.dateTime,
-          maps: ev.mapUrl,
+          mapUrl: ev.mapUrl,
         })),
         hideRSVP,
         // Legacy fields (can remove once API updated)
         eventType: first.eventType ?? eventType,
         location: first.location ?? location.trim(),
         dateTime: first.dateTime ?? dateTime,
-        maps: first.mapUrl ?? "",
+        mapUrl: first.mapUrl ?? "",
         gifts: gifts
           .filter((g) => g.bankName || g.accountName || g.accountNumber)
           .map((g) => ({

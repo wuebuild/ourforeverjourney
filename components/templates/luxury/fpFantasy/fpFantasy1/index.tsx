@@ -581,7 +581,8 @@ function GroomAndBride({ data }: { data: Couple }) {
               </div>
 
               <p className="font-serif text-[24px] text-white/85">
-                Irawan Gohan, S.E.
+                {/* Irawan Gohan, S.M. */}
+                {`${data.groom.name}${`, ${data.groom.title}`}`}
               </p>
               <p className="mt-2 text-sm text-white/85">
                   The Son of Mr. Sukrisno Gohan & 
@@ -614,7 +615,7 @@ function GroomAndBride({ data }: { data: Couple }) {
             </motion.div>
 
             <div className="mt-1 text-center font-imperial text-[30px]">
-                dengan
+                And
             </div>
 
             {/* Bride */}
@@ -642,7 +643,8 @@ function GroomAndBride({ data }: { data: Couple }) {
               </div>
 
               <p className="font-serif text-[24px] text-white/85">
-                Cindy, S.E.
+                {/* Cindy, S.Ak. */}
+                {`${data.bride.name}${`, ${data.bride.title}`}`}
               </p>
               <p className="mt-2 text-sm text-white/85">
                   The Daughter of Mr. Tjoa Sui Thin &

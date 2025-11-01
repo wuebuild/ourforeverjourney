@@ -1,6 +1,7 @@
 "use client";
 import React, { useEffect, useRef } from "react";
 import { Event } from "@/types/api";
+import { MapPinned } from "lucide-react";
 
 const fmtWeekday = new Intl.DateTimeFormat("id-ID", { weekday: "long" });
 const fmtDay = new Intl.DateTimeFormat("id-ID", { day: "2-digit" });
@@ -117,7 +118,7 @@ export default function WeddingEventCards({
                     rel="noreferrer"
                     className="inline-flex items-center gap-2 rounded-full bg-[#C4AA74] px-5 py-2 text-[13px] font-medium text-[#1B1A17] shadow hover:brightness-105 focus:outline-none focus:ring-2 focus:ring-white/40"
                   >
-                    <MapIcon className="h-4 w-4" />
+                    <MapPinned className="h-4 w-4" />
                     OPEN MAPS
                   </a>
                 </div>

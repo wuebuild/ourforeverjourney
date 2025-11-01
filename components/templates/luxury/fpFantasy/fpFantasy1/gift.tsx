@@ -1,6 +1,8 @@
 "use client";
 import { GiftBankAccount } from "@/types/api";
 import React, { useMemo, useState } from "react";
+import bca_logo from "@/public/bankAssets/bca_logo.png";
+import Image from "next/image";
 
 export type WeddingGiftCardProps = {
   bgImage?: string;
@@ -92,10 +94,13 @@ export default function WeddingGiftCard({
                 key={i}
                 className="pb-6 mb-6 border-b border-black/10 last:pb-0 last:mb-0 last:border-0"
               >
-                {acc.bankLogo ?? <BcaLogo className="h-8 w-auto mx-auto text-[#1A4BA1]" />}
+                {/* {acc.bankLogo ?? <BcaLogo className="h-8 w-auto mx-auto text-[#1A4BA1]" />} */}
 
-                <div className="mt-3 space-y-1 text-[13px] sm:text-[14px] leading-6">
+                <div className="mt-1 space-y-1 text-[13px] sm:text-[14px]">
                   {/* <div className="font-medium">{acc.bankName}</div> */}
+                  <div className="flex justify-center items-center">
+                    {acc.bankName == "BCA" && <Image src={bca_logo} width={90} height={90} alt={acc.bankName}/>}
+                  </div>
                   <div>No. Rekening {acc.accountNumber}</div>
                   <div>
                     a.n <span className="font-semibold">{acc.accountName}</span>

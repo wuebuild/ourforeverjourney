@@ -22,7 +22,7 @@ export default function RSVPCard({
   slug = "",
   bgImage = "https://images.unsplash.com/photo-1523661149972-0bedfd3bd8c5?q=80&w=1600&auto=format&fit=crop",
   title = "Rsvp",
-  subtitle = "Konfirmasi kehadiran Anda dengan mengisi form berikut",
+  subtitle = "Fill the form to confirm your attendance.",
   onSubmit,
   className = "",
   guestName = ""
