@@ -66,4 +66,5 @@ export interface CoupleInfo {
   templateType: string,
   tags: string,
   hideRSVP: boolean | false;
+  rsvpMax: string
 };

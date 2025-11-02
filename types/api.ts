@@ -9,6 +9,7 @@ export interface Invitation {
     rsvp: RSVP[],
     gifts: Gift[],
     hideRSVP: boolean,
+    rsvpMax: string,
     location: string,
     eventType: string,
     createdDate: Date

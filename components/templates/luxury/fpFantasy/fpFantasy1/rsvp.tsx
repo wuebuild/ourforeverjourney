@@ -14,6 +14,7 @@ export type RSVPCardProps = {
   title?: string;
   subtitle?: string;
   guestName?: string;
+  rsvpMax?: string;
   onSubmit?: (data: RSVPPayload) => Promise<void> | void;
   className?: string;
 };
@@ -24,6 +25,7 @@ export default function RSVPCard({
   title = "Rsvp",
   subtitle = "Fill the form to confirm your attendance.",
   onSubmit,
+  rsvpMax,
   className = "",
   guestName = ""
 }: RSVPCardProps) {
@@ -55,7 +57,7 @@ export default function RSVPCard({
     setMsg(null);
 
     if (!name || !attendees || Number(attendees) <= 0 /* || !address */) {
-      setMsg("Mohon lengkapi semua kolom yang diperlukan.");
+      setMsg("Please fill all the form.");
       return;
     }
 
@@ -81,9 +83,9 @@ export default function RSVPCard({
       setName("");
       setAttendees("");
       setAddress("");
-      setMsg("Terima kasih! RSVP Anda sudah terkirim.");
+      setMsg("Thank you! your RSVP already sent.");
     } catch {
-      setMsg("Maaf, terjadi kesalahan. Coba lagi.");
+      setMsg("Sorry, there is problem. Please try again.");
     } finally {
       setBusy(false);
     }
@@ -127,7 +129,7 @@ export default function RSVPCard({
           /* ====== FORM VIEW ====== */
           <form onSubmit={handleSubmit} className="mt-5 space-y-4">
             <label className="block">
-              <span className="mb-1 block text-[12px] text-white/85">Nama*</span>
+              <span className="mb-1 block text-[12px] text-white/85">Name*</span>
               <input
                 value={name}
                 onChange={(e) => setName(e.target.value)}
@@ -137,18 +139,23 @@ export default function RSVPCard({
             </label>
 
             <label className="block">
-              <span className="mb-1 block text-[12px] text-white/85">Jumlah Kehadiran*</span>
+              <span className="mb-1 block text-[12px] text-white/85">Number of pax*</span>
               <div className="relative">
                 <select
                   value={attendees}
                   onChange={(e) => setAttendees(Number(e.target.value))}
                   className="w-full appearance-none rounded-md bg-white/95 px-3 py-2 text-sm text-gray-900 outline-none ring-1 ring-black/15 focus:ring-2 focus:ring-[#C4AA74]"
                 >
-                  <option value="">Pilih jumlah</option>
-                  <option value="1">1 orang</option>
+                  <option value="">Number of attendant</option>
+                  {Array.from({ length: Number(rsvpMax || 0) }, (_, i) => i + 1).map((n) => (
+                    <option key={n.toString()} value={n.toString()}>
+                      {n} pax
+                    </option>
+                  ))}
+                  {/* <option value="1">1 orang</option>
                   <option value="2">2 orang</option>
                   <option value="3">3 orang</option>
-                  <option value="4">4 orang</option>
+                  <option value="4">4 orang</option> */}
                 </select>
                 <ChevronDown className="pointer-events-none absolute right-3 top-1/2 -translate-y-1/2 h-4 w-4 text-gray-500" />
               </div>
@@ -170,7 +177,7 @@ export default function RSVPCard({
               <p
                 className={[
                   "text-[12px]",
-                  msg.startsWith("Terima") ? "text-emerald-300" : "text-rose-300",
+                  msg.startsWith("Thank you") ? "text-emerald-300" : "text-rose-300",
                 ].join(" ")}
                 role="status"
                 aria-live="polite"
@@ -229,25 +236,25 @@ function SuccessPanel({
         </svg>
       </div>
 
-      <h3 className="text-lg font-semibold">Terima kasih! RSVP berhasil terkirim.</h3>
+      <h3 className="text-lg font-semibold">Thank you! your RSVP already sent.</h3>
       {payload && (
         <p className="mt-1 text-sm text-gray-700">
-          {payload.name} • {payload.attendees} {payload.attendees > 1 ? "orang" : "orang"}
+          {payload.name} • {payload.attendees} {payload.attendees > 1 ? "pax" : "pax"}
         </p>
       )}
 
       <div className="mt-4 flex flex-wrap items-center justify-center gap-2">
-        <button
+        {/* <button
           onClick={onSendAnother}
           className="rounded-full bg-[#0D1730] px-4 py-2 text-sm font-medium text-white ring-1 ring-white/20 shadow hover:brightness-110"
         >
           Kirim lagi
-        </button>
+        </button> */}
         <button
           onClick={onClose}
           className="rounded-full bg-white px-4 py-2 text-sm font-medium text-[#0D1730] ring-1 ring-black/10 hover:bg-white/90"
         >
-          Tutup
+          Close
         </button>
       </div>
     </div>

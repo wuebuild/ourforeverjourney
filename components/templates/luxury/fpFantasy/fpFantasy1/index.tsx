@@ -261,26 +261,46 @@ function InvitationCover ({setOpenInvitation, cover, title, date, coupleString} 
 
 function InvitationBody({data} : {data: CoupleInfo}) {
   const [ended, setEnded] = useState(false)
+  const [start, setStart] = useState(false)
   const params = useSearchParams();
   const to = params.get("to") || ""; 
   const invited = to
+  const videoRef = useRef<HTMLVideoElement | null>(null);
+
+  useEffect(() => {
+    const videoElement = videoRef.current;
+    videoElement?.addEventListener("playing", () => {
+      setStart(true)
+    });
+    return () => {
+      if (videoElement) {
+        videoElement?.removeEventListener("playing", () => {
+          setStart(true)
+        });
+      }
+    };
+  }, [])
+
 
   return (
     <div className="bg-fixed bg-contain bg-center" style={{ 
       // backgroundImage: `url(${fairytalebg.src})` 
-      backgroundImage: `url(https://ourforeverjourney.s3.ap-southeast-1.amazonaws.com/${"uploads/irawan-cindy/567704089_18537775423055426_6542266019012211843_n.webp"})` 
+      backgroundImage: !start ? `url(${fairytalebg.src})` : `url(https://ourforeverjourney.s3.ap-southeast-1.amazonaws.com/${"uploads/irawan-cindy/567704089_18537775423055426_6542266019012211843_n.webp"})` 
       // uploads/irawan-cindy/1759040506447-SAM_5529.webp
     }}>
       {/* <motion.div ref={videoRef} style={{ opacity }}></motion.div> */}
       <div className="relative w-full h-screen">
         <motion.video
+            ref={videoRef}
             autoPlay
             muted
             loop={false}
             playsInline
             className="w-full h-full object-cover"
             onEnded={() => setEnded(true)}
-            initial={{ opacity: 1 }}
+            // initial={{ opacity: 1 }}
+            whileInView={{ opacity: 1, scale: 1 }}
+            initial={{ opacity: 0.5, scale: 0.8 }}
             animate={{ opacity: ended ? 0 : 1 }}
           >
             <source src="/videos/fairytale-video.mp4" type="video/mp4" />
@@ -354,6 +374,7 @@ function InvitationBody({data} : {data: CoupleInfo}) {
             <RSVPCard
               slug={data.slug}
               guestName={invited}
+              rsvpMax={data.rsvpMax}
               onSubmit={async (data) => {
                 // TODO: send to your endpoint
                 console.log("RSVP received:", data);
@@ -412,11 +433,11 @@ function CarouselandInfo ({data}: {data: CoupleInfo}) {
         </div>
     
         {/* Label */}
-        <div className="absolute top-1/2 [@media(min-height:300px)]:mt-[120px] [@media(min-height:600px)]:mt-[150px] [@media(min-height:700px)]:mt-[160px] [@media(min-height:800px)]:mt-[180px] [@media(min-height:950px)]:mt-[200px] [@media(min-height:1000px)]:mt-[220px] text-white text-center">
+        <div className="absolute top-1/2 [@media(min-height:300px)]:mt-[25vh] [@media(min-height:600px)]:mt-[23vh] [@media(min-height:700px)]:mt-[22vh] [@media(min-height:800px)]:mt-[23vh] [@media(min-height:900px)]:mt-[22vh] [@media(min-height:1000px)]:mt-[22vh] text-white text-center">
           <p className="uppercase text-sm tracking-widest">{data.secondTitle}</p>
-          <h1 className="text-2xl [@media(min-height:800px)]:text-4xl font-serif">{data.couple?.groom.name}</h1>
+          <h1 className="text-2xl [@media(min-height:800px)]:text-3xl font-serif">{data.couple?.groom.name}</h1>
           <h1 className="text-1xl [@media(min-height:800px)]:text-2xl font-serif">{'&'}</h1>
-          <h1 className="text-2xl [@media(min-height:800px)]:text-4xl font-serif">{data.couple?.bride.name}</h1>
+          <h1 className="text-2xl [@media(min-height:800px)]:text-3xl font-serif">{data.couple?.bride.name}</h1>
           <p className="mt-1 text-md">{formattedDate}</p>
           <h1 className="text-sm md:text-sm font-serif">{data.tags}</h1>
         </div>
@@ -591,13 +612,13 @@ function GroomAndBride({ data }: { data: Couple }) {
                   Mrs. Lisa (†)
               </p>
 
-              {(data.groom.title || data.groom.parent) && (
+              {/* {(data.groom.title || data.groom.parent) && (
                 <p className="mt-2 text-sm text-white/85">
                   {data.groom.title}
                   {data.groom.title && data.groom.parent ? " · " : ""}
                   {data.groom.parent && <>Putra dari {data.groom.parent}</>}
                 </p>
-              )}
+              )} */}
 
               {data.groom.instagram && (
                 <a

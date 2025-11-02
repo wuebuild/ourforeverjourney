@@ -3,7 +3,7 @@ import { useEffect, useMemo, useState } from "react";
 import { WIInput } from "@/components/ui/molecules/WIInput";
 import { useParams } from "next/navigation";
 import { deleteInvitation, getInvitation, updateInvitation } from "@/services/client/invitation";
-import { CreatedGuest, Event, EventType, Gift, Guest, RSVP } from "@/types/api";
+import { CreatedGuest, Event, EventType, Gift, Guest, Invitation, RSVP } from "@/types/api";
 import { WISwitch } from "@/components/ui/atoms/WISwitch";
 
 type RouteParams = { invitationid: string };
@@ -69,6 +69,9 @@ export default function InvitationInformationPage() {
   function cryptoRandom() { return Math.random().toString(36).slice(2, 10); }
 
   // ---- form state
+  const [form, setForm] = useState({
+    rsvpMax: "4"
+  })
   const [eventType, setEventType] = useState<EventType>("both");
   const [location, setLocation] = useState("");
   const [dateTime, setDateTime] = useState("");
@@ -154,7 +157,7 @@ export default function InvitationInformationPage() {
 
   const loadInvitation = async () => {
     const data = await getInvitation(invitationid)
-    console.log("here data", data)
+    setForm({rsvpMax: data.rsvpMax})
     setHideRSVP(data.hideRSVP)
     setEvents(data.event)
     setGifts(data.gifts)
@@ -167,7 +170,7 @@ export default function InvitationInformationPage() {
       // text
       let template = `Dear ${guestName},`
       template += `\n\nWe are so happy to invite you to share the joy and happiness of our engagement day.`
-      template += `\n\nThe engagement of Irawan Gohan & Cindy`
+      template += `\n\nThe Engagement of Irawan Gohan & Cindy`
       template += `\nDate: Monday, 10 November 2025`
       template += `\nTime: 12:00 PM - 13.30 PM`
       template += `\nPlace: Hai Kou Restaurant Wajir`
@@ -198,7 +201,7 @@ export default function InvitationInformationPage() {
       // For backward compatibility with existing API, map the first event to top-level fields
       const first = events[0] || { location, dateTime, maps: "", eventType };
 
-      const form = {
+      const dataForm = {
         // New shape
         events: events.map((ev) => ({
           title: ev.title,
@@ -209,6 +212,7 @@ export default function InvitationInformationPage() {
           mapUrl: ev.mapUrl,
         })),
         hideRSVP,
+        rsvpMax: form.rsvpMax,
         // Legacy fields (can remove once API updated)
         eventType: first.eventType ?? eventType,
         location: first.location ?? location.trim(),
@@ -224,9 +228,9 @@ export default function InvitationInformationPage() {
         guests: guestInputs.filter((g) => g.name.trim()).map((g) => ({ name: g.name.trim() })),
       };
       const newBody = {
-        ...form,
-        date: form.dateTime?.split('T')[0],
-        time: form.dateTime?.split('T')[1]
+        ...dataForm,
+        date: dataForm.dateTime?.split('T')[0],
+        time: dataForm.dateTime?.split('T')[1]
       }
       console.log('here form', newBody)
 
@@ -405,12 +409,28 @@ export default function InvitationInformationPage() {
         </section>
 
         {/* Hide RSVP */}
-        <section className="bg-white rounded-2xl shadow-sm ring-1 ring-gray-200 p-6">
-          <WISwitch
-            checked={hideRSVP}
-            onChange={setHideRSVP}
-            label="Hide guest RSVP"
-          />
+        <section className="bg-white rounded-2xl shadow-sm ring-1 ring-gray-200 p-6 flex gap-x-4 items-center">
+          <div>
+            <WISwitch
+              checked={hideRSVP}
+              onChange={setHideRSVP}
+              label="Hide guest RSVP"
+            />
+          </div>
+          <div>
+             <select disabled={hideRSVP} 
+              className="block w-full rounded-xl border border-gray-300 bg-white px-3 py-2 text-sm shadow-sm
+             focus:border-black focus:ring-2 focus:ring-black/10 focus:outline-none disabled:cursor-not-allowed disabled:opacity-60 disabled:bg-gray-100disabled:text-gray-400 disabled:border-gray-200 disabled:shadow-none"
+              id="my-dropdown" value={form.rsvpMax} onChange={(e) => {
+              setForm({rsvpMax: e.currentTarget.value})
+             }}>
+                <option value="">--Please choose an option--</option>
+                <option value="1">1 pax</option>
+                <option value="2">2 pax</option>
+                <option value="3">3 pax</option>
+                <option value="4">4 pax</option>
+              </select>
+          </div>
         </section>
 
         {/* Section: Wedding Gifts */}
