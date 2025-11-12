@@ -1,6 +1,7 @@
 export interface Invitation {
     _id: string,
     title: string,
+    secondTitle: string,
     dateTime: Date,
     date: string,
     time: string,
@@ -23,6 +24,7 @@ export interface Guest {
 export type EventType = "reception" | "wedding" | "both";
 export interface Event {
     _id?: string | undefined; 
+    id: string | '';
     title: string; 
     eventType: EventType; 
     location: string; 

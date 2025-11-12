@@ -5,6 +5,7 @@ import { useParams } from "next/navigation";
 import { deleteInvitation, getInvitation, updateInvitation } from "@/services/client/invitation";
 import { CreatedGuest, Event, EventType, Gift, Guest, Invitation, RSVP } from "@/types/api";
 import { WISwitch } from "@/components/ui/atoms/WISwitch";
+import moment from "moment";
 
 type RouteParams = { invitationid: string };
 
@@ -75,17 +76,17 @@ export default function InvitationInformationPage() {
   const [eventType, setEventType] = useState<EventType>("both");
   const [location, setLocation] = useState("");
   const [dateTime, setDateTime] = useState("");
+  const [info, setInfo] = useState<Invitation>();
   // --- Multiple Events state (responsive-friendly)
-  const [events, setEvents] = useState<Event[]>([
-    { _id: cryptoRandom(), title: "Main Ceremony", eventType: "both", location: "", locationAddress: "", dateTime: "", mapUrl: "" },
-  ]);
+  const [events, setEvents] = useState<Event[]>([]);
 
   const addEvent = () => {
-    setEvents((prev) => [...prev, { id: cryptoRandom(), title: `Event ${prev.length + 1}`, eventType: "reception", location: "", locationAddress: "", dateTime: "", mapUrl: "" }]);
+    setEvents((prev) => [...prev, { id: cryptoRandom().toString(), title: `Event ${prev.length + 1}`, eventType: "reception", location: "", locationAddress: "", dateTime: "", mapUrl: "" }]);
   };
   const removeEvent = (_id: string) => setEvents((prev) => prev.filter((e) => e._id !== _id));
   const setEventField = (_id: string, key: keyof Event, value: string) => {
-    setEvents((prev) => prev.map((e) => (e._id === _id ? { ...e, [key]: value } : e)));
+    console.log('here _id', _id, events)
+    setEvents((prev) => prev.map((e) => ((e._id === _id || e.id == _id) ? { ...e, [key]: value } : e)));
   };
   const [hideRSVP, setHideRSVP] = useState<boolean>(false);
   const [gifts, setGifts] = useState<Gift[]>([]);
@@ -157,6 +158,7 @@ export default function InvitationInformationPage() {
 
   const loadInvitation = async () => {
     const data = await getInvitation(invitationid)
+    setInfo({ ...data })
     setForm({rsvpMax: data.rsvpMax})
     setHideRSVP(data.hideRSVP)
     setEvents(data.event)
@@ -170,13 +172,13 @@ export default function InvitationInformationPage() {
       // text
       let template = `Dear ${guestName},`
       template += `\n\nWe are so happy to invite you to share the joy and happiness of our engagement day.`
-      template += `\n\nThe Engagement of Irawan Gohan & Cindy`
-      template += `\nDate: Monday, 10 November 2025`
-      template += `\nTime: 12:00 PM - 13.30 PM`
-      template += `\nPlace: Hai Kou Restaurant Wajir`
-      template += `\nJl. Kol. Sugiono No. 14D`
+      template += `\n\n${info?.secondTitle} Irawan Gohan & Cindy`
+      template += `\nDate: ${events.length > 0 ? moment(events[0].dateTime).format('dddd, DD MMMM YYYY') : '-'}`
+      template += `\nTime: ${moment(events[0].dateTime).format('HH:mm A')} - ${moment(events[0].dateTime).add(1, 'hours').format('HH:mm A')}`
+      template += `\nPlace: ${events[0].location}`
+      template += `\n${events[0].locationAddress}`
       template += `\n\nWe'd love for you to be part of our big day!`
-      template += `\nCheck out our engagement invitation here & We kindly request your response to confirm your attendance.❤️`
+      template += `\nCheck out our ${info?.title.toLowerCase()} here & We kindly request your response to confirm your attendance.❤️`
       template += `\n${text}`
       await navigator.clipboard.writeText(template);
       showToast("Link copied");
@@ -292,11 +294,11 @@ export default function InvitationInformationPage() {
 
           <div className="space-y-5">
             {events.map((ev, idx) => (
-              <div key={ev._id} className="rounded-2xl border border-gray-200 p-4">
+              <div key={ev._id || ev.id.toString()} className="rounded-2xl border border-gray-200 p-4">
                 <div className="text-right">
                   <button
                     type="button"
-                    onClick={() => removeEvent(ev._id || '')}
+                    onClick={() => removeEvent(ev._id || ev.id.toString())}
                     className="self-end inline-flex items-center gap-2 rounded-xl border border-gray-300 bg-white px-3 py-2 text-sm hover:bg-gray-50"
                     aria-label="Remove event"
                   >
@@ -308,7 +310,7 @@ export default function InvitationInformationPage() {
                       type="text"
                       label="Title"
                       value={ev.title}
-                      onChange={(e) => setEventField(ev._id || '', "title", e.target.value)}
+                      onChange={(e) => setEventField(ev._id || ev.id.toString(), "title", e.target.value)}
                       placeholder={`Event ${idx + 1} (e.g., Akad / Reception)`}
                       className="w-full rounded-xl border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 px-3 py-2"
                     />
@@ -316,7 +318,7 @@ export default function InvitationInformationPage() {
                       <label className="block text-xs text-gray-500">Type</label>
                       <select
                         value={ev.eventType}
-                        onChange={(e) => setEventField(ev._id || '', "eventType", e.target.value)}
+                        onChange={(e) => setEventField(ev._id || ev.id.toString(), "eventType", e.target.value)}
                         className="inline-flex items-center gap-2 rounded-xl border border-gray-300 bg-white hover:bg-gray-50 focus:border-indigo-500 focus:ring-indigo-500 mt-2 px-3 py-3 capitalize"
                       >
                         <option value="other">Other</option>
@@ -332,7 +334,7 @@ export default function InvitationInformationPage() {
                     <WIInput
                       type="text"
                       value={ev.location}
-                      onChange={(e) => setEventField(ev._id || '', "location", e.target.value)}
+                      onChange={(e) => setEventField(ev._id || ev.id.toString(), "location", e.target.value)}
                       placeholder="e.g., The Westin Jakarta, Ballroom A"
                       className="w-full rounded-xl border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 px-3 py-2"
                       required
@@ -343,7 +345,7 @@ export default function InvitationInformationPage() {
                     <WIInput
                       type="text"
                       value={ev.locationAddress}
-                      onChange={(e) => setEventField(ev._id || '', "locationAddress", e.target.value)}
+                      onChange={(e) => setEventField(ev._id || ev.id.toString(), "locationAddress", e.target.value)}
                       placeholder="e.g., The Westin Jakarta, Ballroom A"
                       className="w-full rounded-xl border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 px-3 py-2"
                       // required
@@ -354,7 +356,7 @@ export default function InvitationInformationPage() {
                     <WIInput
                       type="datetime-local"
                       value={ev.dateTime}
-                      onChange={(e) => setEventField(ev._id || '', "dateTime", e.target.value)}
+                      onChange={(e) => setEventField(ev._id || ev.id.toString(), "dateTime", e.target.value)}
                       className="w-full rounded-xl border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 px-3 py-2"
                       required
                     />
@@ -367,7 +369,7 @@ export default function InvitationInformationPage() {
                   <WIInput
                     type="text"
                     value={ev.mapUrl}
-                    onChange={(e) => setEventField(ev._id || '', "mapUrl", e.target.value)}
+                    onChange={(e) => setEventField(ev._id || ev.id.toString(), "mapUrl", e.target.value)}
                     placeholder="Paste a Google Maps share link or type the full address"
                     className="w-full rounded-xl border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 px-3 py-2"
                   />
