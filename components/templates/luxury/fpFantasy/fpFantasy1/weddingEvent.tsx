@@ -3,7 +3,7 @@ import React, { useEffect, useRef } from "react";
 import { Event } from "@/types/api";
 import { MapPinned } from "lucide-react";
 
-const fmtWeekday = new Intl.DateTimeFormat("id-ID", { weekday: "long" });
+const fmtWeekday = new Intl.DateTimeFormat("en-EN", { weekday: "long" });
 const fmtDay = new Intl.DateTimeFormat("id-ID", { day: "2-digit" });
 const fmtMonth = new Intl.DateTimeFormat("id-ID", { month: "2-digit" });
 const fmtYear = new Intl.DateTimeFormat("id-ID", { year: "numeric" });

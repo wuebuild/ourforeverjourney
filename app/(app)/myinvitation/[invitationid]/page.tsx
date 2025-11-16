@@ -174,7 +174,7 @@ export default function InvitationInformationPage() {
       template += `\n\nWe are so happy to invite you to share the joy and happiness of our ${info?.title.toLocaleLowerCase() == 'wedding invitation' ? 'wedding day' : 'engagement day'}.`
       template += `\n\n${info?.secondTitle} Irawan Gohan & Cindy`
       template += `\nDate: ${events.length > 0 ? moment(events[0].dateTime).format('dddd, DD MMMM YYYY') : '-'}`
-      template += `\nTime: ${moment(events[0].dateTime).format('HH:mm A')} - ${info?.title.toLocaleLowerCase() == 'wedding invitation' ? 'selesai' : `${moment(events[0].dateTime).add(1, 'hours').format('HH:mm A')}`}`
+      template += `\nTime: ${moment(events[0].dateTime).format('HH:mm A')} - ${info?.title.toLocaleLowerCase() == 'wedding invitation' ? 'until end' : `${moment(events[0].dateTime).add(1, 'hours').format('HH:mm A')}`}`
       template += `\nPlace: ${events[0].location}`
       template += `\n${events[0].locationAddress}`
       template += `\n\nWe'd love for you to be part of our big day!`
