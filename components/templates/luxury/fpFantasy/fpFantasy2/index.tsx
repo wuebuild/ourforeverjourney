@@ -828,7 +828,7 @@ function CarouselandInfo({ data }: { data: CoupleInfo }) {
             ))}
           </div>
         </div>
-        <div className="absolute inset-x-0 bottom-18 px-24 pb-12">
+        <div className="absolute inset-x-0 bottom-18 w-[60%] [@media(min-height:800px)]:w-[300px] max-w-[90%] pb-12">
           {/* <div className="rounded-2xl bg-white/92 backdrop-blur-sm px-5 py-4 shadow-lg max-w-md border border-[#e1d3c0]"> */}
           <div className="text-center rounded-2xl backdrop-blur-sm px-5 py-4 shadow-lg max-w-md">
             <p className="text-[11px] uppercase tracking-[0.24em] font-bold text-gray-900">
