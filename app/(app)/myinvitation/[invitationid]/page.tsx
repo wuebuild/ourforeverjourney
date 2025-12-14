@@ -10,7 +10,7 @@ import moment from "moment";
 type RouteParams = { invitationid: string };
 
 export default function InvitationInformationPage() {
-  
+
   const { invitationid } = useParams<RouteParams>();
 
   function MapField() {
@@ -66,7 +66,7 @@ export default function InvitationInformationPage() {
       </div>
     );
   }
-  
+
   function cryptoRandom() { return Math.random().toString(36).slice(2, 10); }
 
   // ---- form state
@@ -159,7 +159,7 @@ export default function InvitationInformationPage() {
   const loadInvitation = async () => {
     const data = await getInvitation(invitationid)
     setInfo({ ...data })
-    setForm({rsvpMax: data.rsvpMax})
+    setForm({ rsvpMax: data.rsvpMax })
     setHideRSVP(data.hideRSVP)
     setEvents(data.event)
     setGifts(data.gifts)
@@ -172,7 +172,7 @@ export default function InvitationInformationPage() {
       // text
       let template = `Dear ${guestName},`
       template += `\n\nWe are so happy to invite you to share the joy and happiness of our ${info?.title.toLocaleLowerCase() == 'wedding invitation' ? 'wedding day' : 'engagement day'}.`
-      template += `\n\n${info?.secondTitle} Irawan Gohan & Cindy`
+      template += `\n\n${info?.secondTitle} ${info?.coupleString}`
       template += `\nDate: ${events.length > 0 ? moment(events[0].dateTime).format('dddd, DD MMMM YYYY') : '-'}`
       template += `\nTime: ${moment(events[0].dateTime).format('HH:mm A')} - ${info?.title.toLocaleLowerCase() == 'wedding invitation' ? 'until end' : `${moment(events[0].dateTime).add(1, 'hours').format('HH:mm A')}`}`
       template += `\nPlace: ${events[0].location}`
@@ -243,7 +243,7 @@ export default function InvitationInformationPage() {
       // });
 
       const data = await updateInvitation(
-        invitationid,  
+        invitationid,
         newBody
       )
 
@@ -264,7 +264,7 @@ export default function InvitationInformationPage() {
   };
 
   const deleteGuest = async (_id: string) => {
-    if (_id) { 
+    if (_id) {
       await deleteInvitation(_id)
       loadInvitation()
     }
@@ -306,26 +306,26 @@ export default function InvitationInformationPage() {
                   </button>
                 </div>
                 <div className="mt-4 grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <WIInput
-                      type="text"
-                      label="Title"
-                      value={ev.title}
-                      onChange={(e) => setEventField(ev._id || ev.id.toString(), "title", e.target.value)}
-                      placeholder={`Event ${idx + 1} (e.g., Akad / Reception)`}
-                      className="w-full rounded-xl border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 px-3 py-2"
-                    />
-                    <div className="flex-1 md:w-48">
-                      <label className="block text-xs text-gray-500">Type</label>
-                      <select
-                        value={ev.eventType}
-                        onChange={(e) => setEventField(ev._id || ev.id.toString(), "eventType", e.target.value)}
-                        className="inline-flex items-center gap-2 rounded-xl border border-gray-300 bg-white hover:bg-gray-50 focus:border-indigo-500 focus:ring-indigo-500 mt-2 px-3 py-3 capitalize"
-                      >
-                        <option value="other">Other</option>
-                        <option value="wedding">Wedding</option>
-                        <option value="reception">Reception</option>
-                      </select>
-                    </div>
+                  <WIInput
+                    type="text"
+                    label="Title"
+                    value={ev.title}
+                    onChange={(e) => setEventField(ev._id || ev.id.toString(), "title", e.target.value)}
+                    placeholder={`Event ${idx + 1} (e.g., Akad / Reception)`}
+                    className="w-full rounded-xl border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 px-3 py-2"
+                  />
+                  <div className="flex-1 md:w-48">
+                    <label className="block text-xs text-gray-500">Type</label>
+                    <select
+                      value={ev.eventType}
+                      onChange={(e) => setEventField(ev._id || ev.id.toString(), "eventType", e.target.value)}
+                      className="inline-flex items-center gap-2 rounded-xl border border-gray-300 bg-white hover:bg-gray-50 focus:border-indigo-500 focus:ring-indigo-500 mt-2 px-3 py-3 capitalize"
+                    >
+                      <option value="other">Other</option>
+                      <option value="wedding">Wedding</option>
+                      <option value="reception">Reception</option>
+                    </select>
+                  </div>
                 </div>
 
                 <div className="mt-4 grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -348,7 +348,7 @@ export default function InvitationInformationPage() {
                       onChange={(e) => setEventField(ev._id || ev.id.toString(), "locationAddress", e.target.value)}
                       placeholder="e.g., The Westin Jakarta, Ballroom A"
                       className="w-full rounded-xl border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 px-3 py-2"
-                      // required
+                    // required
                     />
                   </div>
                   <div>
@@ -420,18 +420,18 @@ export default function InvitationInformationPage() {
             />
           </div>
           <div>
-             <select disabled={hideRSVP} 
+            <select disabled={hideRSVP}
               className="block w-full rounded-xl border border-gray-300 bg-white px-3 py-2 text-sm shadow-sm
              focus:border-black focus:ring-2 focus:ring-black/10 focus:outline-none disabled:cursor-not-allowed disabled:opacity-60 disabled:bg-gray-100disabled:text-gray-400 disabled:border-gray-200 disabled:shadow-none"
               id="my-dropdown" value={form.rsvpMax} onChange={(e) => {
-              setForm({rsvpMax: e.currentTarget.value})
-             }}>
-                <option value="">--Please choose an option--</option>
-                <option value="1">1 pax</option>
-                <option value="2">2 pax</option>
-                <option value="3">3 pax</option>
-                <option value="4">4 pax</option>
-              </select>
+                setForm({ rsvpMax: e.currentTarget.value })
+              }}>
+              <option value="">--Please choose an option--</option>
+              <option value="1">1 pax</option>
+              <option value="2">2 pax</option>
+              <option value="3">3 pax</option>
+              <option value="4">4 pax</option>
+            </select>
           </div>
         </section>
 
@@ -447,7 +447,7 @@ export default function InvitationInformationPage() {
               onClick={addGiftRow}
               className="inline-flex items-center gap-2 rounded-xl border border-gray-300 bg-white px-3 py-2 text-sm hover:bg-gray-50"
             >
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="opacity-70"><path d="M12 5v14M5 12h14"/></svg>
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="opacity-70"><path d="M12 5v14M5 12h14" /></svg>
               Add Account
             </button>
           </div>
@@ -491,7 +491,7 @@ export default function InvitationInformationPage() {
                     onClick={() => removeGiftRow(idx)}
                     className="w-full lg:w-auto inline-flex items-center justify-center gap-2 rounded-xl border border-gray-300 bg-white px-3 py-2 text-sm hover:bg-gray-50"
                   >
-                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="opacity-70"><path d="M3 6h18M8 6v14a2 2 0 0 0 2 2h4a2 2 0 0 0 2-2V6M10 6V4a2 2 0 0 1 2-2h0a2 2 0 0 1 2 2v2"/></svg>
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="opacity-70"><path d="M3 6h18M8 6v14a2 2 0 0 0 2 2h4a2 2 0 0 0 2-2V6M10 6V4a2 2 0 0 1 2-2h0a2 2 0 0 1 2 2v2" /></svg>
                     Remove
                   </button>
                 </div>
@@ -575,7 +575,7 @@ export default function InvitationInformationPage() {
                       onClick={() => copyToClipboard(g.inviteUrl, g.name)}
                       className="inline-flex items-center gap-2 rounded-xl border border-gray-300 bg-white px-3 py-2 text-sm hover:bg-gray-50"
                     >
-                      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="opacity-70"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+                      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="opacity-70"><rect x="9" y="9" width="13" height="13" rx="2" ry="2" /><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1" /></svg>
                       Copy
                     </button>
                     <button
@@ -594,21 +594,21 @@ export default function InvitationInformationPage() {
 
         {
           (rsvp && !hideRSVP) && (
-          <section className="bg-white rounded-2xl shadow-sm ring-1 ring-gray-200 p-6">
-            <h2 className="text-lg font-medium mb-4">Reservation</h2>
-            <p className="text-sm text-gray-600 mb-4">Invitation ID: <span className="font-mono text-gray-800">{createdId}</span></p>
-            <div className="space-y-3">
-              {rsvp.map((g, i) => (
-                <div key={i} className="flex flex-col md:flex-row md:items-center gap-3 rounded-xl border border-gray-200 p-4">
-                  <div className="flex-1 min-w-0">
-                    <div className="text-sm font-medium text-gray-900 truncate">{g.name || `Guest #${i + 1}`}</div>
-                    <div className="text-xs text-gray-600 break-all mt-0.5">Total Guest : {g.guestTotal}</div>
+            <section className="bg-white rounded-2xl shadow-sm ring-1 ring-gray-200 p-6">
+              <h2 className="text-lg font-medium mb-4">Reservation</h2>
+              <p className="text-sm text-gray-600 mb-4">Invitation ID: <span className="font-mono text-gray-800">{createdId}</span></p>
+              <div className="space-y-3">
+                {rsvp.map((g, i) => (
+                  <div key={i} className="flex flex-col md:flex-row md:items-center gap-3 rounded-xl border border-gray-200 p-4">
+                    <div className="flex-1 min-w-0">
+                      <div className="text-sm font-medium text-gray-900 truncate">{g.name || `Guest #${i + 1}`}</div>
+                      <div className="text-xs text-gray-600 break-all mt-0.5">Total Guest : {g.guestTotal}</div>
+                    </div>
                   </div>
-                </div>
-              ))}
-            </div>
-          </section>
-        )}
+                ))}
+              </div>
+            </section>
+          )}
 
         {/* Sticky action bar */}
         <div className="sticky bottom-0 inset-x-0 border-t bg-white/80 backdrop-blur supports-[backdrop-filter]:bg-white/60">
@@ -628,7 +628,7 @@ export default function InvitationInformationPage() {
               className="inline-flex items-center gap-2 rounded-xl bg-indigo-600 px-5 py-2.5 text-white shadow-sm hover:bg-indigo-700 disabled:opacity-60"
             >
               {creating && (
-                <svg className="h-4 w-4 animate-spin" viewBox="0 0 24 24"><circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" fill="none"/><path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v4a4 4 0 00-4 4H4z"/></svg>
+                <svg className="h-4 w-4 animate-spin" viewBox="0 0 24 24"><circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" fill="none" /><path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v4a4 4 0 00-4 4H4z" /></svg>
               )}
               {creating ? "Saving..." : "Save"}
             </button>
