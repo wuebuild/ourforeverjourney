@@ -27,6 +27,14 @@ export default function RootLayout({
           // remove crossOrigin for same-origin assets
           fetchPriority="high"
         />
+        <link
+          rel="preload"
+          as="video"
+          href="/videos/turkiyefantasy-video.mp4"
+          type="video/mp4"
+          // remove crossOrigin for same-origin assets
+          fetchPriority="high"
+        />
       </head>
       <body className={`antialiased`}>
         {children}
