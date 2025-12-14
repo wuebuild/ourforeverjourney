@@ -4,7 +4,7 @@ import { Play, Pause, Calendar, CalendarIcon, CalendarClockIcon } from "lucide-r
 import Image from "next/image";
 import { Couple, CoupleInfo, WeddingData } from "@/types/invitation";
 import WILabel from "../../../../ui/atoms/WILabel";
-import { AnimatePresence, motion, useScroll, useTransform} from "framer-motion";
+import { AnimatePresence, motion, useScroll, useTransform } from "framer-motion";
 import moment, { duration } from "moment";
 import useEmblaCarousel from "embla-carousel-react"
 import Autoplay from 'embla-carousel-autoplay'
@@ -91,39 +91,18 @@ const quotesImages = [
 ]
 
 const galleries = [
-  // "uploads/irawan-cindy/1759040505657-SAM_5187.webp",
-  // "uploads/irawan-cindy/1759040506146-SAM_5139.webp",
   "uploads/irawan-cindy/1759040505901-SAM_5197.webp",
   "uploads/irawan-cindy/SAM_4928.webp",
-  // "uploads/irawan-cindy/1759040506195-SAM_5295.webp",
-  // "uploads/irawan-cindy/1759040506170-SAM_5322.webp",
   "uploads/irawan-cindy/565560539_18537775375055426_7299414695406161832_n.webp",
   "uploads/irawan-cindy/569050899_18537775153055426_6010142526291825036_n.webp",
-  // "uploads/irawan-cindy/1759040506156-SAM_5232.webp",
-  // "uploads/irawan-cindy/1759040505925-SAM_4927.webp",
-  // "uploads/irawan-cindy/1759040505912-SAM_4985.webp",
-  // "uploads/irawan-cindy/1759040505917-SAM_4924.webp",
   "uploads/irawan-cindy/1759040506162-SAM_4980.webp",
   "uploads/irawan-cindy/SAM_4942.webp",
   "uploads/irawan-cindy/1759040505878-SAM_4827.webp",
-  // "uploads/irawan-cindy/1759040505654-SAM_4768.webp",
-  // "uploads/irawan-cindy/1759040506432-SAM_5441.webp",
-  // "uploads/irawan-cindy/1759040506421-SAM_5424.webp",
   "uploads/irawan-cindy/1759040505892-SAM_5480.webp",
   "uploads/irawan-cindy/1759040505651-SAM_5028.webp",
-  // "uploads/irawan-cindy/1759040505647-SAM_5070.webp",
   "uploads/irawan-cindy/SAM_5087.webp",
   "uploads/irawan-cindy/1759040506447-SAM_5529.webp",
-  // "uploads/irawan-cindy/1759040506175-SAM_5503.webp",
   "uploads/irawan-cindy/1759040506441-SAM_5591.webp",
-  // "uploads/irawan-cindy/568639122_18537775414055426_4437316235932282748_n.webp",
-  // "uploads/irawan-cindy/566176234_18537775360055426_8047079165145294821_n.webp",
-  // "uploads/irawan-cindy/567632355_18537775174055426_3916455664815506615_n.webp",
-  // "uploads/irawan-cindy/567704089_18537775423055426_6542266019012211843_n.webp",
-  // "uploads/irawan-cindy/568098456_18537775402055426_5854995356824183491_n.webp",
-  // "uploads/irawan-cindy/568254366_18537775432055426_4165810283871033002_n.webp",
-  // "uploads/irawan-cindy/568559583_18537775393055426_4288120486608324863_n.webp",
-  // "uploads/irawan-cindy/568678684_18537775384055426_4480191052523691071_n.webp",
 ]
 
 const masonry = [
@@ -133,69 +112,69 @@ const masonry = [
   "uploads/irawan-cindy/1759040506170-SAM_5322.webp",
 ]
 
-export default function FPFantasy1 ({data} : {data:CoupleInfo}) {
-    const [openInvitation, setOpenInvitation] = useState(false);
-    const formattedDate = moment(data.date).format('DD MMMM YYYY')
-    return (
-      <section className="min-h-screen w-full flex flex-col md:flex-row">
-        <div 
-          className="hidden md:block overflow-hidden md:w-2/3 md:max-w-[calc(100vw-500px)] md:h-[100vh] bg-cover bg-center sticky top-0" 
-          style={{
-            backgroundImage: `url(${fairytalebg.src})`
-            // backgroundImage: `url(https://ourforeverjourney.s3.ap-southeast-1.amazonaws.com/${'uploads/irawan-cindy/569050899_18537775153055426_6010142526291825036_n.webp'})`
-          }}>
-            <div className="absolute inset-0 bg-gradient-to-b from-black/0 to-black/80"></div>
-            <div className="absolute inset-0 bg-gradient-to-b from-white/50 to-white/0"></div>
-            <div className="absolute bottom-20 left-20 text-white">
-              <p className="uppercase text-sm tracking-widest">{data.secondTitle}</p>
-              <h1 className="text-4xl md:text-5xl font-serif">{data.coupleString}</h1>
-              <p className="mt-2 text-lg">{formattedDate}</p>
-            </div>
+export default function FPFantasy1({ data }: { data: CoupleInfo }) {
+  const [openInvitation, setOpenInvitation] = useState(false);
+  const formattedDate = moment(data.date).format('DD MMMM YYYY')
+  return (
+    <section className="min-h-screen w-full flex flex-col md:flex-row">
+      <div
+        className="hidden md:block overflow-hidden md:w-2/3 md:max-w-[calc(100vw-500px)] md:h-[100vh] bg-cover bg-center sticky top-0"
+        style={{
+          backgroundImage: `url(${fairytalebg.src})`
+          // backgroundImage: `url(https://ourforeverjourney.s3.ap-southeast-1.amazonaws.com/${'uploads/irawan-cindy/569050899_18537775153055426_6010142526291825036_n.webp'})`
+        }}>
+        <div className="absolute inset-0 bg-gradient-to-b from-black/0 to-black/80"></div>
+        <div className="absolute inset-0 bg-gradient-to-b from-white/50 to-white/0"></div>
+        <div className="absolute bottom-20 left-20 text-white">
+          <p className="uppercase text-sm tracking-widest">{data.secondTitle}</p>
+          <h1 className="text-4xl md:text-5xl font-serif">{data.coupleString}</h1>
+          <p className="mt-2 text-lg">{formattedDate}</p>
         </div>
-        <div className="md:w-1/3 md:min-w-[500px]">
-          <AnimatePresence mode="wait">
-            {
-                !openInvitation &&
-                <motion.div
-                    key="cover"
-                    initial={{ opacity: 1 }}
-                    exit={{ opacity: 0, scale: 1 }}
-                    transition={{ duration: 0.5}}
-                >
-                    <InvitationCover 
-                        cover={''} 
-                        title={data.title}
-                        date={data.date || ''} 
-                        coupleString={data.coupleString || ''}
-                        setOpenInvitation={setOpenInvitation}/>
-                </motion.div>
-            }
-            {
-                openInvitation && 
-                <motion.div
-                    key="body"
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    exit={{ opacity: 0 }}
-                    transition={{ duration: 0.5 }}
-                >
-                  <InvitationBody data={data}/>
-                </motion.div>
-            }
-          </AnimatePresence>
-        </div>
-      </section>
-    )
+      </div>
+      <div className="md:w-1/3 md:min-w-[500px]">
+        <AnimatePresence mode="wait">
+          {
+            !openInvitation &&
+            <motion.div
+              key="cover"
+              initial={{ opacity: 1 }}
+              exit={{ opacity: 0, scale: 1 }}
+              transition={{ duration: 0.5 }}
+            >
+              <InvitationCover
+                cover={''}
+                title={data.title}
+                date={data.date || ''}
+                coupleString={data.coupleString || ''}
+                setOpenInvitation={setOpenInvitation} />
+            </motion.div>
+          }
+          {
+            openInvitation &&
+            <motion.div
+              key="body"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 0.5 }}
+            >
+              <InvitationBody data={data} />
+            </motion.div>
+          }
+        </AnimatePresence>
+      </div>
+    </section>
+  )
 }
 
-function InvitationCover ({setOpenInvitation, cover, title, date, coupleString} : {setOpenInvitation: Dispatch<SetStateAction<boolean>>, cover: string, title: string, date: string, coupleString: string}) {
+function InvitationCover({ setOpenInvitation, cover, title, date, coupleString }: { setOpenInvitation: Dispatch<SetStateAction<boolean>>, cover: string, title: string, date: string, coupleString: string }) {
   const weddingDate = new Date(date); // 🎯 change to actual date
-  const [timeLeft, setTimeLeft] = useState<{d:number,h:number,m:number,s:number}>({
+  const [timeLeft, setTimeLeft] = useState<{ d: number, h: number, m: number, s: number }>({
     d: 0, h: 0, m: 0, s: 0,
   });
   const formattedDate = moment(date).format('DD MMMM YYYY')
   const params = useSearchParams();
-  const to = params.get("to") || ""; 
+  const to = params.get("to") || "";
   const invited = to
 
   useEffect(() => {
@@ -215,55 +194,55 @@ function InvitationCover ({setOpenInvitation, cover, title, date, coupleString} 
   }, []);
 
   return (
-    <div 
-        className="relative flex w-full h-screen items-center justify-center bg-cover bg-center" 
-        style={{
-          backgroundImage: `url(${fairytalecover.src})`
-        }}>
-        <div className="bg-black/40 md:bg-transparent absolute inset-0 md:hidden"></div>
-        
-        <div className="relative text-center p-8 md:p-16">
-          <Image 
-            src={flower.src}
-            alt="Floral" 
-            width={100}
-            height={100}
-            className="mx-auto w-28 md:w-60 mb-6" />
-          <p className="uppercase text-sm tracking-widest text-white md:text-white-800">
-            {title}
-          </p>
-          <h2 className="text-3xl md:text-4xl font-serif text-white md:text-white-800 mt-2">
-            {coupleString}
-          </h2>
-          <p className="mt-16 text-white md:text-white-800">
-            Kepada Yth.
-          </p>
-          <p className="mt-2 text-xl md:text-2xl font-serif text-white md:text-white-800">
-            {invited || "Tamu Undangan"}
-          </p>
-          
-          <motion.a
-            onClick={() => { setOpenInvitation(true) }}
-            initial={{ opacity: 0, y: 40 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, ease: "easeOut" }}
-            className="inline-block mt-6 px-6 py-3 rounded-full bg-white text-gray-900 font-medium hover:bg-gray-100 shadow cursor-pointer"
-          >
-            <span className="inline-flex items-center gap-2">
-              <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" fill="currentColor" viewBox="0 0 24 24"><path d="M12 0C8.7 0 6 2.7 6 6c0 4.2 6 12 6 12s6-7.8 6-12c0-3.3-2.7-6-6-6zM12 8.2c-1.2 0-2.2-1-2.2-2.2S10.8 3.8 12 3.8s2.2 1 2.2 2.2S13.2 8.2 12 8.2z"/></svg>
-              Open Invitation
-            </span>
-          </motion.a>
-        </div>
+    <div
+      className="relative flex w-full h-screen items-center justify-center bg-cover bg-center"
+      style={{
+        backgroundImage: `url(${fairytalecover.src})`
+      }}>
+      <div className="bg-black/40 md:bg-transparent absolute inset-0 md:hidden"></div>
+
+      <div className="relative text-center p-8 md:p-16">
+        <Image
+          src={flower.src}
+          alt="Floral"
+          width={100}
+          height={100}
+          className="mx-auto w-28 md:w-60 mb-6" />
+        <p className="uppercase text-sm tracking-widest text-white md:text-white-800">
+          {title}
+        </p>
+        <h2 className="text-3xl md:text-4xl font-serif text-white md:text-white-800 mt-2">
+          {coupleString}
+        </h2>
+        <p className="mt-16 text-white md:text-white-800">
+          Kepada Yth.
+        </p>
+        <p className="mt-2 text-xl md:text-2xl font-serif text-white md:text-white-800">
+          {invited || "Tamu Undangan"}
+        </p>
+
+        <motion.a
+          onClick={() => { setOpenInvitation(true) }}
+          initial={{ opacity: 0, y: 40 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6, ease: "easeOut" }}
+          className="inline-block mt-6 px-6 py-3 rounded-full bg-white text-gray-900 font-medium hover:bg-gray-100 shadow cursor-pointer"
+        >
+          <span className="inline-flex items-center gap-2">
+            <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" fill="currentColor" viewBox="0 0 24 24"><path d="M12 0C8.7 0 6 2.7 6 6c0 4.2 6 12 6 12s6-7.8 6-12c0-3.3-2.7-6-6-6zM12 8.2c-1.2 0-2.2-1-2.2-2.2S10.8 3.8 12 3.8s2.2 1 2.2 2.2S13.2 8.2 12 8.2z" /></svg>
+            Open Invitation
+          </span>
+        </motion.a>
+      </div>
     </div>
   );
 }
 
-function InvitationBody({data} : {data: CoupleInfo}) {
+function InvitationBody({ data }: { data: CoupleInfo }) {
   const [ended, setEnded] = useState(false)
   const [start, setStart] = useState(false)
   const params = useSearchParams();
-  const to = params.get("to") || ""; 
+  const to = params.get("to") || "";
   const invited = to
   const videoRef = useRef<HTMLVideoElement | null>(null);
 
@@ -283,31 +262,31 @@ function InvitationBody({data} : {data: CoupleInfo}) {
 
 
   return (
-    <div className="bg-fixed bg-contain bg-center" style={{ 
+    <div className="bg-fixed bg-contain bg-center" style={{
       // backgroundImage: `url(${fairytalebg.src})` 
-      backgroundImage: !start ? `url(${fairytalebg.src})` : `url(https://ourforeverjourney.s3.ap-southeast-1.amazonaws.com/${"uploads/irawan-cindy/567704089_18537775423055426_6542266019012211843_n.webp"})` 
+      backgroundImage: !start ? `url(${fairytalebg.src})` : `url(https://ourforeverjourney.s3.ap-southeast-1.amazonaws.com/${"uploads/irawan-cindy/567704089_18537775423055426_6542266019012211843_n.webp"})`
       // uploads/irawan-cindy/1759040506447-SAM_5529.webp
     }}>
       {/* <motion.div ref={videoRef} style={{ opacity }}></motion.div> */}
       <div className="relative w-full h-screen">
         <motion.video
-            ref={videoRef}
-            autoPlay
-            muted
-            loop={false}
-            playsInline
-            className="w-full h-full object-cover"
-            onEnded={() => setEnded(true)}
-            // initial={{ opacity: 1 }}
-            whileInView={{ opacity: 1, scale: 1 }}
-            initial={{ opacity: 0.5, scale: 0.8 }}
-            animate={{ opacity: ended ? 0 : 1 }}
-          >
-            <source src="/videos/fairytale-video.mp4" type="video/mp4" />
+          ref={videoRef}
+          autoPlay
+          muted
+          loop={false}
+          playsInline
+          className="w-full h-full object-cover"
+          onEnded={() => setEnded(true)}
+          // initial={{ opacity: 1 }}
+          whileInView={{ opacity: 1, scale: 1 }}
+          initial={{ opacity: 0.5, scale: 0.8 }}
+          animate={{ opacity: ended ? 0 : 1 }}
+        >
+          <source src="/videos/fairytale-video.mp4" type="video/mp4" />
         </motion.video>
         {/* After video ends, show FirstPage */}
         <motion.div
-          key="carousel" 
+          key="carousel"
           initial={{ opacity: 0 }}
           animate={{ opacity: ended ? 1 : 0 }}
           // transition={{ duration: 1.2, ease: 'easeOut' }} // smooth fade
@@ -317,10 +296,10 @@ function InvitationBody({data} : {data: CoupleInfo}) {
         </motion.div>
       </div>
       <div style={{ backgroundImage: `url(${bgcream2.src})` }}>
-        <InformationAndCountdown data={data}/>
+        <InformationAndCountdown data={data} />
       </div>
       <div className="px-6 sm:px-12 py-6 sm:py-6 pb-0">
-        <WeddingEventCards events={data.events}/>
+        <WeddingEventCards events={data.events} />
       </div>
       <div>
         <GroomAndBride data={data.couple!} />
@@ -358,8 +337,8 @@ function InvitationBody({data} : {data: CoupleInfo}) {
       </div>
       <div className="px-6 sm:px-12 py-6 sm:py-6" style={{ backgroundImage: `url(${bgcream1.src})` }}>
         <h1 className="py-6 text-4xl md:text-5xl font-serif text-black">{"Our Gallery"}</h1>
-        <WeddingGalleryCarousel 
-          images={images} host={'https://ourforeverjourney.s3.ap-southeast-1.amazonaws.com/'} rounded={false} 
+        <WeddingGalleryCarousel
+          images={images} host={'https://ourforeverjourney.s3.ap-southeast-1.amazonaws.com/'} rounded={false}
           masonry={galleries}
         />
       </div>
@@ -370,7 +349,7 @@ function InvitationBody({data} : {data: CoupleInfo}) {
         {
           !data.hideRSVP &&
           <>
-            <div className="p-4"/>
+            <div className="p-4" />
             <RSVPCard
               slug={data.slug}
               guestName={invited}
@@ -384,20 +363,20 @@ function InvitationBody({data} : {data: CoupleInfo}) {
         }
       </div>
       <div className="px-6 sm:px-12 py-6 sm:py-6">
-        <BestWishesCard slug={data.slug}/>
+        <BestWishesCard slug={data.slug} />
       </div>
       <div style={{ backgroundImage: `url(${bgcream1.src})` }}>
         <WeddingInviteEndingCard heroImages={masonry} couple={data.coupleString} bgImage={`url(${fairytalebg.src})`} />
       </div>
-      <MusicPlayerFAB/>
+      <MusicPlayerFAB />
     </div>
   );
 }
 
-function CarouselandInfo ({data}: {data: CoupleInfo}) {
-  const autoplayOptions = { speed: 1, stopOnInteraction: true } 
+function CarouselandInfo({ data }: { data: CoupleInfo }) {
+  const autoplayOptions = { speed: 1, stopOnInteraction: true }
   const [emblaRef] = useEmblaCarousel({ duration: 50, loop: true, slidesToScroll: 1 }, [Autoplay(autoplayOptions)])
-  const [ slides, setSlides ] = useState<string[]>(cover)
+  const [slides, setSlides] = useState<string[]>(cover)
   const formattedDate = moment(data.date).format('DD MMMM YYYY')
   return (
     <div className="relative w-full h-screen">
@@ -408,7 +387,7 @@ function CarouselandInfo ({data}: {data: CoupleInfo}) {
         fill
         className="object-cover"
       />
-    
+
       {/* Overlay content */}
       <div className="absolute mt-[-120px] md:mt-[-120px] inset-0 flex flex-col items-center justify-center text-white space-y-8">
         {/* Carousel */}
@@ -431,7 +410,7 @@ function CarouselandInfo ({data}: {data: CoupleInfo}) {
             ))}
           </div>
         </div>
-    
+
         {/* Label */}
         <div className="absolute top-1/2 [@media(min-height:300px)]:mt-[25vh] [@media(min-height:600px)]:mt-[23vh] [@media(min-height:700px)]:mt-[22vh] [@media(min-height:800px)]:mt-[23vh] [@media(min-height:900px)]:mt-[22vh] [@media(min-height:1000px)]:mt-[22vh] text-white text-center">
           <p className="uppercase text-sm tracking-widest">{data.secondTitle}</p>
@@ -446,12 +425,12 @@ function CarouselandInfo ({data}: {data: CoupleInfo}) {
   )
 }
 
-function InformationAndCountdown ({data}: {data:CoupleInfo}) {
+function InformationAndCountdown({ data }: { data: CoupleInfo }) {
   const [diff, setDiff] = useState(getDiff());
-  const autoplayOptions = { speed: 1, stopOnInteraction: true } 
-  const [emblaRef] = useEmblaCarousel({ axis:'y', duration: 50, loop: true, slidesToScroll: 1, watchDrag: false, watchFocus: false }, [Autoplay(autoplayOptions)])
+  const autoplayOptions = { speed: 1, stopOnInteraction: true }
+  const [emblaRef] = useEmblaCarousel({ axis: 'y', duration: 50, loop: true, slidesToScroll: 1, watchDrag: false, watchFocus: false }, [Autoplay(autoplayOptions)])
 
-  const [ slides, setSlides ] = useState<string[]>(quotesImages)
+  const [slides, setSlides] = useState<string[]>(quotesImages)
 
   function getDiff() {
     const d = new Date(data.date || '').getTime() - Date.now();
@@ -469,51 +448,51 @@ function InformationAndCountdown ({data}: {data:CoupleInfo}) {
   }, []);
 
   return (
-    <section 
+    <section
       className="min-h-screen px-6 py-6 sm:px-12 sm:py-12 text-center relative w-full bg-transparent">
-        <div className="bg-[#B23A48] relative w-full min-h-screen rounded-2xl shadow-[0_10px_30px_-10px_rgba(0,0,0,0.2)]">
-          {/* Floating Image inside box */}
-          <div className="w-full max-w-2xl overflow-hidden rounded-t-2xl">
-            {/* <img
+      <div className="bg-[#B23A48] relative w-full min-h-screen rounded-2xl shadow-[0_10px_30px_-10px_rgba(0,0,0,0.2)]">
+        {/* Floating Image inside box */}
+        <div className="w-full max-w-2xl overflow-hidden rounded-t-2xl">
+          {/* <img
               src={`https://ourforeverjourney.s3.ap-southeast-1.amazonaws.com/uploads/irawan-cindy/1758088772376-SAM_5232.jpg`}
               alt="Couple"
               className="w-full object-cover"
             /> */}
-            {/* Carousel */}
-            <div className="embla h-[400px] overflow-hidden" ref={emblaRef}>
-                <div className="embla__container flex flex-col h-[500px]">
-                  {slides.map((slide, index) => (
-                    <div
-                      className="embla__slide relative flex-[0_0_100%] h-full w-full"
-                      key={index}
-                    >
-                      <Image
-                        src={`https://ourforeverjourney.s3.ap-southeast-1.amazonaws.com/${slide}`}
-                        alt="Fairytale Gallery"
-                        fill
-                        className="w-full h-full object-cover"
-                      />
-                    </div>
-                  ))}
-              </div>
-            </div>
-          </div>
-          <div className="p-8">
-            <div className="text-white">
-              “Bound together through past lives, and united once more by virtue in this lifetime.
-            </div>
-            <div className="mt-4 text-white">
-              Love blossoms like a lotus upon the water through shared moments, gentle glances, and tender smiles, love arises between a man and a woman.
-            </div>
-            <div className="mt-4 text-white">
-              When love enters the mind, the heart is filled with joy.”
-            </div>
-            <div className="mt-8 text-white">
-              (The Buddha, Mahavastu Avadana)
+          {/* Carousel */}
+          <div className="embla h-[400px] overflow-hidden" ref={emblaRef}>
+            <div className="embla__container flex flex-col h-[500px]">
+              {slides.map((slide, index) => (
+                <div
+                  className="embla__slide relative flex-[0_0_100%] h-full w-full"
+                  key={index}
+                >
+                  <Image
+                    src={`https://ourforeverjourney.s3.ap-southeast-1.amazonaws.com/${slide}`}
+                    alt="Fairytale Gallery"
+                    fill
+                    className="w-full h-full object-cover"
+                  />
+                </div>
+              ))}
             </div>
           </div>
         </div>
-        <CountdownSection data={data} diff={diff}/>
+        <div className="p-8">
+          <div className="text-white">
+            “Bound together through past lives, and united once more by virtue in this lifetime.
+          </div>
+          <div className="mt-4 text-white">
+            Love blossoms like a lotus upon the water through shared moments, gentle glances, and tender smiles, love arises between a man and a woman.
+          </div>
+          <div className="mt-4 text-white">
+            When love enters the mind, the heart is filled with joy.”
+          </div>
+          <div className="mt-8 text-white">
+            (The Buddha, Mahavastu Avadana)
+          </div>
+        </div>
+      </div>
+      <CountdownSection data={data} diff={diff} />
     </section>
   )
 }
@@ -528,7 +507,7 @@ function GroomAndBride({ data }: { data: Couple }) {
   // subtle counter-parallax for a premium feel
   const yGroom = useTransform(scrollYProgress, [0, 1], [30, -20]);
   const yBride = useTransform(scrollYProgress, [0, 1], [-30, 20]);
-  
+
   return (
     <section
       ref={ref}
@@ -606,10 +585,10 @@ function GroomAndBride({ data }: { data: Couple }) {
                 {`${data.groom.name}${`, ${data.groom.title}`}`}
               </p>
               <p className="mt-2 text-sm text-white/85">
-                  The Son of Mr. Sukrisno Gohan & 
+                The Son of Mr. Sukrisno Gohan &
               </p>
               <p className="text-sm text-white/85">
-                  Mrs. Lisa (†)
+                Mrs. Lisa (†)
               </p>
 
               {/* {(data.groom.title || data.groom.parent) && (
@@ -636,7 +615,7 @@ function GroomAndBride({ data }: { data: Couple }) {
             </motion.div>
 
             <div className="mt-1 text-center font-imperial text-[30px]">
-                And
+              And
             </div>
 
             {/* Bride */}
@@ -668,10 +647,10 @@ function GroomAndBride({ data }: { data: Couple }) {
                 {`${data.bride.name}${`, ${data.bride.title}`}`}
               </p>
               <p className="mt-2 text-sm text-white/85">
-                  The Daughter of Mr. Tjoa Sui Thin &
+                The Daughter of Mr. Tjoa Sui Thin &
               </p>
               <p className="text-sm text-white/85">
-                  Mrs. Sarini Salim
+                Mrs. Sarini Salim
               </p>
             </motion.div>
 
@@ -768,7 +747,7 @@ export function CountdownSection({ data, diff }: { data: CoupleInfo, diff: diffT
               focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-[#B23A48]
             "
           >
-            <CalendarClockIcon/>
+            <CalendarClockIcon />
             Add to Calendar
           </button>
         </div>
@@ -777,7 +756,7 @@ export function CountdownSection({ data, diff }: { data: CoupleInfo, diff: diffT
   );
 }
 
-export function GalleryType1 ({ images }: {images: [string]}) {
+export function GalleryType1({ images }: { images: [string] }) {
   return (
     <div>
       Here images list
@@ -792,9 +771,9 @@ function MusicPlayerFAB() {
   useEffect(() => {
     if (!audioRef.current) return;
     if (!isPlaying) {
-        audioRef.current.pause();
+      audioRef.current.pause();
     } else {
-        audioRef.current.play();
+      audioRef.current.play();
     }
   }, [isPlaying])
 

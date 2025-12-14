@@ -17,6 +17,7 @@ export type RSVPCardProps = {
   rsvpMax?: string;
   onSubmit?: (data: RSVPPayload) => Promise<void> | void;
   className?: string;
+  theme?: string;
 };
 
 export default function RSVPCard({
@@ -27,7 +28,8 @@ export default function RSVPCard({
   onSubmit,
   rsvpMax,
   className = "",
-  guestName = ""
+  guestName = "",
+  theme = ""
 }: RSVPCardProps) {
   const [name, setName] = useState(guestName);
   const [attendees, setAttendees] = useState<number | "">("");
@@ -39,12 +41,26 @@ export default function RSVPCard({
   const [success, setSuccess] = useState(false);
   const [lastPayload, setLastPayload] = useState<RSVPPayload | null>(null);
 
+  // const cardShell = useMemo(
+  //   () =>
+  //     "relative overflow-hidden rounded-[28px] bg-[rgba(13,23,48,0.85)] backdrop-blur-sm ring-1 ring-white/15 " +
+  //     "shadow-[0_28px_80px_-28px_rgba(0,0,0,.55)]",
+  //   []
+  // );
+
   const cardShell = useMemo(
-    () =>
-      "relative overflow-hidden rounded-[28px] bg-[rgba(13,23,48,0.85)] backdrop-blur-sm ring-1 ring-white/15 " +
-      "shadow-[0_28px_80px_-28px_rgba(0,0,0,.55)]",
-    []
+    () => {
+      const base = "relative overflow-hidden rounded-[28px] backdrop-blur-sm ring-1 ring-white/15 " +
+        "shadow-[0_28px_80px_-28px_rgba(0,0,0,.55)]";
+
+      if (theme === "pink") {
+        return base + " bg-[#B23A48]";
+      }
+
+      return base + " bg-[rgba(13,23,48,0.85)]";
+    }, [theme]
   );
+
   const floralOverlay = useMemo(
     () =>
       "absolute inset-0 opacity-[0.22] mix-blend-lighten " +

@@ -10,6 +10,7 @@ export default function BestWishesCard({
   subtitle = "Send your prayers and best wishes.",
   onSubmitWish,
   className = "",
+  theme = "",
 }: {
   slug: string,
   initialWishes?: Wish[];
@@ -17,6 +18,7 @@ export default function BestWishesCard({
   subtitle?: string;
   onSubmitWish?: (data: { name: string; message: string }) => Promise<Wish> | Promise<void> | void;
   className?: string;
+  theme?: string;
 }) {
   const [wishes, setWishes] = useState<Wish[]>(
     [...initialWishes].sort((a, b) => +new Date(b.createdDate) - +new Date(a.createdDate))
@@ -26,10 +28,22 @@ export default function BestWishesCard({
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
+  // const cardShell = useMemo(
+  //   () =>
+  //     "relative overflow-hidden rounded-[22px] bg-[#0D1730]/90 ring-1 ring-white/10 shadow-[0_24px_60px_-20px_rgba(0,0,0,0.45)]",
+  //   []
+  // );
+
   const cardShell = useMemo(
-    () =>
-      "relative overflow-hidden rounded-[22px] bg-[#0D1730]/90 ring-1 ring-white/10 shadow-[0_24px_60px_-20px_rgba(0,0,0,0.45)]",
-    []
+    () => {
+      const base = "relative overflow-hidden rounded-[22px] ring-1 ring-white/10 shadow-[0_24px_60px_-20px_rgba(0,0,0,0.45)]";
+
+      if (theme === "pink") {
+        return base + " bg-[#B23A48]";
+      }
+
+      return base + " bg-[#0D1730]/90";
+    }, [theme]
   );
 
   useEffect(() => {
@@ -109,7 +123,7 @@ export default function BestWishesCard({
                 <button
                   type="submit"
                   disabled={busy}
-                  className="inline-flex rounded-md bg-[#1F2A44] px-4 py-2 text-sm font-semibold text-white shadow-sm hover:brightness-110 disabled:opacity-60"
+                  className={`inline-flex rounded-md ${theme == "pink" ? "bg-[#B23A48]" : "bg-[#1F2A44]"}  px-4 py-2 text-sm font-semibold text-white shadow-sm hover:brightness-110 disabled:opacity-60`}
                 >
                   {busy ? "Mengirim..." : "Kirim"}
                 </button>

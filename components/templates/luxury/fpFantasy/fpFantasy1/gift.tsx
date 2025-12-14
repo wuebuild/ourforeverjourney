@@ -11,6 +11,8 @@ export type WeddingGiftCardProps = {
   ctaText?: string;
   accounts?: GiftBankAccount[];
   className?: string;
+  theme?: string;
+  defaultOpen?: boolean;
 };
 
 export default function WeddingGiftCard({
@@ -20,22 +22,32 @@ export default function WeddingGiftCard({
   ctaText = "Click Here",
   accounts,
   className = "",
+  theme = "",
+  defaultOpen = false
 }: WeddingGiftCardProps) {
-  const [showAccounts, setShowAccounts] = useState(false);
+  const [showAccounts, setShowAccounts] = useState(defaultOpen);
   const [copiedIndex, setCopiedIndex] = useState<number | null>(null);
 
-  const cardShell = useMemo(
-    () =>
-      "relative overflow-hidden rounded-[28px] bg-[#0D1730]/90 ring-1 ring-white/15 " +
-      "shadow-[0_28px_80px_-28px_rgba(0,0,0,.55)]",
-    []
-  );
+  const cardShell = useMemo(() => {
+    const base =
+      "relative overflow-hidden rounded-[28px] ring-1 ring-white/15 " +
+      "shadow-[0_28px_80px_-28px_rgba(0,0,0,.55)]";
+
+    if (theme === "pink") {
+      return base + " bg-[#B23A48]";
+    }
+
+    return base + " bg-[#0D1730]/90";
+  }, [theme]);
+
+
   const floralOverlay = useMemo(
     () =>
       "absolute inset-0 opacity-[0.22] mix-blend-lighten " +
       "[mask-image:linear-gradient(to_top,transparent,black_18%,black_82%,transparent)]",
     []
   );
+
 
   async function copyToClipboard(text: string, i: number) {
     try {
@@ -75,7 +87,7 @@ export default function WeddingGiftCard({
         </p>
 
         {
-          (accounts && accounts.length > 0) &&
+          (accounts && accounts.length > 0 && !defaultOpen) &&
           <div className="mt-5 flex justify-center">
             <button
               onClick={() => setShowAccounts((v) => !v)}
@@ -99,7 +111,7 @@ export default function WeddingGiftCard({
                 <div className="mt-1 space-y-1 text-[13px] sm:text-[14px]">
                   {/* <div className="font-medium">{acc.bankName}</div> */}
                   <div className="flex justify-center items-center">
-                    {acc.bankName == "BCA" && <Image src={bca_logo} width={90} height={90} alt={acc.bankName}/>}
+                    {acc.bankName == "BCA" && <Image src={bca_logo} width={90} height={90} alt={acc.bankName} />}
                   </div>
                   <div>No. Rekening {acc.accountNumber}</div>
                   <div>
@@ -135,22 +147,11 @@ function GiftIcon({ className = "" }: { className?: string }) {
     </svg>
   );
 }
+
 function CopyIcon({ className = "" }: { className?: string }) {
   return (
     <svg viewBox="0 0 24 24" fill="currentColor" className={className}>
       <path d="M16 1H8a2 2 0 00-2 2v2H5a2 2 0 00-2 2v12a2 2 0 002 2h8a2 2 0 002-2v-2h1a2 2 0 002-2V3a2 2 0 00-2-2zm-2 19H5V7h9zM19 5h-1v10h1z" />
-    </svg>
-  );
-}
-function BcaLogo({ className = "" }: { className?: string }) {
-  return (
-    <svg viewBox="0 0 120 40" className={className}>
-      <text x="44" y="26" fontSize="20" fontFamily="Arial, Helvetica, sans-serif" fill="currentColor" fontWeight="700">
-        BCA
-      </text>
-      <circle cx="20" cy="20" r="12" fill="currentColor" opacity="0.1" />
-      <circle cx="20" cy="20" r="8" fill="currentColor" opacity="0.2" />
-      <circle cx="20" cy="20" r="4" fill="currentColor" />
     </svg>
   );
 }

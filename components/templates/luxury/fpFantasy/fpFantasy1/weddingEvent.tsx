@@ -12,10 +12,12 @@ export default function WeddingEventCards({
   events,
   className = "",
   bgImage = "https://images.unsplash.com/photo-1523661149972-0bedfd3bd8c5?q=80&w=1200&auto=format&fit=crop",
+  theme = ""
 }: {
   events: Event[];
   className?: string;
   bgImage?: string;
+  theme?: string;
 }) {
   const containerRef = useRef<HTMLDivElement>(null);
 
@@ -68,7 +70,7 @@ export default function WeddingEventCards({
             key={i}
             data-card
             // Default: visible. On enter, .reveal-in animates.
-            className="relative overflow-hidden rounded-[24px] bg-[rgba(13,23,48,0.9)] backdrop-blur-[2px] p-5 shadow-[0_16px_40px_-20px_rgba(0,0,0,.45)] ring-1 ring-white/10"
+            className={`relative overflow-hidden rounded-[24px] ${theme ? theme : 'bg-[rgba(13,23,48,0.9)]'} backdrop-blur-[2px] p-5 shadow-[0_16px_40px_-20px_rgba(0,0,0,.45)] ring-1 ring-white/10`}
           >
             {/* Light foliage texture */}
             <div

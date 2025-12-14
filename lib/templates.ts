@@ -1,10 +1,12 @@
 import type { ComponentType } from "react";
 import FPFantasy1 from "@/components/templates/luxury/fpFantasy/fpFantasy1";
+import FPFantasy2 from "@/components/templates/luxury/fpFantasy/fpFantasy2";
 import { CoupleInfo } from "@/types/invitation";
 
 type TemplateProps = { data: CoupleInfo };
 export const templates = {
-    fpfantasy_1: FPFantasy1,
+  fpfantasy_1: FPFantasy1,
+  fpfantasy_2: FPFantasy2
 } as const satisfies Record<string, ComponentType<TemplateProps>>;
 
 export type Template = keyof typeof templates;

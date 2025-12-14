@@ -22,7 +22,8 @@ export default function WeddingInviteEndingCard({
     { label: "Instagram", href: "#", icon: InstagramIcon },
   ],
   className = "",
-  bgImage
+  bgImage,
+  theme = ""
 }: {
   couple?: string;
   message?: string;
@@ -30,9 +31,10 @@ export default function WeddingInviteEndingCard({
   socials?: { label: string; href: string; icon: (p: IconProps) => JSX.Element }[];
   className?: string;
   bgImage?: string;
+  theme?: string;
 }) {
-    const autoplayOptions = { speed: 1, stopOnInteraction: true } 
-    const [emblaRef] = useEmblaCarousel({ axis:'y', duration: 50, loop: true, slidesToScroll: 1 }, [Autoplay(autoplayOptions)])
+  const autoplayOptions = { speed: 1, stopOnInteraction: true }
+  const [emblaRef] = useEmblaCarousel({ axis: 'y', duration: 50, loop: true, slidesToScroll: 1 }, [Autoplay(autoplayOptions)])
 
   return (
     <section className={"w-full flex justify-center py-6 sm:py-10 " + className}>
@@ -40,7 +42,8 @@ export default function WeddingInviteEndingCard({
         {/* Card shell */}
         <div className="relative rounded-[28px] bg-[#F6EEDF] p-3 shadow-[0_20px_60px_-20px_rgba(0,0,0,0.3)] ring-1 ring-black/5">
           {/* Inner navy panel with subtle star texture */}
-          <div className="relative rounded-[22px] pb-40 bg-[radial-gradient(80%_60%_at_50%_0%,#18233A_0%,#0D1730_40%,#0B1327_100%)] p-3 ring-1 ring-white/10 overflow-hidden">
+          <div className={`relative rounded-[22px] pb-40 ${theme == "pink" ? "bg-[radial-gradient(70%_60%_at_50%_40%,#B23A48_0%,#3A141A_55%,#0B0B10_100%)]" : "bg-[radial-gradient(80%_60%_at_50%_0%,#18233A_0%,#0D1730_40%,#0B1327_100%)]"} p-3 ring-1 ring-white/10 overflow-hidden`}>
+            {/* bg-[radial-gradient(80%_60%_at_50%_0%,#18233A_0%,#0D1730_40%,#0B1327_100%)]  */}
             {/* Decorative foliage bg at the bottom (optional) */}
             <div
               aria-hidden
@@ -55,34 +58,34 @@ export default function WeddingInviteEndingCard({
             {/* Arched hero frame */}
             <div className="relative mx-auto mt-2 w-[88%] overflow-hidden rounded-t-[110px] rounded-b-[14px] bg-white/10 p-2 ring-2 ring-white backdrop-blur-[1px]">
               <div className="aspect-[4/5] w-full overflow-hidden rounded-t-[100px] rounded-b-[10px] ring-2 ring-white">
-              {
-                heroImages &&
-                <div className="embla h-[400px] overflow-hidden" ref={emblaRef}>
+                {
+                  heroImages &&
+                  <div className="embla h-[400px] overflow-hidden" ref={emblaRef}>
                     <div className="embla__container flex flex-col h-[400px]">
-                        {heroImages.map((slide, index) => (
-                            <div
-                                className="embla__slide relative flex-[0_0_100%] h-full w-full"
-                                key={index}
-                            >
-                                <Image
-                                    src={`https://ourforeverjourney.s3.ap-southeast-1.amazonaws.com/${slide}`}
-                                    alt="Fairytale Gallery"
-                                    fill
-                                    className="w-full h-full object-cover"
-                                />
-                            </div>
-                        ))}
+                      {heroImages.map((slide, index) => (
+                        <div
+                          className="embla__slide relative flex-[0_0_100%] h-full w-full"
+                          key={index}
+                        >
+                          <Image
+                            src={`https://ourforeverjourney.s3.ap-southeast-1.amazonaws.com/${slide}`}
+                            alt="Fairytale Gallery"
+                            fill
+                            className="w-full h-full object-cover"
+                          />
+                        </div>
+                      ))}
                     </div>
-                </div>
-              }
-              {
-                !heroImages &&
-                <img
-                  src={"https://images.unsplash.com/photo-1606800052052-a08af7148866?q=80&w=1200&auto=format&fit=crop"}
-                  alt="Couple"
-                  className="h-full w-full object-cover"
-                />
-              }
+                  </div>
+                }
+                {
+                  !heroImages &&
+                  <img
+                    src={"https://images.unsplash.com/photo-1606800052052-a08af7148866?q=80&w=1200&auto=format&fit=crop"}
+                    alt="Couple"
+                    className="h-full w-full object-cover"
+                  />
+                }
               </div>
             </div>
 
