@@ -2,6 +2,7 @@ export interface Invitation {
     _id: string,
     title: string,
     secondTitle: string,
+    coupleString: string,
     dateTime: Date,
     date: string,
     time: string,
@@ -23,23 +24,23 @@ export interface Guest {
 
 export type EventType = "reception" | "wedding" | "both";
 export interface Event {
-    _id?: string | undefined; 
+    _id?: string | undefined;
     id: string | '';
-    title: string; 
-    eventType: EventType; 
-    location: string; 
+    title: string;
+    eventType: EventType;
+    location: string;
     locationAddress: string;
     mapUrl: string;
-    dateTime: string; 
+    dateTime: string;
     date?: string;
     time?: string;
 }
 
-export interface Gift { 
+export interface Gift {
     _id?: string | undefined,
-    bankName: string; 
-    accountName: string; 
-    accountNumber: string 
+    bankName: string;
+    accountName: string;
+    accountNumber: string
 }
 
 export interface InvitationBody {
@@ -54,11 +55,11 @@ export interface InvitationBody {
     createdDate: Date
 }
 
-export interface CreatedGuest { 
+export interface CreatedGuest {
     _id?: string,
     name: string,
     token: string,
-    inviteUrl: string 
+    inviteUrl: string
 }
 
 export interface GiftBankAccount {
@@ -69,8 +70,8 @@ export interface GiftBankAccount {
 }
 
 export interface RSVP {
-  name: string;
-  guestTotal: number;
+    name: string;
+    guestTotal: number;
 };
 
 export interface DefaultResponse {
