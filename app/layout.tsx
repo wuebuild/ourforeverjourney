@@ -1,11 +1,27 @@
 import type { Metadata } from "next";
+import { Playfair_Display, Imperial_Script, Figtree } from "next/font/google";
 import "./globals.css";
+
+const playfair = Playfair_Display({
+  subsets: ["latin"],
+  variable: "--font-playfair",
+});
+
+const imperialScript = Imperial_Script({
+  weight: "400",
+  subsets: ["latin"],
+  variable: "--font-imperial-script",
+});
+
+const figtree = Figtree({
+  subsets: ["latin"],
+  variable: "--font-figtree",
+});
 
 export const metadata: Metadata = {
   title: "Our Forever Journey",
   description: "We follow your journey",
 };
-
 
 export default function RootLayout({
   children,
@@ -13,32 +29,11 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
-      <head>
-        <link
-          href="https://fonts.googleapis.com/css2?family=Imperial+Script&display=swap"
-          rel="stylesheet"
-        />
-        <link
-          rel="preload"
-          as="video"
-          href="/videos/fairytale-video.mp4"
-          type="video/mp4"
-          // remove crossOrigin for same-origin assets
-          fetchPriority="high"
-        />
-        <link
-          rel="preload"
-          as="video"
-          href="/videos/turkiyefantasy-video.mp4"
-          type="video/mp4"
-          // remove crossOrigin for same-origin assets
-          fetchPriority="high"
-        />
-      </head>
-      <body className={`antialiased`}>
-        {children}
-      </body>
+    <html
+      lang="en"
+      className={`${playfair.variable} ${imperialScript.variable} ${figtree.variable}`}
+    >
+      <body className="antialiased font-body">{children}</body>
     </html>
   );
 }

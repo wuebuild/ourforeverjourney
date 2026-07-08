@@ -436,6 +436,14 @@ function InvitationBody({ data }: { data: CoupleInfo }) {
           /> */}
           {/* Carousel */}
           <div className="relative w-full h-screen overflow-hidden">
+            {/* React 19 hoists this into <head>; preload only where the video renders */}
+            <link
+              rel="preload"
+              as="video"
+              href="/videos/turkiyefantasy-video.mp4"
+              type="video/mp4"
+              fetchPriority="high"
+            />
             <motion.video
               ref={videoRef}
               autoPlay

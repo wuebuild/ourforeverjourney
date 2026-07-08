@@ -269,6 +269,14 @@ function InvitationBody({ data }: { data: CoupleInfo }) {
     }}>
       {/* <motion.div ref={videoRef} style={{ opacity }}></motion.div> */}
       <div className="relative w-full h-screen">
+        {/* React 19 hoists this into <head>; preload only where the video renders */}
+        <link
+          rel="preload"
+          as="video"
+          href="/videos/fairytale-video.mp4"
+          type="video/mp4"
+          fetchPriority="high"
+        />
         <motion.video
           ref={videoRef}
           autoPlay
