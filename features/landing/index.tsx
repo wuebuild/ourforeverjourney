@@ -1,25 +1,20 @@
-import HeroSection from "@/features/landing/components/HeroSection";
-import FeaturesSection from "@/features/landing/components/FeaturesSection";
-import TemplatesSection from "@/features/landing/components/TemplateSection";
-import PricingSection from "@/features/landing/components/PricingSection";
-import CTASection from "@/features/landing/components/CTASection";
-import Footer from "@/features/landing/components/FooterSection";
-import Nav from "@/shared/components/Nav";
-// import TemplatesSection from "@/features/landing/components/TemplatesSection";
-// import CTASection from "@/features/landing/components/CTASection";
-// import Footer from "@/features/landing/components/Footer";
+import Hero from "./components/Hero";
+import FeaturesSection from "./components/FeaturesSection";
+import TemplateShowcase from "./components/TemplateShowcase";
+import HowItWorks from "./components/HowItWorks";
+import PricingSection from "./components/PricingSection";
+import CTASection from "./components/CTASection";
 
+/** Landing page sections — navbar and footer come from the (marketing) layout. */
 export default function Landing() {
   return (
-    <main className="min-h-screen flex flex-col bg-gradient-to-b from-pink-50 to-white">
-      <Nav />
-      <div className="pt-32"/>
-      <HeroSection />
+    <main className="flex min-h-screen flex-col">
+      <Hero />
       <FeaturesSection />
-      <TemplatesSection />
+      <TemplateShowcase />
+      <HowItWorks />
       <PricingSection />
       <CTASection />
-      <Footer/>
     </main>
   );
 }

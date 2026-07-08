@@ -1,6 +1,7 @@
 import Navbar from "@/shared/components/Navbar";
+import FooterSection from "@/features/landing/components/FooterSection";
 
-export default function PublicLayout({
+export default function MarketingLayout({
   children,
 }: {
   children: React.ReactNode;
@@ -8,8 +9,8 @@ export default function PublicLayout({
   return (
     <div className="min-h-screen bg-ivory">
       <Navbar />
-      <div className="pt-16" />
       {children}
+      <FooterSection />
     </div>
   );
 }

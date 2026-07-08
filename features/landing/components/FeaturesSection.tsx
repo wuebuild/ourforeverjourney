@@ -1,43 +1,36 @@
-import { Gift, Smartphone, Share2 } from "lucide-react";
+"use client";
 
-const features = [
-  {
-    icon: Gift,
-    title: "Beautiful Designs",
-    desc: "Choose from modern, elegant, and traditional wedding invitation templates.",
-  },
-  {
-    icon: Smartphone,
-    title: "Mobile Friendly",
-    desc: "Your invitation looks stunning on any device — phone, tablet, or desktop.",
-  },
-  {
-    icon: Share2,
-    title: "Instant Sharing",
-    desc: "Share with your guests instantly via link, QR code, or social media.",
-  },
-];
+import { Card } from "@heroui/react";
+import { FEATURES } from "../constants/content";
+import Reveal from "./Reveal";
+import SectionHeading from "./SectionHeading";
 
 export default function FeaturesSection() {
   return (
-    <section className="py-20 bg-white px-6">
-      <h2 className="text-3xl font-bold text-center text-gray-900">
-        Why Choose Us?
-      </h2>
-      <p className="mt-2 text-center text-gray-600">
-        Everything you need to create the perfect digital wedding invitation.
-      </p>
+    <section id="features" className="px-4 py-20 md:px-6 md:py-28">
+      <SectionHeading
+        eyebrow="Why couples choose us"
+        title="Everything your invitation needs"
+        description="Everything you need to create the perfect digital wedding invitation — no designer required."
+      />
 
-      <div className="mt-12 grid grid-cols-1 md:grid-cols-3 gap-8 max-w-6xl mx-auto">
-        {features.map(({ icon: Icon, title, desc }) => (
-          <div
-            key={title}
-            className="flex flex-col items-center text-center p-6 rounded-2xl shadow hover:shadow-lg transition border border-gray-100"
-          >
-            <Icon className="w-12 h-12 text-pink-600 mb-4" />
-            <h3 className="text-xl font-semibold">{title}</h3>
-            <p className="text-gray-600 mt-2">{desc}</p>
-          </div>
+      <div className="mx-auto mt-14 grid max-w-6xl grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
+        {FEATURES.map(({ icon: Icon, title, desc }, i) => (
+          <Reveal key={title} delay={(i % 3) * 0.1}>
+            <Card className="h-full border-border/60 bg-surface/80 transition-shadow hover:shadow-lg hover:shadow-rose-900/5">
+              <Card.Content className="flex flex-col items-start gap-4 p-6">
+                <span className="rounded-xl bg-blush/70 p-3 text-accent">
+                  <Icon className="h-6 w-6" aria-hidden />
+                </span>
+                <div>
+                  <h3 className="font-heading text-lg font-semibold text-foreground">
+                    {title}
+                  </h3>
+                  <p className="mt-2 text-sm leading-relaxed text-muted">{desc}</p>
+                </div>
+              </Card.Content>
+            </Card>
+          </Reveal>
         ))}
       </div>
     </section>
