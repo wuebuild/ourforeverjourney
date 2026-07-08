@@ -1,7 +1,1 @@
-export default function Portofolio() { 
-
-    return (
-        <div>Here Porto</div>
-    )
-
-}
+export { default } from "@/features/portfolio/components/PortfolioPage";

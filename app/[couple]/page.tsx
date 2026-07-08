@@ -1,7 +1,7 @@
-import { resolveTemplate } from "@/lib/templates";
+import { resolveTemplate } from "@/templates/registry";
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
-import { getInvitationGuest } from "@/services/server/invitation";
+import { getInvitationGuest } from "@/features/invitation/services/server";
 
 export const revalidate = 60;
 

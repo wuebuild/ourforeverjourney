@@ -1,4 +1,4 @@
-import Landing from "@/components/ui/templates/Landing";
+import Landing from "@/features/landing";
 
 export default function Page() {
   return (<Landing/>);

@@ -1,4 +1,4 @@
-import Nav from "@/components/ui/molecules/Nav";
+import Nav from "@/shared/components/Nav";
 
 export default function PublicLayout ({
     children
