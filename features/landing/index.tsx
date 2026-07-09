@@ -2,6 +2,7 @@ import Hero from "./components/Hero";
 import FeaturesSection from "./components/FeaturesSection";
 import TemplateShowcase from "./components/TemplateShowcase";
 import HowItWorks from "./components/HowItWorks";
+import AppSection from "./components/AppSection";
 import PricingSection from "./components/PricingSection";
 import CTASection from "./components/CTASection";
 
@@ -13,6 +14,7 @@ export default function Landing() {
       <FeaturesSection />
       <TemplateShowcase />
       <HowItWorks />
+      <AppSection />
       <PricingSection />
       <CTASection />
     </main>

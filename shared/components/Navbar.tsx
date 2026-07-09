@@ -8,6 +8,7 @@ import { buttonVariants, cn } from "@heroui/react";
 
 const navItems = [
   { label: "Templates", href: "/#templates" },
+  { label: "App", href: "/#app" },
   { label: "Pricing", href: "/#pricing" },
   { label: "Portofolio", href: "/portofolio" },
 ];

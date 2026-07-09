@@ -1,10 +1,13 @@
 import {
   Gift,
+  Heart,
   Images,
+  ListChecks,
   MailCheck,
   Palette,
   Share2,
   Smartphone,
+  Wallet,
   type LucideIcon,
 } from "lucide-react";
 
@@ -82,6 +85,41 @@ export const HOW_IT_WORKS = [
   },
 ] as const;
 
+export type AppStoreBadge = {
+  store: "app-store" | "google-play";
+  name: string;
+  /** Store listing URL — set when the app launches to turn the badge live. */
+  href: string | null;
+};
+
+export const APP_SECTION = {
+  eyebrow: "Beyond the big day",
+  title: "Your journey, in your pocket",
+  description:
+    "The Our Forever Journey app is a private space for the two of you — capture memories, dream up your bucket list, and keep the wedding plans calm and on budget.",
+  pillars: [
+    {
+      icon: Heart,
+      title: "Memories timeline",
+      desc: "A private photo journal of your favorite moments together.",
+    },
+    {
+      icon: ListChecks,
+      title: "Bucket list",
+      desc: "Dream, plan, and check off adventures as a couple.",
+    },
+    {
+      icon: Wallet,
+      title: "Wedding budget",
+      desc: "Track vendors, payments, and what's still due — stress-free.",
+    },
+  ] satisfies Feature[],
+  stores: [
+    { store: "app-store", name: "App Store", href: null },
+    { store: "google-play", name: "Google Play", href: null },
+  ] satisfies AppStoreBadge[],
+} as const;
+
 export type Plan = {
   name: string;
   price: string;
@@ -126,6 +164,7 @@ export const FOOTER_LINKS = {
   quick: [
     { label: "Features", href: "/#features" },
     { label: "Templates", href: "/#templates" },
+    { label: "Mobile App", href: "/#app" },
     { label: "Pricing", href: "/#pricing" },
   ],
   company: [
